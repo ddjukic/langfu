@@ -21,53 +21,79 @@ async function scrapeVocabeo() {
       timeout: 30000 
     });
     
-    // Wait for the main content to load
-    console.log('⏳ Waiting for main content...');
-    await page.waitForSelector('main', { timeout: 15000 });
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    // Wait for list container (#list) which wraps the internal rows container (#list_height)
+    console.log('⏳ Waiting for list containers (#list and inner #list_height)...');
+    await page.waitForSelector('#list', { timeout: 15000 });
+    // inner may render shortly after
+    await page.waitForTimeout?.(500);
     
     let allWords = [];
     let previousCount = 0;
     let stagnantRounds = 0;
     const maxStagnantRounds = 50;
     
-    console.log('📊 Starting extraction with virtual scrolling...');
+    console.log('📊 Starting extraction from #list/#list_height...');
     
-    // First, try to click the "Scroll list to bottom" button
-    try {
-      console.log('🔘 Looking for scroll button...');
-      await page.evaluate(() => {
-        const buttons = document.querySelectorAll('button');
-        for (let button of buttons) {
-          if (button.textContent && button.textContent.trim() === 'Scroll list to bottom') {
-            button.click();
-            return true;
-          }
+    // Helper to try to click the "Scroll list to bottom" button that appears under the list
+    async function tryClickScrollButton() {
+      try {
+        const clicked = await page.evaluate(() => {
+          const buttons = Array.from(document.querySelectorAll('button'));
+          const btn = buttons.find(b => (b.textContent||'').includes('Scroll list to bottom'));
+          if (btn) { btn.click(); return true; }
+          return false;
+        });
+        if (clicked) {
+          console.log('✅ Clicked "Scroll list to bottom"');
+          await new Promise(r => setTimeout(r, 1500));
         }
-        return false;
+      } catch {}
+    }
+
+    // Conservative container scroll: only a few attempts until child count stops growing
+    let lastCount = await page.evaluate(() => {
+      const outer = document.querySelector('#list');
+      const inner = outer && (outer.querySelector('#list_height') || outer.querySelector('[data-testid="virtual_list"]'));
+      return inner ? inner.children.length : (outer ? outer.children.length : 0);
+    });
+    for (let attempt = 0; attempt < 6; attempt++) {
+      await tryClickScrollButton();
+      await page.evaluate(() => {
+        const outer = document.querySelector('#list');
+        const inner = outer && (outer.querySelector('#list_height') || outer.querySelector('[data-testid="virtual_list"]'));
+        const scroller = inner || outer;
+        if (scroller) scroller.scrollTop = scroller.scrollHeight;
       });
-      console.log('✅ Clicked scroll button, waiting for content...');
-      await new Promise(resolve => setTimeout(resolve, 8000)); // Wait longer for all content
-    } catch (e) {
-      console.log('ℹ️ Scroll button approach failed, using manual scrolling...');
+      await new Promise(r => setTimeout(r, 800));
+      const now = await page.evaluate(() => {
+        const outer = document.querySelector('#list');
+        const inner = outer && (outer.querySelector('#list_height') || outer.querySelector('[data-testid="virtual_list"]'));
+        return inner ? inner.children.length : (outer ? outer.children.length : 0);
+      });
+      if (now > lastCount) {
+        console.log(`⬇️ Rows loaded: ${lastCount} -> ${now}`);
+        lastCount = now;
+        attempt = Math.max(-1, attempt - 1);
+      }
     }
     
-    while (stagnantRounds < maxStagnantRounds) {
+    while (stagnantRounds < 6) {
       // Extract words using the exact structure from the page snapshot
       const currentWords = await page.evaluate(() => {
         const words = [];
         
         // Target the main vocabulary container based on the snapshot structure
-        const mainContainer = document.querySelector('main');
+        const outer = document.querySelector('#list');
+        const mainContainer = outer && (outer.querySelector('#list_height') || outer.querySelector('[data-testid="virtual_list"]') || outer);
         if (!mainContainer) {
           return [];
         }
         
-        // Look for all vocabulary entry elements - they have 6 children: German, English, Level, Frequency, ✓, •
-        const allElements = mainContainer.querySelectorAll('*');
+        // Each direct child under this container is a row with: German, English, Level, Frequency, ✓, •
+        const allElements = Array.from(mainContainer.children);
         
         for (let element of allElements) {
-          if (element.children && element.children.length === 6) {
+          if (element.children && element.children.length >= 4) {
             const germanEl = element.children[0];
             const englishEl = element.children[1];
             const levelEl = element.children[2];
@@ -127,54 +153,15 @@ async function scrapeVocabeo() {
       // Check for progress
       if (allWords.length === previousCount) {
         stagnantRounds++;
-        console.log(`🔄 No progress (${stagnantRounds}/${maxStagnantRounds}), scrolling within #list...`);
+        console.log(`🔄 No progress (${stagnantRounds}/6), sending End key and wheel...`);
+        try { await page.keyboard.press('End'); await new Promise(r=>setTimeout(r,400)); await page.mouse.wheel({deltaY:1200}); } catch {}
       } else {
         previousCount = allWords.length;
         stagnantRounds = 0;
       }
       
-      // CRITICAL: Scroll to trigger loading more vocabulary
-      await page.evaluate((rounds) => {
-        // Strategy 1: Scroll the main container
-        const mainContainer = document.querySelector('main');
-        if (mainContainer) {
-          mainContainer.scrollTop += 1000;
-          if (rounds > 15) {
-            mainContainer.scrollTop = mainContainer.scrollHeight;
-          }
-        }
-        
-        // Strategy 2: Scroll the entire window
-        window.scrollBy(0, 800);
-        
-        // Strategy 3: Scroll to the very bottom
-        if (rounds > 10) {
-          window.scrollTo(0, document.body.scrollHeight);
-        }
-        
-      }, stagnantRounds);
-      
-      // Wait for new content to load
-      await new Promise(resolve => setTimeout(resolve, 2500));
-      
-      // Try to find and click scroll button every few rounds
-      if (stagnantRounds % 5 === 0 && stagnantRounds > 0) {
-        try {
-          await page.evaluate(() => {
-            const buttons = document.querySelectorAll('button');
-            for (let button of buttons) {
-              if (button.textContent && button.textContent.includes('Scroll list to bottom')) {
-                button.click();
-                return true;
-              }
-            }
-            return false;
-          });
-          await new Promise(resolve => setTimeout(resolve, 4000));
-        } catch (e) {
-          // Button interaction failed
-        }
-      }
+      // Small wait
+      await new Promise(resolve => setTimeout(resolve, 800));
       
       // Break if we've found the target amount
       if (allWords.length >= 6100) {

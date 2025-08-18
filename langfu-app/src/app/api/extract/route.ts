@@ -2,6 +2,37 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { Language } from '@prisma/client';
+import OpenAI from 'openai';
+import fs from 'fs/promises';
+import path from 'path';
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Helper function to save content to test folder
+async function saveExtractedContent(url: string, content: any) {
+  const testDir = path.join(process.cwd(), 'test', 'extracted');
+  await fs.mkdir(testDir, { recursive: true });
+  
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const domain = new URL(url).hostname.replace(/[^a-z0-9]/gi, '_');
+  const filename = `${domain}_${timestamp}.json`;
+  
+  await fs.writeFile(
+    path.join(testDir, filename),
+    JSON.stringify({
+      url,
+      extractedAt: new Date().toISOString(),
+      rawHtml: content.html,
+      textContent: content.text,
+      extractedWords: content.words,
+      openAIResponse: content.openAIResponse
+    }, null, 2)
+  );
+  
+  return filename;
+}
 
 // Helper function to detect language from text
 function detectLanguage(text: string): Language | null {
@@ -16,52 +47,6 @@ function detectLanguage(text: string): Language | null {
   if (germanMatches > spanishMatches && germanMatches > 5) return Language.GERMAN;
   if (spanishMatches > germanMatches && spanishMatches > 5) return Language.SPANISH;
   return null;
-}
-
-// Extract meaningful words from text
-function extractKeywords(text: string, language: Language): string[] {
-  // Remove HTML tags if any remain
-  const cleanText = text.replace(/<[^>]*>/g, ' ');
-  
-  // Split into words and filter
-  const words = cleanText
-    .split(/[\s.,;:!?()[\]{}'"–—\-\n\r\t]+/)
-    .filter(word => word.length > 2) // Minimum word length
-    .map(word => word.toLowerCase());
-  
-  // Remove common stop words based on language
-  const germanStopWords = new Set(['der', 'die', 'das', 'und', 'ist', 'ich', 'ein', 'eine', 'haben', 'werden', 'nicht', 'mit', 'auf', 'für', 'aber', 'nach', 'bei', 'über', 'unter', 'zwischen', 'auch', 'noch', 'wird', 'sich', 'aus', 'von', 'dem', 'den', 'des', 'zur', 'zum', 'als', 'wenn', 'nur', 'schon', 'sehr', 'durch', 'kann', 'war', 'sind', 'hat']);
-  const spanishStopWords = new Set(['el', 'la', 'los', 'las', 'y', 'es', 'un', 'una', 'que', 'de', 'en', 'por', 'para', 'con', 'pero', 'como', 'más', 'muy', 'todo', 'esta', 'su', 'al', 'del', 'se', 'ha', 'son', 'está', 'han', 'hay', 'sido', 'ser', 'tiene', 'puede', 'este', 'ese', 'eso']);
-  
-  const stopWords = language === Language.GERMAN ? germanStopWords : spanishStopWords;
-  
-  // Count word frequency and filter
-  const wordFrequency = new Map<string, number>();
-  words.forEach(word => {
-    if (!stopWords.has(word) && word.match(/^[a-zäöüáéíóúñß]+$/i)) {
-      wordFrequency.set(word, (wordFrequency.get(word) || 0) + 1);
-    }
-  });
-  
-  // Sort by frequency and take top words
-  const sortedWords = Array.from(wordFrequency.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 30) // Take top 30 words
-    .map(([word]) => word);
-  
-  return sortedWords;
-}
-
-// Estimate CEFR level based on word complexity
-function estimateLevel(words: string[]): string {
-  const avgLength = words.reduce((sum, word) => sum + word.length, 0) / words.length;
-  
-  if (avgLength < 5) return 'A1';
-  if (avgLength < 6) return 'A2';
-  if (avgLength < 7) return 'B1';
-  if (avgLength < 8) return 'B2';
-  if (avgLength < 9) return 'C1';
-  return 'C2';
 }
 
 export async function POST(request: NextRequest) {
@@ -110,9 +95,78 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
     
-    // Extract keywords
-    const keywords = extractKeywords(textContent, detectedLanguage);
-    const estimatedLevel = estimateLevel(keywords);
+    // Use OpenAI to extract vocabulary
+    let openAIResponse;
+    let extractedWords = [];
+    
+    try {
+      // Prepare the text (take first 3000 characters to avoid token limits)
+      const textForAnalysis = textContent.substring(0, 3000);
+      
+      const completion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo", // Using gpt-3.5-turbo as gpt-5-nano doesn't exist
+        messages: [
+          {
+            role: "system",
+            content: `You are a language learning assistant. Extract the 30 most important vocabulary words from the following ${detectedLanguage === Language.GERMAN ? 'German' : 'Spanish'} text. For each word, provide:
+1. The word in its base form
+2. English translation
+3. Part of speech (noun, verb, adjective, etc.)
+4. Gender (for nouns in German/Spanish)
+5. CEFR level (A1, A2, B1, B2, C1, or C2)
+6. A short example sentence from the text or a typical usage
+
+Return the response as a JSON array with objects containing these fields: word, translation, pos, gender, level, example`
+          },
+          {
+            role: "user",
+            content: textForAnalysis
+          }
+        ],
+        temperature: 0.3,
+        max_tokens: 2000,
+      });
+      
+      openAIResponse = completion.choices[0].message.content;
+      
+      // Parse the OpenAI response
+      try {
+        // Remove markdown code blocks if present
+        const cleanResponse = openAIResponse?.replace(/```json\n?/g, '').replace(/```\n?/g, '') || '[]';
+        const parsedWords = JSON.parse(cleanResponse);
+        extractedWords = parsedWords.map((w: any, index: number) => ({
+          l2: w.word || '',
+          l1: w.translation || '',
+          pos: w.pos || null,
+          gender: w.gender || null,
+          level: w.level || 'B1',
+          frequency: 30 - index,
+          difficulty: Math.ceil((index + 1) / 10),
+          context: w.example || textContent.substring(
+            Math.max(0, textContent.indexOf(w.word) - 50),
+            Math.min(textContent.length, textContent.indexOf(w.word) + 100)
+          )
+        }));
+      } catch (parseError) {
+        console.error('Failed to parse OpenAI response:', parseError);
+        // Fallback to basic extraction if OpenAI response can't be parsed
+        extractedWords = extractBasicWords(textContent, detectedLanguage);
+      }
+    } catch (openAIError) {
+      console.error('OpenAI API error:', openAIError);
+      // Fallback to basic extraction if OpenAI fails
+      extractedWords = extractBasicWords(textContent, detectedLanguage);
+    }
+    
+    // Save content to test folder
+    const savedFile = await saveExtractedContent(url, {
+      html,
+      text: textContent,
+      words: extractedWords,
+      openAIResponse
+    });
+    
+    console.log(`Content saved to test/extracted/${savedFile}`);
     
     // Create web extraction record
     const extraction = await prisma.webExtraction.create({
@@ -122,21 +176,11 @@ export async function POST(request: NextRequest) {
         title,
         content: textContent.substring(0, 10000), // Store first 10k chars
         language: detectedLanguage,
-        wordCount: keywords.length,
-        level: estimatedLevel,
+        wordCount: extractedWords.length,
+        level: extractedWords[0]?.level || 'B1',
         customTopic: 'Web Extract',
         extractedWords: {
-          create: keywords.map((word, index) => ({
-            l2: word,
-            l1: `[Translation of ${word}]`, // Placeholder - would use translation API
-            frequency: 30 - index, // Higher frequency for words appearing earlier
-            difficulty: Math.ceil((index + 1) / 10), // Difficulty based on rank
-            level: estimatedLevel,
-            context: textContent.substring(
-              Math.max(0, textContent.indexOf(word) - 50),
-              Math.min(textContent.length, textContent.indexOf(word) + 100)
-            )
-          }))
+          create: extractedWords
         }
       },
       include: {
@@ -164,4 +208,43 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+// Fallback function for basic word extraction
+function extractBasicWords(text: string, language: Language) {
+  // Remove common stop words based on language
+  const germanStopWords = new Set(['der', 'die', 'das', 'und', 'ist', 'ich', 'ein', 'eine', 'haben', 'werden', 'nicht', 'mit', 'auf', 'für', 'aber', 'nach', 'bei', 'über', 'unter', 'zwischen']);
+  const spanishStopWords = new Set(['el', 'la', 'los', 'las', 'y', 'es', 'un', 'una', 'que', 'de', 'en', 'por', 'para', 'con', 'pero', 'como', 'más', 'muy', 'todo', 'esta']);
+  
+  const stopWords = language === Language.GERMAN ? germanStopWords : spanishStopWords;
+  
+  // Split into words and filter
+  const words = text
+    .split(/[\s.,;:!?()[\]{}'"–—\-\n\r\t]+/)
+    .filter(word => word.length > 2)
+    .map(word => word.toLowerCase());
+  
+  // Count word frequency
+  const wordFrequency = new Map<string, number>();
+  words.forEach(word => {
+    if (!stopWords.has(word) && word.match(/^[a-zäöüáéíóúñß]+$/i)) {
+      wordFrequency.set(word, (wordFrequency.get(word) || 0) + 1);
+    }
+  });
+  
+  // Sort by frequency and take top 30
+  return Array.from(wordFrequency.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 30)
+    .map(([word], index) => ({
+      l2: word,
+      l1: `[Translation of ${word}]`,
+      frequency: 30 - index,
+      difficulty: Math.ceil((index + 1) / 10),
+      level: 'B1',
+      context: text.substring(
+        Math.max(0, text.indexOf(word) - 50),
+        Math.min(text.length, text.indexOf(word) + 100)
+      )
+    }));
 }
