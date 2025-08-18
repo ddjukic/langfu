@@ -33,7 +33,11 @@ export async function createToken(payload: UserPayload): Promise<string> {
 export async function verifyToken(token: string): Promise<UserPayload | null> {
   try {
     const { payload } = await jwtVerify(token, JWT_SECRET);
-    return payload as UserPayload;
+    // Type guard to ensure payload has required properties
+    if (payload && typeof payload === 'object' && 'id' in payload && 'email' in payload) {
+      return payload as unknown as UserPayload;
+    }
+    return null;
   } catch {
     return null;
   }
