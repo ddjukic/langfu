@@ -81,11 +81,12 @@ export async function POST(request: NextRequest) {
         waitFor: 2000 // Wait for dynamic content to load
       });
       
-      if (scrapeResponse && scrapeResponse.markdown) {
+      if (scrapeResponse && 'markdown' in scrapeResponse && scrapeResponse.markdown) {
         markdown = scrapeResponse.markdown;
         // Extract title from the markdown (usually the first heading)
         const titleMatch = markdown.match(/^#\s+(.+)$/m);
-        title = titleMatch ? titleMatch[1].trim() : scrapeResponse.metadata?.title || 'Untitled';
+        title = titleMatch ? titleMatch[1].trim() : 
+              ('metadata' in scrapeResponse && scrapeResponse.metadata?.title) || 'Untitled';
       } else {
         console.error('Firecrawl returned no content');
         return NextResponse.json({ error: 'Failed to extract content from webpage' }, { status: 400 });
