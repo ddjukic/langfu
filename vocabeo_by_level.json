@@ -1,0 +1,244 @@
+{
+  "A1": [
+    {
+      "german": "der, die",
+      "english": "the",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "der, die",
+      "english": "who, which, this, that",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "und",
+      "english": "and",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "ein, eine",
+      "english": "a, an",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "sein",
+      "english": "his, its, their, one's, his or her",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "sein",
+      "english": "to be",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "in",
+      "english": "in, at, on, to",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "werden",
+      "english": "to become, to get, will",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "haben",
+      "english": "to have",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "mit",
+      "english": "with, by",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "im",
+      "english": "in (the), at (the), on (the)",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "ihr",
+      "english": "you (pl./informal), her, their, hers, theirs",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "Ihr",
+      "english": "your (formal)",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "von",
+      "english": "from, of, out of, by",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "zu",
+      "english": "too, closed",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "zu",
+      "english": "to",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "zu",
+      "english": "to, at, towards, for",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "für",
+      "english": "for",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "es",
+      "english": "it",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "auf",
+      "english": "on, at, in, for, to",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "auf",
+      "english": "open, up",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "sich",
+      "english": "herself, himself, itself, yourself, themselves, oneself",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "auch",
+      "english": "also, too, as well",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "nicht",
+      "english": "not, no",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "Sie",
+      "english": "you (formal)",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "sie",
+      "english": "she, her, they, them, it",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "ihnen",
+      "english": "them",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "Ihnen",
+      "english": "you (formal)",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "er",
+      "english": "he, it",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "ihn",
+      "english": "him, it",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "an",
+      "english": "at, on, by, to",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "am",
+      "english": "at the, on the, in the",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "unser",
+      "english": "our",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "können",
+      "english": "to be able to, to can",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "bei",
+      "english": "by, with, at",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "dies, dieser, diese, dieses",
+      "english": "this, that, these",
+      "level": "A1",
+      "frequency": 5
+    },
+    {
+      "german": "aus",
+      "english": "out, out of, from",
+      "level": "A1",
+      "frequency": 5
+    }
+  ],
+  "A2": [
+    {
+      "german": "als",
+      "english": "as, when, than, as if",
+      "level": "A2",
+      "frequency": 5
+    },
+    {
+      "german": "dass",
+      "english": "that",
+      "level": "A2",
+      "frequency": 5
+    }
+  ],
+  "B1": [],
+  "B2": [],
+  "C1": [],
+  "C2": []
+}

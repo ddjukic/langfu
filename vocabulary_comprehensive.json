@@ -1,0 +1,1918 @@
+{
+  "languages": {
+    "German": {
+      "A1": {
+        "Essential Verbs": [
+          {
+            "de": "sein",
+            "en": "to be"
+          },
+          {
+            "de": "haben",
+            "en": "to have"
+          },
+          {
+            "de": "werden",
+            "en": "to become"
+          },
+          {
+            "de": "können",
+            "en": "can/to be able to"
+          },
+          {
+            "de": "müssen",
+            "en": "must/to have to"
+          },
+          {
+            "de": "sagen",
+            "en": "to say"
+          },
+          {
+            "de": "machen",
+            "en": "to make/do"
+          },
+          {
+            "de": "geben",
+            "en": "to give"
+          },
+          {
+            "de": "kommen",
+            "en": "to come"
+          },
+          {
+            "de": "sollen",
+            "en": "should/to be supposed to"
+          },
+          {
+            "de": "wollen",
+            "en": "to want"
+          },
+          {
+            "de": "gehen",
+            "en": "to go"
+          },
+          {
+            "de": "wissen",
+            "en": "to know"
+          },
+          {
+            "de": "sehen",
+            "en": "to see"
+          },
+          {
+            "de": "lassen",
+            "en": "to let/leave"
+          },
+          {
+            "de": "stehen",
+            "en": "to stand"
+          },
+          {
+            "de": "finden",
+            "en": "to find"
+          },
+          {
+            "de": "bleiben",
+            "en": "to stay"
+          },
+          {
+            "de": "liegen",
+            "en": "to lie"
+          },
+          {
+            "de": "heißen",
+            "en": "to be called"
+          },
+          {
+            "de": "denken",
+            "en": "to think"
+          },
+          {
+            "de": "nehmen",
+            "en": "to take"
+          },
+          {
+            "de": "tun",
+            "en": "to do"
+          },
+          {
+            "de": "dürfen",
+            "en": "may/to be allowed to"
+          },
+          {
+            "de": "glauben",
+            "en": "to believe"
+          },
+          {
+            "de": "halten",
+            "en": "to hold"
+          },
+          {
+            "de": "nennen",
+            "en": "to name/call"
+          },
+          {
+            "de": "mögen",
+            "en": "to like"
+          },
+          {
+            "de": "zeigen",
+            "en": "to show"
+          },
+          {
+            "de": "führen",
+            "en": "to lead"
+          }
+        ],
+        "Basic Nouns": [
+          {
+            "de": "der Mann",
+            "en": "the man"
+          },
+          {
+            "de": "die Frau",
+            "en": "the woman"
+          },
+          {
+            "de": "das Kind",
+            "en": "the child"
+          },
+          {
+            "de": "die Leute",
+            "en": "the people"
+          },
+          {
+            "de": "die Zeit",
+            "en": "the time"
+          },
+          {
+            "de": "das Jahr",
+            "en": "the year"
+          },
+          {
+            "de": "der Tag",
+            "en": "the day"
+          },
+          {
+            "de": "die Hand",
+            "en": "the hand"
+          },
+          {
+            "de": "das Land",
+            "en": "the country"
+          },
+          {
+            "de": "die Welt",
+            "en": "the world"
+          },
+          {
+            "de": "das Leben",
+            "en": "the life"
+          },
+          {
+            "de": "die Seite",
+            "en": "the side/page"
+          },
+          {
+            "de": "das Auge",
+            "en": "the eye"
+          },
+          {
+            "de": "die Stadt",
+            "en": "the city"
+          },
+          {
+            "de": "der Platz",
+            "en": "the place/square"
+          },
+          {
+            "de": "die Arbeit",
+            "en": "the work"
+          },
+          {
+            "de": "das Wort",
+            "en": "the word"
+          },
+          {
+            "de": "die Frage",
+            "en": "the question"
+          },
+          {
+            "de": "das Haus",
+            "en": "the house"
+          },
+          {
+            "de": "der Weg",
+            "en": "the way"
+          },
+          {
+            "de": "das Auto",
+            "en": "the car"
+          },
+          {
+            "de": "die Schule",
+            "en": "the school"
+          },
+          {
+            "de": "der Name",
+            "en": "the name"
+          },
+          {
+            "de": "das Geld",
+            "en": "the money"
+          },
+          {
+            "de": "die Familie",
+            "en": "the family"
+          },
+          {
+            "de": "der Vater",
+            "en": "the father"
+          },
+          {
+            "de": "die Mutter",
+            "en": "the mother"
+          },
+          {
+            "de": "das Wasser",
+            "en": "the water"
+          },
+          {
+            "de": "der Freund",
+            "en": "the friend"
+          },
+          {
+            "de": "die Tür",
+            "en": "the door"
+          }
+        ],
+        "Common Adjectives": [
+          {
+            "de": "groß",
+            "en": "big/tall"
+          },
+          {
+            "de": "klein",
+            "en": "small"
+          },
+          {
+            "de": "gut",
+            "en": "good"
+          },
+          {
+            "de": "neu",
+            "en": "new"
+          },
+          {
+            "de": "alt",
+            "en": "old"
+          },
+          {
+            "de": "hoch",
+            "en": "high"
+          },
+          {
+            "de": "lang",
+            "en": "long"
+          },
+          {
+            "de": "deutsch",
+            "en": "German"
+          },
+          {
+            "de": "eigen",
+            "en": "own"
+          },
+          {
+            "de": "ander",
+            "en": "other"
+          },
+          {
+            "de": "letzter",
+            "en": "last"
+          },
+          {
+            "de": "schwarz",
+            "en": "black"
+          },
+          {
+            "de": "weiß",
+            "en": "white"
+          },
+          {
+            "de": "richtig",
+            "en": "correct/right"
+          },
+          {
+            "de": "schnell",
+            "en": "fast"
+          },
+          {
+            "de": "schön",
+            "en": "beautiful"
+          },
+          {
+            "de": "wichtig",
+            "en": "important"
+          },
+          {
+            "de": "jung",
+            "en": "young"
+          },
+          {
+            "de": "möglich",
+            "en": "possible"
+          },
+          {
+            "de": "spät",
+            "en": "late"
+          }
+        ],
+        "Pronouns and Articles": [
+          {
+            "de": "der",
+            "en": "the (masculine)"
+          },
+          {
+            "de": "die",
+            "en": "the (feminine/plural)"
+          },
+          {
+            "de": "das",
+            "en": "the (neuter)"
+          },
+          {
+            "de": "ein",
+            "en": "a/an (masculine/neuter)"
+          },
+          {
+            "de": "eine",
+            "en": "a/an (feminine)"
+          },
+          {
+            "de": "ich",
+            "en": "I"
+          },
+          {
+            "de": "du",
+            "en": "you (informal)"
+          },
+          {
+            "de": "er",
+            "en": "he"
+          },
+          {
+            "de": "sie",
+            "en": "she/they"
+          },
+          {
+            "de": "es",
+            "en": "it"
+          },
+          {
+            "de": "wir",
+            "en": "we"
+          },
+          {
+            "de": "ihr",
+            "en": "you (plural)"
+          },
+          {
+            "de": "mein",
+            "en": "my"
+          },
+          {
+            "de": "dein",
+            "en": "your"
+          },
+          {
+            "de": "sein",
+            "en": "his"
+          },
+          {
+            "de": "ihr",
+            "en": "her"
+          },
+          {
+            "de": "unser",
+            "en": "our"
+          },
+          {
+            "de": "euer",
+            "en": "your (plural)"
+          },
+          {
+            "de": "dieser",
+            "en": "this"
+          },
+          {
+            "de": "jeder",
+            "en": "every/each"
+          }
+        ],
+        "Numbers and Time": [
+          {
+            "de": "eins",
+            "en": "one"
+          },
+          {
+            "de": "zwei",
+            "en": "two"
+          },
+          {
+            "de": "drei",
+            "en": "three"
+          },
+          {
+            "de": "vier",
+            "en": "four"
+          },
+          {
+            "de": "fünf",
+            "en": "five"
+          },
+          {
+            "de": "sechs",
+            "en": "six"
+          },
+          {
+            "de": "sieben",
+            "en": "seven"
+          },
+          {
+            "de": "acht",
+            "en": "eight"
+          },
+          {
+            "de": "neun",
+            "en": "nine"
+          },
+          {
+            "de": "zehn",
+            "en": "ten"
+          },
+          {
+            "de": "heute",
+            "en": "today"
+          },
+          {
+            "de": "morgen",
+            "en": "tomorrow"
+          },
+          {
+            "de": "gestern",
+            "en": "yesterday"
+          },
+          {
+            "de": "jetzt",
+            "en": "now"
+          },
+          {
+            "de": "dann",
+            "en": "then"
+          },
+          {
+            "de": "schon",
+            "en": "already"
+          },
+          {
+            "de": "noch",
+            "en": "still/yet"
+          },
+          {
+            "de": "immer",
+            "en": "always"
+          },
+          {
+            "de": "nie",
+            "en": "never"
+          },
+          {
+            "de": "oft",
+            "en": "often"
+          }
+        ],
+        "Prepositions and Conjunctions": [
+          {
+            "de": "in",
+            "en": "in"
+          },
+          {
+            "de": "zu",
+            "en": "to"
+          },
+          {
+            "de": "von",
+            "en": "from/of"
+          },
+          {
+            "de": "mit",
+            "en": "with"
+          },
+          {
+            "de": "nach",
+            "en": "after/to"
+          },
+          {
+            "de": "bei",
+            "en": "at/by"
+          },
+          {
+            "de": "aus",
+            "en": "from/out of"
+          },
+          {
+            "de": "auf",
+            "en": "on"
+          },
+          {
+            "de": "für",
+            "en": "for"
+          },
+          {
+            "de": "an",
+            "en": "at/on"
+          },
+          {
+            "de": "über",
+            "en": "over/about"
+          },
+          {
+            "de": "vor",
+            "en": "before/in front of"
+          },
+          {
+            "de": "durch",
+            "en": "through"
+          },
+          {
+            "de": "um",
+            "en": "around/at"
+          },
+          {
+            "de": "ohne",
+            "en": "without"
+          },
+          {
+            "de": "unter",
+            "en": "under"
+          },
+          {
+            "de": "gegen",
+            "en": "against"
+          },
+          {
+            "de": "bis",
+            "en": "until"
+          },
+          {
+            "de": "seit",
+            "en": "since"
+          },
+          {
+            "de": "während",
+            "en": "during"
+          },
+          {
+            "de": "und",
+            "en": "and"
+          },
+          {
+            "de": "oder",
+            "en": "or"
+          },
+          {
+            "de": "aber",
+            "en": "but"
+          },
+          {
+            "de": "denn",
+            "en": "because"
+          },
+          {
+            "de": "sondern",
+            "en": "but rather"
+          },
+          {
+            "de": "wenn",
+            "en": "if/when"
+          },
+          {
+            "de": "dass",
+            "en": "that"
+          },
+          {
+            "de": "weil",
+            "en": "because"
+          },
+          {
+            "de": "als",
+            "en": "as/than"
+          },
+          {
+            "de": "wie",
+            "en": "how/like"
+          }
+        ],
+        "Common Adverbs": [
+          {
+            "de": "nicht",
+            "en": "not"
+          },
+          {
+            "de": "auch",
+            "en": "also"
+          },
+          {
+            "de": "nur",
+            "en": "only"
+          },
+          {
+            "de": "noch",
+            "en": "still"
+          },
+          {
+            "de": "schon",
+            "en": "already"
+          },
+          {
+            "de": "so",
+            "en": "so"
+          },
+          {
+            "de": "sehr",
+            "en": "very"
+          },
+          {
+            "de": "hier",
+            "en": "here"
+          },
+          {
+            "de": "da",
+            "en": "there"
+          },
+          {
+            "de": "dort",
+            "en": "there"
+          },
+          {
+            "de": "wieder",
+            "en": "again"
+          },
+          {
+            "de": "mehr",
+            "en": "more"
+          },
+          {
+            "de": "viel",
+            "en": "much/a lot"
+          },
+          {
+            "de": "wenig",
+            "en": "little/few"
+          },
+          {
+            "de": "ganz",
+            "en": "quite/whole"
+          },
+          {
+            "de": "etwa",
+            "en": "about/approximately"
+          },
+          {
+            "de": "fast",
+            "en": "almost"
+          },
+          {
+            "de": "wirklich",
+            "en": "really"
+          },
+          {
+            "de": "vielleicht",
+            "en": "maybe"
+          },
+          {
+            "de": "zusammen",
+            "en": "together"
+          }
+        ],
+        "Question Words": [
+          {
+            "de": "was",
+            "en": "what"
+          },
+          {
+            "de": "wer",
+            "en": "who"
+          },
+          {
+            "de": "wo",
+            "en": "where"
+          },
+          {
+            "de": "wann",
+            "en": "when"
+          },
+          {
+            "de": "warum",
+            "en": "why"
+          },
+          {
+            "de": "wie",
+            "en": "how"
+          },
+          {
+            "de": "welcher",
+            "en": "which"
+          },
+          {
+            "de": "woher",
+            "en": "where from"
+          },
+          {
+            "de": "wohin",
+            "en": "where to"
+          },
+          {
+            "de": "womit",
+            "en": "with what"
+          }
+        ],
+        "Basic Greetings and Phrases": [
+          {
+            "de": "hallo",
+            "en": "hello"
+          },
+          {
+            "de": "guten Morgen",
+            "en": "good morning"
+          },
+          {
+            "de": "guten Tag",
+            "en": "good day"
+          },
+          {
+            "de": "guten Abend",
+            "en": "good evening"
+          },
+          {
+            "de": "gute Nacht",
+            "en": "good night"
+          },
+          {
+            "de": "auf Wiedersehen",
+            "en": "goodbye"
+          },
+          {
+            "de": "tschüss",
+            "en": "bye"
+          },
+          {
+            "de": "bitte",
+            "en": "please"
+          },
+          {
+            "de": "danke",
+            "en": "thank you"
+          },
+          {
+            "de": "entschuldigung",
+            "en": "excuse me"
+          },
+          {
+            "de": "ja",
+            "en": "yes"
+          },
+          {
+            "de": "nein",
+            "en": "no"
+          },
+          {
+            "de": "wie geht's",
+            "en": "how are you"
+          },
+          {
+            "de": "es tut mir leid",
+            "en": "I'm sorry"
+          },
+          {
+            "de": "kein Problem",
+            "en": "no problem"
+          }
+        ],
+        "Food and Drink": [
+          {
+            "de": "das Brot",
+            "en": "bread"
+          },
+          {
+            "de": "die Milch",
+            "en": "milk"
+          },
+          {
+            "de": "das Fleisch",
+            "en": "meat"
+          },
+          {
+            "de": "der Fisch",
+            "en": "fish"
+          },
+          {
+            "de": "das Gemüse",
+            "en": "vegetables"
+          },
+          {
+            "de": "das Obst",
+            "en": "fruit"
+          },
+          {
+            "de": "der Apfel",
+            "en": "apple"
+          },
+          {
+            "de": "die Banane",
+            "en": "banana"
+          },
+          {
+            "de": "die Kartoffel",
+            "en": "potato"
+          },
+          {
+            "de": "der Reis",
+            "en": "rice"
+          }
+        ],
+        "Family": [
+          {
+            "de": "die Familie",
+            "en": "family"
+          },
+          {
+            "de": "der Vater",
+            "en": "father"
+          },
+          {
+            "de": "die Mutter",
+            "en": "mother"
+          },
+          {
+            "de": "der Sohn",
+            "en": "son"
+          },
+          {
+            "de": "die Tochter",
+            "en": "daughter"
+          },
+          {
+            "de": "der Bruder",
+            "en": "brother"
+          },
+          {
+            "de": "die Schwester",
+            "en": "sister"
+          },
+          {
+            "de": "der Großvater",
+            "en": "grandfather"
+          },
+          {
+            "de": "die Großmutter",
+            "en": "grandmother"
+          },
+          {
+            "de": "der Onkel",
+            "en": "uncle"
+          }
+        ],
+        "Colors": [
+          {
+            "de": "rot",
+            "en": "red"
+          },
+          {
+            "de": "blau",
+            "en": "blue"
+          },
+          {
+            "de": "grün",
+            "en": "green"
+          },
+          {
+            "de": "gelb",
+            "en": "yellow"
+          },
+          {
+            "de": "schwarz",
+            "en": "black"
+          },
+          {
+            "de": "weiß",
+            "en": "white"
+          },
+          {
+            "de": "braun",
+            "en": "brown"
+          },
+          {
+            "de": "orange",
+            "en": "orange"
+          },
+          {
+            "de": "lila",
+            "en": "purple"
+          },
+          {
+            "de": "rosa",
+            "en": "pink"
+          }
+        ]
+      },
+      "A2": {
+        "Daily Activities": [
+          {
+            "de": "aufstehen",
+            "en": "to get up"
+          },
+          {
+            "de": "aufwachen",
+            "en": "to wake up"
+          },
+          {
+            "de": "duschen",
+            "en": "to shower"
+          },
+          {
+            "de": "anziehen",
+            "en": "to put on (clothes)"
+          },
+          {
+            "de": "frühstücken",
+            "en": "to have breakfast"
+          },
+          {
+            "de": "arbeiten",
+            "en": "to work"
+          },
+          {
+            "de": "lernen",
+            "en": "to learn/study"
+          },
+          {
+            "de": "einkaufen",
+            "en": "to shop"
+          },
+          {
+            "de": "kochen",
+            "en": "to cook"
+          },
+          {
+            "de": "essen",
+            "en": "to eat"
+          },
+          {
+            "de": "trinken",
+            "en": "to drink"
+          },
+          {
+            "de": "fernsehen",
+            "en": "to watch TV"
+          },
+          {
+            "de": "lesen",
+            "en": "to read"
+          },
+          {
+            "de": "schreiben",
+            "en": "to write"
+          },
+          {
+            "de": "hören",
+            "en": "to hear/listen"
+          },
+          {
+            "de": "sprechen",
+            "en": "to speak"
+          },
+          {
+            "de": "telefonieren",
+            "en": "to make a phone call"
+          },
+          {
+            "de": "treffen",
+            "en": "to meet"
+          },
+          {
+            "de": "besuchen",
+            "en": "to visit"
+          },
+          {
+            "de": "spazieren gehen",
+            "en": "to go for a walk"
+          },
+          {
+            "de": "Sport machen",
+            "en": "to do sports"
+          },
+          {
+            "de": "spielen",
+            "en": "to play"
+          },
+          {
+            "de": "putzen",
+            "en": "to clean"
+          },
+          {
+            "de": "waschen",
+            "en": "to wash"
+          },
+          {
+            "de": "schlafen",
+            "en": "to sleep"
+          },
+          {
+            "de": "träumen",
+            "en": "to dream"
+          },
+          {
+            "de": "aufräumen",
+            "en": "to tidy up"
+          },
+          {
+            "de": "reparieren",
+            "en": "to repair"
+          },
+          {
+            "de": "helfen",
+            "en": "to help"
+          },
+          {
+            "de": "warten",
+            "en": "to wait"
+          }
+        ],
+        "Work and Career": [
+          {
+            "de": "der Beruf",
+            "en": "profession"
+          },
+          {
+            "de": "die Arbeit",
+            "en": "work"
+          },
+          {
+            "de": "das Büro",
+            "en": "office"
+          },
+          {
+            "de": "der Chef",
+            "en": "boss"
+          },
+          {
+            "de": "die Chefin",
+            "en": "female boss"
+          },
+          {
+            "de": "der Kollege",
+            "en": "male colleague"
+          },
+          {
+            "de": "die Kollegin",
+            "en": "female colleague"
+          },
+          {
+            "de": "der Mitarbeiter",
+            "en": "employee"
+          },
+          {
+            "de": "das Gehalt",
+            "en": "salary"
+          },
+          {
+            "de": "der Lohn",
+            "en": "wage"
+          },
+          {
+            "de": "die Pause",
+            "en": "break"
+          },
+          {
+            "de": "der Urlaub",
+            "en": "vacation"
+          },
+          {
+            "de": "die Ferien",
+            "en": "holidays"
+          },
+          {
+            "de": "der Termin",
+            "en": "appointment"
+          },
+          {
+            "de": "die Besprechung",
+            "en": "meeting"
+          },
+          {
+            "de": "das Projekt",
+            "en": "project"
+          },
+          {
+            "de": "die Aufgabe",
+            "en": "task"
+          },
+          {
+            "de": "die Erfahrung",
+            "en": "experience"
+          },
+          {
+            "de": "die Ausbildung",
+            "en": "training/education"
+          },
+          {
+            "de": "das Studium",
+            "en": "studies"
+          },
+          {
+            "de": "der Abschluss",
+            "en": "degree/graduation"
+          },
+          {
+            "de": "die Bewerbung",
+            "en": "application"
+          },
+          {
+            "de": "das Vorstellungsgespräch",
+            "en": "job interview"
+          },
+          {
+            "de": "kündigen",
+            "en": "to quit"
+          },
+          {
+            "de": "arbeitslos",
+            "en": "unemployed"
+          },
+          {
+            "de": "beschäftigt",
+            "en": "busy/employed"
+          },
+          {
+            "de": "erfolgreich",
+            "en": "successful"
+          },
+          {
+            "de": "fleißig",
+            "en": "hardworking"
+          },
+          {
+            "de": "faul",
+            "en": "lazy"
+          },
+          {
+            "de": "pünktlich",
+            "en": "punctual"
+          }
+        ],
+        "Travel": [],
+        "Health": [],
+        "Shopping": []
+      },
+      "B1": {
+        "Education": [],
+        "Technology": []
+      },
+      "B2": {
+        "Business": [],
+        "Politics": []
+      },
+      "C1": {
+        "Science": [],
+        "Philosophy": []
+      }
+    },
+    "Spanish": {
+      "A1": {
+        "Essential Verbs": [
+          {
+            "de": "ser",
+            "en": "to be (permanent)"
+          },
+          {
+            "de": "estar",
+            "en": "to be (temporary)"
+          },
+          {
+            "de": "haber",
+            "en": "to have (auxiliary)"
+          },
+          {
+            "de": "tener",
+            "en": "to have"
+          },
+          {
+            "de": "hacer",
+            "en": "to do/make"
+          },
+          {
+            "de": "decir",
+            "en": "to say"
+          },
+          {
+            "de": "poder",
+            "en": "can/to be able"
+          },
+          {
+            "de": "deber",
+            "en": "must/should"
+          },
+          {
+            "de": "querer",
+            "en": "to want"
+          },
+          {
+            "de": "saber",
+            "en": "to know (facts)"
+          },
+          {
+            "de": "conocer",
+            "en": "to know (people/places)"
+          },
+          {
+            "de": "ver",
+            "en": "to see"
+          },
+          {
+            "de": "dar",
+            "en": "to give"
+          },
+          {
+            "de": "venir",
+            "en": "to come"
+          },
+          {
+            "de": "ir",
+            "en": "to go"
+          },
+          {
+            "de": "salir",
+            "en": "to leave/go out"
+          },
+          {
+            "de": "llegar",
+            "en": "to arrive"
+          },
+          {
+            "de": "pasar",
+            "en": "to pass/happen"
+          },
+          {
+            "de": "quedar",
+            "en": "to stay/remain"
+          },
+          {
+            "de": "poner",
+            "en": "to put"
+          },
+          {
+            "de": "parecer",
+            "en": "to seem"
+          },
+          {
+            "de": "seguir",
+            "en": "to follow/continue"
+          },
+          {
+            "de": "tratar",
+            "en": "to try/treat"
+          },
+          {
+            "de": "llamar",
+            "en": "to call"
+          },
+          {
+            "de": "encontrar",
+            "en": "to find"
+          },
+          {
+            "de": "llevar",
+            "en": "to carry/wear"
+          },
+          {
+            "de": "vivir",
+            "en": "to live"
+          },
+          {
+            "de": "sentir",
+            "en": "to feel"
+          },
+          {
+            "de": "trabajar",
+            "en": "to work"
+          },
+          {
+            "de": "estudiar",
+            "en": "to study"
+          }
+        ],
+        "Basic Nouns": [
+          {
+            "de": "el hombre",
+            "en": "the man"
+          },
+          {
+            "de": "la mujer",
+            "en": "the woman"
+          },
+          {
+            "de": "el niño",
+            "en": "the boy/child"
+          },
+          {
+            "de": "la niña",
+            "en": "the girl"
+          },
+          {
+            "de": "la gente",
+            "en": "the people"
+          },
+          {
+            "de": "el tiempo",
+            "en": "the time/weather"
+          },
+          {
+            "de": "el año",
+            "en": "the year"
+          },
+          {
+            "de": "el día",
+            "en": "the day"
+          },
+          {
+            "de": "la mano",
+            "en": "the hand"
+          },
+          {
+            "de": "el país",
+            "en": "the country"
+          },
+          {
+            "de": "el mundo",
+            "en": "the world"
+          },
+          {
+            "de": "la vida",
+            "en": "the life"
+          },
+          {
+            "de": "el lado",
+            "en": "the side"
+          },
+          {
+            "de": "el ojo",
+            "en": "the eye"
+          },
+          {
+            "de": "la ciudad",
+            "en": "the city"
+          },
+          {
+            "de": "el lugar",
+            "en": "the place"
+          },
+          {
+            "de": "el trabajo",
+            "en": "the work"
+          },
+          {
+            "de": "la palabra",
+            "en": "the word"
+          },
+          {
+            "de": "la pregunta",
+            "en": "the question"
+          },
+          {
+            "de": "la casa",
+            "en": "the house"
+          },
+          {
+            "de": "el camino",
+            "en": "the way/path"
+          },
+          {
+            "de": "el coche",
+            "en": "the car"
+          },
+          {
+            "de": "la escuela",
+            "en": "the school"
+          },
+          {
+            "de": "el nombre",
+            "en": "the name"
+          },
+          {
+            "de": "el dinero",
+            "en": "the money"
+          },
+          {
+            "de": "la familia",
+            "en": "the family"
+          },
+          {
+            "de": "el padre",
+            "en": "the father"
+          },
+          {
+            "de": "la madre",
+            "en": "the mother"
+          },
+          {
+            "de": "el agua",
+            "en": "the water"
+          },
+          {
+            "de": "el amigo",
+            "en": "the friend (male)"
+          },
+          {
+            "de": "la amiga",
+            "en": "the friend (female)"
+          }
+        ],
+        "Common Adjectives": [
+          {
+            "de": "grande",
+            "en": "big"
+          },
+          {
+            "de": "pequeño",
+            "en": "small"
+          },
+          {
+            "de": "bueno",
+            "en": "good"
+          },
+          {
+            "de": "malo",
+            "en": "bad"
+          },
+          {
+            "de": "nuevo",
+            "en": "new"
+          },
+          {
+            "de": "viejo",
+            "en": "old"
+          },
+          {
+            "de": "alto",
+            "en": "tall/high"
+          },
+          {
+            "de": "bajo",
+            "en": "short/low"
+          },
+          {
+            "de": "largo",
+            "en": "long"
+          },
+          {
+            "de": "corto",
+            "en": "short"
+          },
+          {
+            "de": "español",
+            "en": "Spanish"
+          },
+          {
+            "de": "propio",
+            "en": "own"
+          },
+          {
+            "de": "otro",
+            "en": "other"
+          },
+          {
+            "de": "último",
+            "en": "last"
+          },
+          {
+            "de": "negro",
+            "en": "black"
+          },
+          {
+            "de": "blanco",
+            "en": "white"
+          },
+          {
+            "de": "rojo",
+            "en": "red"
+          },
+          {
+            "de": "azul",
+            "en": "blue"
+          },
+          {
+            "de": "verde",
+            "en": "green"
+          },
+          {
+            "de": "amarillo",
+            "en": "yellow"
+          },
+          {
+            "de": "bonito",
+            "en": "pretty"
+          },
+          {
+            "de": "feo",
+            "en": "ugly"
+          },
+          {
+            "de": "joven",
+            "en": "young"
+          },
+          {
+            "de": "viejo",
+            "en": "old"
+          },
+          {
+            "de": "feliz",
+            "en": "happy"
+          },
+          {
+            "de": "triste",
+            "en": "sad"
+          },
+          {
+            "de": "fácil",
+            "en": "easy"
+          },
+          {
+            "de": "difícil",
+            "en": "difficult"
+          },
+          {
+            "de": "importante",
+            "en": "important"
+          },
+          {
+            "de": "posible",
+            "en": "possible"
+          }
+        ],
+        "Pronouns and Articles": [
+          {
+            "de": "el",
+            "en": "the (masculine)"
+          },
+          {
+            "de": "la",
+            "en": "the (feminine)"
+          },
+          {
+            "de": "los",
+            "en": "the (masculine plural)"
+          },
+          {
+            "de": "las",
+            "en": "the (feminine plural)"
+          },
+          {
+            "de": "un",
+            "en": "a/an (masculine)"
+          },
+          {
+            "de": "una",
+            "en": "a/an (feminine)"
+          },
+          {
+            "de": "yo",
+            "en": "I"
+          },
+          {
+            "de": "tú",
+            "en": "you (informal)"
+          },
+          {
+            "de": "él",
+            "en": "he"
+          },
+          {
+            "de": "ella",
+            "en": "she"
+          },
+          {
+            "de": "nosotros",
+            "en": "we (masculine)"
+          },
+          {
+            "de": "nosotras",
+            "en": "we (feminine)"
+          },
+          {
+            "de": "vosotros",
+            "en": "you (plural, masculine)"
+          },
+          {
+            "de": "vosotras",
+            "en": "you (plural, feminine)"
+          },
+          {
+            "de": "ellos",
+            "en": "they (masculine)"
+          },
+          {
+            "de": "ellas",
+            "en": "they (feminine)"
+          },
+          {
+            "de": "usted",
+            "en": "you (formal)"
+          },
+          {
+            "de": "ustedes",
+            "en": "you (plural formal)"
+          },
+          {
+            "de": "mi",
+            "en": "my"
+          },
+          {
+            "de": "tu",
+            "en": "your"
+          },
+          {
+            "de": "su",
+            "en": "his/her/your"
+          },
+          {
+            "de": "nuestro",
+            "en": "our (masculine)"
+          },
+          {
+            "de": "nuestra",
+            "en": "our (feminine)"
+          },
+          {
+            "de": "vuestro",
+            "en": "your (masculine)"
+          },
+          {
+            "de": "vuestra",
+            "en": "your (feminine)"
+          },
+          {
+            "de": "este",
+            "en": "this (masculine)"
+          },
+          {
+            "de": "esta",
+            "en": "this (feminine)"
+          },
+          {
+            "de": "ese",
+            "en": "that (masculine)"
+          },
+          {
+            "de": "esa",
+            "en": "that (feminine)"
+          },
+          {
+            "de": "aquel",
+            "en": "that over there (masculine)"
+          },
+          {
+            "de": "aquella",
+            "en": "that over there (feminine)"
+          }
+        ],
+        "Numbers and Time": [
+          {
+            "de": "uno",
+            "en": "one"
+          },
+          {
+            "de": "dos",
+            "en": "two"
+          },
+          {
+            "de": "tres",
+            "en": "three"
+          },
+          {
+            "de": "cuatro",
+            "en": "four"
+          },
+          {
+            "de": "cinco",
+            "en": "five"
+          },
+          {
+            "de": "seis",
+            "en": "six"
+          },
+          {
+            "de": "siete",
+            "en": "seven"
+          },
+          {
+            "de": "ocho",
+            "en": "eight"
+          },
+          {
+            "de": "nueve",
+            "en": "nine"
+          },
+          {
+            "de": "diez",
+            "en": "ten"
+          },
+          {
+            "de": "hoy",
+            "en": "today"
+          },
+          {
+            "de": "mañana",
+            "en": "tomorrow"
+          },
+          {
+            "de": "ayer",
+            "en": "yesterday"
+          },
+          {
+            "de": "ahora",
+            "en": "now"
+          },
+          {
+            "de": "entonces",
+            "en": "then"
+          },
+          {
+            "de": "ya",
+            "en": "already"
+          },
+          {
+            "de": "todavía",
+            "en": "still/yet"
+          },
+          {
+            "de": "siempre",
+            "en": "always"
+          },
+          {
+            "de": "nunca",
+            "en": "never"
+          },
+          {
+            "de": "a veces",
+            "en": "sometimes"
+          }
+        ],
+        "Food and Drink": [
+          {
+            "de": "das Brot",
+            "en": "bread"
+          },
+          {
+            "de": "die Milch",
+            "en": "milk"
+          },
+          {
+            "de": "das Fleisch",
+            "en": "meat"
+          },
+          {
+            "de": "der Fisch",
+            "en": "fish"
+          },
+          {
+            "de": "das Gemüse",
+            "en": "vegetables"
+          },
+          {
+            "de": "das Obst",
+            "en": "fruit"
+          },
+          {
+            "de": "der Apfel",
+            "en": "apple"
+          },
+          {
+            "de": "die Banane",
+            "en": "banana"
+          },
+          {
+            "de": "die Kartoffel",
+            "en": "potato"
+          },
+          {
+            "de": "der Reis",
+            "en": "rice"
+          }
+        ],
+        "Family": [
+          {
+            "de": "die Familie",
+            "en": "family"
+          },
+          {
+            "de": "der Vater",
+            "en": "father"
+          },
+          {
+            "de": "die Mutter",
+            "en": "mother"
+          },
+          {
+            "de": "der Sohn",
+            "en": "son"
+          },
+          {
+            "de": "die Tochter",
+            "en": "daughter"
+          },
+          {
+            "de": "der Bruder",
+            "en": "brother"
+          },
+          {
+            "de": "die Schwester",
+            "en": "sister"
+          },
+          {
+            "de": "der Großvater",
+            "en": "grandfather"
+          },
+          {
+            "de": "die Großmutter",
+            "en": "grandmother"
+          },
+          {
+            "de": "der Onkel",
+            "en": "uncle"
+          }
+        ],
+        "Colors": [
+          {
+            "de": "rot",
+            "en": "red"
+          },
+          {
+            "de": "blau",
+            "en": "blue"
+          },
+          {
+            "de": "grün",
+            "en": "green"
+          },
+          {
+            "de": "gelb",
+            "en": "yellow"
+          },
+          {
+            "de": "schwarz",
+            "en": "black"
+          },
+          {
+            "de": "weiß",
+            "en": "white"
+          },
+          {
+            "de": "braun",
+            "en": "brown"
+          },
+          {
+            "de": "orange",
+            "en": "orange"
+          },
+          {
+            "de": "lila",
+            "en": "purple"
+          },
+          {
+            "de": "rosa",
+            "en": "pink"
+          }
+        ]
+      },
+      "A2": {
+        "Travel": [],
+        "Health": [],
+        "Shopping": []
+      },
+      "B1": {
+        "Education": [],
+        "Technology": []
+      },
+      "B2": {
+        "Business": [],
+        "Politics": []
+      },
+      "C1": {
+        "Science": [],
+        "Philosophy": []
+      }
+    }
+  }
+}
