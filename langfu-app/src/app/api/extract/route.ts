@@ -3,11 +3,16 @@ import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { Language } from '@prisma/client';
 import OpenAI from 'openai';
+import FirecrawlApp from '@mendable/firecrawl-js';
 import fs from 'fs/promises';
 import path from 'path';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
+});
+
+const firecrawl = new FirecrawlApp({
+  apiKey: process.env.FIRECRAWL_API_KEY || 'YOUR_API_KEY_HERE'
 });
 
 // Helper function to save content to test folder
@@ -24,8 +29,7 @@ async function saveExtractedContent(url: string, content: any) {
     JSON.stringify({
       url,
       extractedAt: new Date().toISOString(),
-      rawHtml: content.html,
-      textContent: content.text,
+      markdown: content.markdown,
       extractedWords: content.words,
       openAIResponse: content.openAIResponse
     }, null, 2)
@@ -62,33 +66,34 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'URL is required' }, { status: 400 });
     }
 
-    // Fetch the webpage content
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+    // Use Firecrawl to scrape the webpage and get clean content
+    let markdown = '';
+    let title = 'Untitled';
+    
+    try {
+      console.log('Scraping URL with Firecrawl:', url);
+      const scrapeResponse = await firecrawl.scrapeUrl(url, {
+        formats: ['markdown'],
+        onlyMainContent: true,
+        waitFor: 2000 // Wait for dynamic content to load
+      });
+      
+      if (scrapeResponse && scrapeResponse.markdown) {
+        markdown = scrapeResponse.markdown;
+        // Extract title from the markdown (usually the first heading)
+        const titleMatch = markdown.match(/^#\s+(.+)$/m);
+        title = titleMatch ? titleMatch[1].trim() : scrapeResponse.metadata?.title || 'Untitled';
+      } else {
+        console.error('Firecrawl returned no content');
+        return NextResponse.json({ error: 'Failed to extract content from webpage' }, { status: 400 });
       }
-    });
-    
-    if (!response.ok) {
-      return NextResponse.json({ error: 'Failed to fetch webpage' }, { status: 400 });
+    } catch (firecrawlError) {
+      console.error('Firecrawl error:', firecrawlError);
+      return NextResponse.json({ error: 'Failed to scrape webpage with Firecrawl' }, { status: 500 });
     }
-
-    const html = await response.text();
-    
-    // Extract text content from HTML (simple extraction)
-    const textContent = html
-      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') // Remove scripts
-      .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '') // Remove styles
-      .replace(/<[^>]+>/g, ' ') // Remove HTML tags
-      .replace(/\s+/g, ' ') // Normalize whitespace
-      .trim();
-    
-    // Extract title
-    const titleMatch = html.match(/<title>([^<]+)<\/title>/i);
-    const title = titleMatch ? titleMatch[1].trim() : 'Untitled';
     
     // Detect language
-    const detectedLanguage = detectLanguage(textContent);
+    const detectedLanguage = detectLanguage(markdown);
     if (!detectedLanguage) {
       return NextResponse.json({ 
         error: 'Could not detect German or Spanish language in the content' 
@@ -100,40 +105,55 @@ export async function POST(request: NextRequest) {
     let extractedWords = [];
     
     try {
-      // Prepare the text (take first 3000 characters to avoid token limits)
-      const textForAnalysis = textContent.substring(0, 3000);
+      // Prepare the markdown text (take first 3000 characters to avoid token limits)
+      const textForAnalysis = markdown.substring(0, 3000);
       
       const completion = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo", // Using gpt-3.5-turbo as gpt-5-nano doesn't exist
+        model: "gpt-5-nano",
         messages: [
           {
             role: "system",
-            content: `You are a language learning assistant. Extract the 30 most important vocabulary words from the following ${detectedLanguage === Language.GERMAN ? 'German' : 'Spanish'} text. For each word, provide:
-1. The word in its base form
-2. English translation
-3. Part of speech (noun, verb, adjective, etc.)
-4. Gender (for nouns in German/Spanish)
-5. CEFR level (A1, A2, B1, B2, C1, or C2)
-6. A short example sentence from the text or a typical usage
+            content: `You are a language learning assistant specializing in ${detectedLanguage === Language.GERMAN ? 'German' : 'Spanish'} vocabulary extraction.
 
-Return the response as a JSON array with objects containing these fields: word, translation, pos, gender, level, example`
+Extract the 30 most important vocabulary words for language learners from the provided text.
+
+Rules:
+- Focus on content words (nouns, verbs, adjectives, adverbs)
+- Ignore proper names, URLs, technical jargon, and non-language content
+- Use base/infinitive forms (e.g., infinitives for verbs, singular for nouns)
+- Provide accurate English translations
+- Assign appropriate CEFR levels based on word complexity
+
+Return a JSON object with this exact structure:
+{
+  "words": [
+    {
+      "word": "word in base form",
+      "translation": "English translation",
+      "pos": "noun|verb|adjective|adverb|preposition|conjunction",
+      "gender": "m|f|n (for nouns) or null",
+      "level": "A1|A2|B1|B2|C1|C2",
+      "example": "short example sentence"
+    }
+  ]
+}`
           },
           {
-            role: "user",
-            content: textForAnalysis
+            role: "user", 
+            content: `Extract vocabulary from this ${detectedLanguage === Language.GERMAN ? 'German' : 'Spanish'} text:\n\n${textForAnalysis}`
           }
         ],
-        temperature: 0.3,
-        max_tokens: 2000,
+        max_completion_tokens: 2000
       });
       
-      openAIResponse = completion.choices[0].message.content;
+      openAIResponse = completion.choices[0]?.message?.content || '';
+      console.log('OpenAI Full Response:', JSON.stringify(completion, null, 2));
+      console.log('OpenAI Response Content:', openAIResponse);
       
-      // Parse the OpenAI response
+      // Parse the structured output response
       try {
-        // Remove markdown code blocks if present
-        const cleanResponse = openAIResponse?.replace(/```json\n?/g, '').replace(/```\n?/g, '') || '[]';
-        const parsedWords = JSON.parse(cleanResponse);
+        const parsedResponse = JSON.parse(openAIResponse || '{"words":[]}');
+        const parsedWords = parsedResponse.words || [];
         extractedWords = parsedWords.map((w: any, index: number) => ({
           l2: w.word || '',
           l1: w.translation || '',
@@ -142,26 +162,25 @@ Return the response as a JSON array with objects containing these fields: word, 
           level: w.level || 'B1',
           frequency: 30 - index,
           difficulty: Math.ceil((index + 1) / 10),
-          context: w.example || textContent.substring(
-            Math.max(0, textContent.indexOf(w.word) - 50),
-            Math.min(textContent.length, textContent.indexOf(w.word) + 100)
+          context: w.example || markdown.substring(
+            Math.max(0, markdown.indexOf(w.word) - 50),
+            Math.min(markdown.length, markdown.indexOf(w.word) + 100)
           )
         }));
       } catch (parseError) {
         console.error('Failed to parse OpenAI response:', parseError);
         // Fallback to basic extraction if OpenAI response can't be parsed
-        extractedWords = extractBasicWords(textContent, detectedLanguage);
+        extractedWords = extractBasicWords(markdown, detectedLanguage);
       }
     } catch (openAIError) {
       console.error('OpenAI API error:', openAIError);
       // Fallback to basic extraction if OpenAI fails
-      extractedWords = extractBasicWords(textContent, detectedLanguage);
+      extractedWords = extractBasicWords(markdown, detectedLanguage);
     }
     
     // Save content to test folder
     const savedFile = await saveExtractedContent(url, {
-      html,
-      text: textContent,
+      markdown,
       words: extractedWords,
       openAIResponse
     });
@@ -174,7 +193,7 @@ Return the response as a JSON array with objects containing these fields: word, 
         userId: user.id,
         url,
         title,
-        content: textContent.substring(0, 10000), // Store first 10k chars
+        content: markdown.substring(0, 10000), // Store first 10k chars of markdown
         language: detectedLanguage,
         wordCount: extractedWords.length,
         level: extractedWords[0]?.level || 'B1',

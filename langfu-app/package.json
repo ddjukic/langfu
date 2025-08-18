@@ -14,6 +14,7 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
+    "@mendable/firecrawl-js": "^1.29.3",
     "@prisma/client": "^6.14.0",
     "@vercel/postgres": "^0.10.0",
     "ai": "^5.0.15",
@@ -30,7 +31,8 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "recharts": "^3.1.2",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "turndown": "^7.2.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
