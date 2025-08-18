@@ -28,6 +28,7 @@ interface Extraction {
 export default function ExtractClient() {
   const router = useRouter();
   const [url, setUrl] = useState('');
+  const [wordCount, setWordCount] = useState(15);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [extraction, setExtraction] = useState<Extraction | null>(null);
@@ -47,7 +48,7 @@ export default function ExtractClient() {
       const response = await fetch('/api/extract', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url })
+        body: JSON.stringify({ url, wordCount })
       });
 
       const data = await response.json();
@@ -110,6 +111,32 @@ export default function ExtractClient() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 disabled={loading}
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Number of Words to Extract: <span className="font-bold text-purple-600">{wordCount}</span>
+              </label>
+              <div className="flex items-center gap-4">
+                <input
+                  type="range"
+                  min="5"
+                  max="30"
+                  step="5"
+                  value={wordCount}
+                  onChange={(e) => setWordCount(Number(e.target.value))}
+                  className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                  disabled={loading}
+                />
+                <div className="flex gap-2 text-xs text-gray-500">
+                  <span>5</span>
+                  <span>|</span>
+                  <span>30</span>
+                </div>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Adjust the number of vocabulary words to extract from the page
+              </p>
             </div>
 
             {error && (
