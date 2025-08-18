@@ -92,3 +92,13 @@ build/
 # package-lock.json
 # yarn.lock
 # pnpm-lock.yaml
+
+# Prisma generated files
+/langfu-app/src/generated/prisma
+
+# Test extracted files
+/langfu-app/test/extracted/
+
+# Vocabulary fetch scripts output
+/vocabulary-fetch/output/
+/vocabulary-fetch/*.json
