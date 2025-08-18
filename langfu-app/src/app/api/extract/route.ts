@@ -60,11 +60,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { url } = await request.json();
+    const { url, wordCount = 15 } = await request.json();
     
     if (!url) {
       return NextResponse.json({ error: 'URL is required' }, { status: 400 });
     }
+    
+    // Validate wordCount
+    const validatedWordCount = Math.min(30, Math.max(5, Math.round(wordCount / 5) * 5));
 
     // Use Firecrawl to scrape the webpage and get clean content
     let markdown = '';
@@ -109,13 +112,13 @@ export async function POST(request: NextRequest) {
       const textForAnalysis = markdown.substring(0, 3000);
       
       const completion = await openai.chat.completions.create({
-        model: "gpt-5-nano",
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "system",
             content: `You are a language learning assistant specializing in ${detectedLanguage === Language.GERMAN ? 'German' : 'Spanish'} vocabulary extraction.
 
-Extract the 30 most important vocabulary words for language learners from the provided text.
+Extract the ${validatedWordCount} most important vocabulary words for language learners from the provided text.
 
 Rules:
 - Focus on content words (nouns, verbs, adjectives, adverbs)
@@ -143,7 +146,8 @@ Return a JSON object with this exact structure:
             content: `Extract vocabulary from this ${detectedLanguage === Language.GERMAN ? 'German' : 'Spanish'} text:\n\n${textForAnalysis}`
           }
         ],
-        max_completion_tokens: 2000
+        max_tokens: 2000,
+        temperature: 0.7
       });
       
       openAIResponse = completion.choices[0]?.message?.content || '';
@@ -152,7 +156,15 @@ Return a JSON object with this exact structure:
       
       // Parse the structured output response
       try {
-        const parsedResponse = JSON.parse(openAIResponse || '{"words":[]}');
+        // Remove markdown code blocks if present
+        let cleanResponse = openAIResponse;
+        if (cleanResponse.includes('```json')) {
+          cleanResponse = cleanResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+        } else if (cleanResponse.includes('```')) {
+          cleanResponse = cleanResponse.replace(/```\n?/g, '');
+        }
+        
+        const parsedResponse = JSON.parse(cleanResponse || '{"words":[]}');
         const parsedWords = parsedResponse.words || [];
         extractedWords = parsedWords.map((w: any, index: number) => ({
           l2: w.word || '',
@@ -160,7 +172,7 @@ Return a JSON object with this exact structure:
           pos: w.pos || null,
           gender: w.gender || null,
           level: w.level || 'B1',
-          frequency: 30 - index,
+          frequency: validatedWordCount - index,
           difficulty: Math.ceil((index + 1) / 10),
           context: w.example || markdown.substring(
             Math.max(0, markdown.indexOf(w.word) - 50),
@@ -170,12 +182,12 @@ Return a JSON object with this exact structure:
       } catch (parseError) {
         console.error('Failed to parse OpenAI response:', parseError);
         // Fallback to basic extraction if OpenAI response can't be parsed
-        extractedWords = extractBasicWords(markdown, detectedLanguage);
+        extractedWords = extractBasicWords(markdown, detectedLanguage, validatedWordCount);
       }
     } catch (openAIError) {
       console.error('OpenAI API error:', openAIError);
       // Fallback to basic extraction if OpenAI fails
-      extractedWords = extractBasicWords(markdown, detectedLanguage);
+      extractedWords = extractBasicWords(markdown, detectedLanguage, validatedWordCount);
     }
     
     // Save content to test folder
@@ -230,7 +242,7 @@ Return a JSON object with this exact structure:
 }
 
 // Fallback function for basic word extraction
-function extractBasicWords(text: string, language: Language) {
+function extractBasicWords(text: string, language: Language, wordCount: number = 15) {
   // Remove common stop words based on language
   const germanStopWords = new Set(['der', 'die', 'das', 'und', 'ist', 'ich', 'ein', 'eine', 'haben', 'werden', 'nicht', 'mit', 'auf', 'für', 'aber', 'nach', 'bei', 'über', 'unter', 'zwischen']);
   const spanishStopWords = new Set(['el', 'la', 'los', 'las', 'y', 'es', 'un', 'una', 'que', 'de', 'en', 'por', 'para', 'con', 'pero', 'como', 'más', 'muy', 'todo', 'esta']);
@@ -251,14 +263,14 @@ function extractBasicWords(text: string, language: Language) {
     }
   });
   
-  // Sort by frequency and take top 30
+  // Sort by frequency and take top N words based on wordCount
   return Array.from(wordFrequency.entries())
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 30)
+    .slice(0, wordCount)
     .map(([word], index) => ({
       l2: word,
       l1: `[Translation of ${word}]`,
-      frequency: 30 - index,
+      frequency: wordCount - index,
       difficulty: Math.ceil((index + 1) / 10),
       level: 'B1',
       context: text.substring(
