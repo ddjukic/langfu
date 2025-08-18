@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronRight, BookOpen, Trophy, Target, LogOut, Upload, Settings } from 'lucide-react';
+import { ChevronRight, BookOpen, Trophy, Target, LogOut, Upload, Settings, Globe } from 'lucide-react';
 import Link from 'next/link';
 
 interface DashboardClientProps {
@@ -137,7 +137,7 @@ export default function DashboardClient({
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <Link
                 href="/library"
                 className="py-4 px-6 bg-purple-100 text-purple-700 rounded-xl font-semibold hover:bg-purple-200 transition-colors text-center"
@@ -151,6 +151,14 @@ export default function DashboardClient({
               >
                 <Upload className="w-5 h-5" />
                 Load Vocabulary
+              </Link>
+              
+              <Link
+                href="/extract"
+                className="py-4 px-6 bg-indigo-100 text-indigo-700 rounded-xl font-semibold hover:bg-indigo-200 transition-colors text-center flex items-center justify-center gap-2"
+              >
+                <Globe className="w-5 h-5" />
+                Extract from Web
               </Link>
             </div>
           </div>
