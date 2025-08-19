@@ -17,8 +17,13 @@ export default async function LearnSessionPage({ searchParams }: PageProps) {
 
   const { level, topic, mode } = params;
 
+  // Log for debugging
+  console.log('Learn Session Page - SearchParams:', params);
+  console.log('Mode:', mode);
+
   // Handle extracted vocabulary mode - words will be loaded from client-side localStorage
   if (mode === 'extracted') {
+    console.log('Extracted mode detected, rendering LearningSession');
     return (
       <LearningSession
         user={user}
@@ -31,6 +36,7 @@ export default async function LearnSessionPage({ searchParams }: PageProps) {
   }
 
   if (!level || !topic) {
+    console.log('No level or topic, redirecting to /learn/new');
     redirect('/learn/new');
   }
 
