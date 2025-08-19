@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowLeft, Globe, Calendar, Hash, Languages, Trash2, Play } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useExtractedVocabularyStore } from '@/lib/store/extracted-vocabulary-store';
 
 interface ExtractedWord {
   id: string;
@@ -31,9 +32,20 @@ interface Props {
   currentLanguage: string;
 }
 
-export default function ExtractedVocabularyClient({ extractions, currentLanguage }: Props) {
+export default function ExtractedVocabularyClient({
+  extractions: initialExtractions,
+  currentLanguage,
+}: Props) {
   const router = useRouter();
   const [showWords, setShowWords] = useState<string | null>(null);
+
+  const { extractions, setExtractions, deleteExtraction, restoreExtraction } =
+    useExtractedVocabularyStore();
+
+  // Initialize store with server data
+  useEffect(() => {
+    setExtractions(initialExtractions);
+  }, [initialExtractions, setExtractions]);
 
   const handlePractice = (extraction: WebExtraction) => {
     // Store words in localStorage and navigate to practice
@@ -47,15 +59,26 @@ export default function ExtractedVocabularyClient({ extractions, currentLanguage
       return;
     }
 
+    // Find the extraction to delete (for potential restoration)
+    const extractionToDelete = extractions.find((e) => e.id === extractionId);
+    if (!extractionToDelete) return;
+
+    // Optimistically update UI immediately
+    deleteExtraction(extractionId);
+
     try {
       const response = await fetch(`/api/extraction/${extractionId}`, {
         method: 'DELETE',
       });
 
-      if (response.ok) {
-        window.location.reload();
+      if (!response.ok) {
+        // If delete failed, restore the extraction
+        restoreExtraction(extractionToDelete);
+        console.error('Failed to delete extraction');
       }
     } catch (error) {
+      // If request failed, restore the extraction
+      restoreExtraction(extractionToDelete);
       console.error('Failed to delete extraction:', error);
     }
   };

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -34,18 +34,18 @@ textarea::placeholder {
 
 /* Ensure consistent cursor behavior on ALL interactive elements */
 button,
-[role="button"],
+[role='button'],
 a,
-input[type="button"],
-input[type="submit"],
-input[type="reset"],
+input[type='button'],
+input[type='submit'],
+input[type='reset'],
 .cursor-pointer {
   cursor: pointer !important;
 }
 
 /* Disable pointer cursor on disabled elements */
 button:disabled,
-[role="button"]:disabled,
+[role='button']:disabled,
 input:disabled,
 .opacity-50 {
   cursor: not-allowed !important;
@@ -54,4 +54,108 @@ input:disabled,
 /* Ensure all buttons have pointer cursor on hover (redundancy for safety) */
 button:not(:disabled):hover {
   cursor: pointer !important;
+}
+
+/* =================================================================
+   GLOBAL TEXT CONTRAST FIXES
+   ================================================================= */
+
+/* Fix low contrast text on colored backgrounds */
+.text-gray-500,
+.text-gray-400,
+.text-gray-300 {
+  color: #374151 !important; /* Gray-700 for better contrast */
+}
+
+/* Fix low contrast on white backgrounds */
+.bg-white .text-gray-500,
+.bg-white .text-gray-400,
+.bg-white .text-gray-300 {
+  color: #4b5563 !important; /* Gray-600 for better contrast */
+}
+
+/* Fix text in buttons and interactive elements */
+.bg-gray-50 p,
+.bg-gray-100 p,
+.bg-gray-200 p {
+  color: #1f2937 !important; /* Gray-800 for maximum contrast */
+}
+
+/* Fix text in cards and panels */
+.bg-white p.text-gray-600 {
+  color: #374151 !important; /* Gray-700 for better contrast */
+}
+
+/* Fix text in purple/pink gradient backgrounds */
+.bg-gradient-to-br .text-white\/80,
+.bg-gradient-to-br .text-white\/70,
+.bg-gradient-to-br .text-white\/60 {
+  color: #ffffff !important; /* Full white for better contrast */
+  opacity: 1 !important;
+}
+
+/* Fix text input fields for better visibility */
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='url'],
+textarea,
+.bg-white input,
+.bg-gray-50 input {
+  color: #111827 !important; /* Gray-900 for maximum contrast */
+  font-weight: 500;
+}
+
+/* Fix placeholder text in all inputs */
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280 !important; /* Gray-500 for better contrast */
+  opacity: 1 !important;
+  font-weight: 400;
+}
+
+/* Fix low contrast headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: inherit;
+  font-weight: 600;
+}
+
+/* Ensure white text on purple backgrounds has full opacity */
+.bg-purple-100 .text-purple-700,
+.bg-purple-50 .text-purple-600 {
+  color: #6b21a8 !important; /* Purple-800 for better contrast */
+}
+
+/* Fix Recently Learned section text */
+.text-gray-600 {
+  color: #374151 !important; /* Gray-700 for better contrast */
+}
+
+/* Fix stat numbers that appear faded */
+.text-2xl,
+.text-3xl,
+.text-4xl,
+.text-5xl,
+.text-6xl {
+  opacity: 1 !important;
+  font-weight: 700;
+}
+
+/* Fix subtle text that's too light */
+.text-sm.text-gray-500,
+.text-xs.text-gray-500,
+.text-sm.text-gray-400,
+.text-xs.text-gray-400 {
+  color: #4b5563 !important; /* Gray-600 for better contrast */
+}
+
+/* Fix form labels */
+label {
+  color: #374151 !important; /* Gray-700 for better contrast */
+  font-weight: 500;
 }
