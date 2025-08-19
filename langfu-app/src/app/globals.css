@@ -131,15 +131,15 @@ select::placeholder {
   -webkit-text-fill-color: #6b7280 !important;
 }
 
-/* Fix low contrast headings - make them darker */
+/* Headings with conditional formatting based on background */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  color: #111827 !important; /* Gray-900 for maximum contrast */
-  font-weight: 600 !important;
+  color: #1f2937; /* Gray-800 - softer than pure black */
+  font-weight: 600;
 }
 
 /* Ensure white text on purple backgrounds has full opacity */
@@ -171,17 +171,17 @@ h6 {
   color: #4b5563 !important; /* Gray-600 for better contrast */
 }
 
-/* Fix all paragraph text to be darker */
+/* Fix all paragraph text to be darker but not too dark */
 p {
-  color: #374151 !important; /* Gray-700 for better contrast */
+  color: #4b5563; /* Gray-600 - readable but not harsh */
 }
 
 /* Fix spans with large text (numbers, stats) */
 span.text-3xl,
 span.text-2xl,
 span.text-xl {
-  color: #111827 !important; /* Gray-900 for maximum contrast */
-  font-weight: 700 !important;
+  color: #1f2937; /* Gray-800 - softer than black */
+  font-weight: 700;
 }
 
 /* Fix form labels */
@@ -229,36 +229,55 @@ select:disabled {
   font-weight: 500 !important;
 }
 
-/* Fix text in white containers */
+/* Headings on white backgrounds should be dark */
 .bg-white h1,
 .bg-white h2,
 .bg-white h3,
 .bg-white h4,
 .bg-white h5,
-.bg-white h6,
-.bg-white p,
-.bg-white span,
-.bg-white div {
-  color: #111827 !important; /* Gray-900 for maximum contrast on white */
+.bg-white h6 {
+  color: #1f2937 !important; /* Gray-800 - dark but not black */
+}
+
+/* Headings on colored/gradient backgrounds should be white */
+.bg-gradient-to-br h1,
+.bg-gradient-to-br h2,
+.bg-gradient-to-br h3,
+.bg-purple-500 h1,
+.bg-purple-500 h2,
+.bg-purple-500 h3,
+.bg-pink-500 h1,
+.bg-pink-500 h2,
+.bg-pink-500 h3,
+[class*='bg-white/'] h1,
+[class*='bg-white/'] h2,
+[class*='bg-white/'] h3,
+[class*='bg-white/'] h4,
+[class*='bg-white/'] h5,
+[class*='bg-white/'] h6 {
+  color: #ffffff !important; /* White for colored backgrounds */
+}
+
+/* Paragraphs in white containers */
+.bg-white p {
+  color: #4b5563 !important; /* Gray-600 - readable but not harsh */
+}
+
+/* Large numbers and stats in white containers */
+.bg-white .text-3xl,
+.bg-white .text-2xl,
+.bg-white .text-xl {
+  color: #1f2937 !important; /* Gray-800 */
+  font-weight: 700;
 }
 
 /* Specific fix for font-semibold and font-bold classes */
 .font-semibold {
-  color: #111827 !important;
-  font-weight: 600 !important;
+  color: #374151; /* Gray-700 */
+  font-weight: 600;
 }
 
 .font-bold {
-  color: #111827 !important;
-  font-weight: 700 !important;
-}
-
-/* Fix text in stats cards */
-.rounded-xl .text-3xl,
-.rounded-xl .text-2xl,
-.rounded-xl .text-xl,
-.shadow-lg .text-3xl,
-.shadow-lg .text-2xl {
-  color: #111827 !important;
-  font-weight: 700 !important;
+  color: #1f2937; /* Gray-800 */
+  font-weight: 700;
 }
