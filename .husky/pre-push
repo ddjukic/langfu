@@ -1,0 +1,11 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+cd langfu-app
+echo "Running pre-push build check..."
+pnpm run build || {
+  echo "❌ Build failed! Push rejected."
+  echo "Please fix the build errors before pushing."
+  exit 1
+}
+echo "✅ Build successful!"

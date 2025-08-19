@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { X, Trophy, Home, ChevronRight, Check, AlertCircle, Upload, Plus } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface Word {
   id: string;
@@ -42,7 +42,7 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
     // Create card objects - organized with l2 (foreign) on left, l1 (English) on right
     const l2Cards: any[] = [];
     const l1Cards: any[] = [];
-    
+
     selected.forEach((word, index) => {
       l2Cards.push({
         id: `l2-${index}`,
@@ -63,7 +63,7 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
     // Shuffle each column separately
     const shuffledL2 = l2Cards.sort(() => Math.random() - 0.5);
     const shuffledL1 = l1Cards.sort(() => Math.random() - 0.5);
-    
+
     // Combine into organized layout (will be displayed in 2 columns)
     setCards([...shuffledL2, ...shuffledL1]);
     setMatchedPairs([]);
@@ -137,18 +137,13 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
       {/* Header */}
       <div className="max-w-4xl mx-auto mb-6">
         <div className="flex items-center justify-between bg-white/20 backdrop-blur rounded-full px-6 py-3">
-          <button
-            onClick={onQuit}
-            className="text-white hover:text-gray-200"
-          >
+          <button onClick={onQuit} className="text-white hover:text-gray-200">
             <X className="w-6 h-6" />
           </button>
-
           <div className="flex items-center gap-6 text-white">
             <span className="font-semibold">Round {round}/3</span>
             <span className="font-semibold">Score: {score}</span>
           </div>
-
           <div className="w-6 h-6" /> {/* Spacer for alignment */}
         </div>
       </div>
@@ -174,7 +169,7 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
               <div className="text-center text-white font-semibold mb-3 bg-white/20 rounded-lg py-2">
                 {language === 'GERMAN' ? 'German' : 'Spanish'}
               </div>
-              {cards.slice(0, currentWords.length).map(card => {
+              {cards.slice(0, currentWords.length).map((card) => {
                 const isMatched = matchedPairs.includes(card.pairId);
                 const isSelected = selectedCard?.id === card.id;
                 const isWrong = wrongAttempts.includes(card.id);
@@ -192,7 +187,11 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
                     `}
                     style={{
                       transition: isMatched ? 'all 0.5s ease-out' : 'all 0.2s ease',
-                      boxShadow: isMatched ? '0 0 20px rgba(34, 197, 94, 0.5)' : isWrong ? '0 0 15px rgba(239, 68, 68, 0.5)' : '',
+                      boxShadow: isMatched
+                        ? '0 0 20px rgba(34, 197, 94, 0.5)'
+                        : isWrong
+                          ? '0 0 15px rgba(239, 68, 68, 0.5)'
+                          : '',
                     }}
                   >
                     <span className="block">{card.text}</span>
@@ -203,13 +202,13 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
                 );
               })}
             </div>
-            
+
             {/* Right column - English translations */}
             <div className="space-y-3">
               <div className="text-center text-white font-semibold mb-3 bg-white/20 rounded-lg py-2">
                 English
               </div>
-              {cards.slice(currentWords.length).map(card => {
+              {cards.slice(currentWords.length).map((card) => {
                 const isMatched = matchedPairs.includes(card.pairId);
                 const isSelected = selectedCard?.id === card.id;
                 const isWrong = wrongAttempts.includes(card.id);
@@ -227,7 +226,11 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
                     `}
                     style={{
                       transition: isMatched ? 'all 0.5s ease-out' : 'all 0.2s ease',
-                      boxShadow: isMatched ? '0 0 20px rgba(34, 197, 94, 0.5)' : isWrong ? '0 0 15px rgba(239, 68, 68, 0.5)' : '',
+                      boxShadow: isMatched
+                        ? '0 0 20px rgba(34, 197, 94, 0.5)'
+                        : isWrong
+                          ? '0 0 15px rgba(239, 68, 68, 0.5)'
+                          : '',
                     }}
                   >
                     <span className="block">{card.text}</span>

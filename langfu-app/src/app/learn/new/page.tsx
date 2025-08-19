@@ -23,28 +23,22 @@ export default async function LearnNewPage() {
   });
 
   // Group by level
-  const levelTopics = words.reduce((acc, word) => {
-    if (!acc[word.level]) {
-      acc[word.level] = new Set();
-    }
-    acc[word.level].add(word.topic);
-    return acc;
-  }, {} as Record<string, Set<string>>);
+  const levelTopics = words.reduce(
+    (acc, word) => {
+      if (!acc[word.level]) {
+        acc[word.level] = new Set();
+      }
+      acc[word.level]!.add(word.topic);
+      return acc;
+    },
+    {} as Record<string, Set<string>>
+  );
 
   // Convert sets to arrays
   const levels = Object.keys(levelTopics).sort();
   const topicsByLevel = Object.fromEntries(
-    Object.entries(levelTopics).map(([level, topics]) => [
-      level,
-      Array.from(topics).sort(),
-    ])
+    Object.entries(levelTopics).map(([level, topics]) => [level, Array.from(topics).sort()])
   );
 
-  return (
-    <LearnNewClient
-      user={user}
-      levels={levels}
-      topicsByLevel={topicsByLevel}
-    />
-  );
+  return <LearnNewClient levels={levels} topicsByLevel={topicsByLevel} />;
 }

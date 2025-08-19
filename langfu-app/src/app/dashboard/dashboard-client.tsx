@@ -2,7 +2,17 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronRight, BookOpen, Trophy, Target, LogOut, Upload, Settings, Globe } from 'lucide-react';
+import {
+  ChevronRight,
+  BookOpen,
+  Trophy,
+  Target,
+  LogOut,
+  Upload,
+  Settings,
+  Globe,
+  Archive,
+} from 'lucide-react';
 import Link from 'next/link';
 
 interface DashboardClientProps {
@@ -12,11 +22,11 @@ interface DashboardClientProps {
   recentWords: any[];
 }
 
-export default function DashboardClient({ 
-  user, 
-  progress, 
-  wordsDueForReview, 
-  recentWords 
+export default function DashboardClient({
+  user,
+  progress,
+  wordsDueForReview,
+  recentWords,
 }: DashboardClientProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -75,9 +85,7 @@ export default function DashboardClient({
               <span className="text-3xl font-bold">{progress?.currentStreak || 0}</span>
             </div>
             <p className="text-gray-600">Day Streak</p>
-            <p className="text-sm text-gray-400 mt-1">
-              Best: {progress?.longestStreak || 0} days
-            </p>
+            <p className="text-sm text-gray-400 mt-1">Best: {progress?.longestStreak || 0} days</p>
           </div>
 
           <div className="bg-white rounded-xl p-6 shadow-lg">
@@ -86,9 +94,7 @@ export default function DashboardClient({
               <span className="text-3xl font-bold">{progress?.wordsLearned || 0}</span>
             </div>
             <p className="text-gray-600">Words Learned</p>
-            <p className="text-sm text-gray-400 mt-1">
-              Level: {progress?.currentLevel || 'A1'}
-            </p>
+            <p className="text-sm text-gray-400 mt-1">Level: {progress?.currentLevel || 'A1'}</p>
           </div>
 
           <div className="bg-white rounded-xl p-6 shadow-lg">
@@ -97,16 +103,14 @@ export default function DashboardClient({
               <span className="text-3xl font-bold">{wordsDueForReview}</span>
             </div>
             <p className="text-gray-600">Due for Review</p>
-            <p className="text-sm text-gray-400 mt-1">
-              Daily Goal: {user.dailyGoal} words
-            </p>
+            <p className="text-sm text-gray-400 mt-1">Daily Goal: {user.dailyGoal} words</p>
           </div>
         </div>
 
         {/* Main Actions */}
         <div className="bg-white rounded-2xl shadow-2xl p-8">
           <h2 className="text-2xl font-bold mb-6">Start Learning</h2>
-          
+
           <div className="space-y-4">
             <button
               onClick={handleSmartStart}
@@ -128,7 +132,7 @@ export default function DashboardClient({
               >
                 Learn New Words
               </Link>
-              
+
               <Link
                 href="/learn/practice"
                 className="py-4 px-6 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition-colors text-center"
@@ -137,14 +141,14 @@ export default function DashboardClient({
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <Link
                 href="/library"
                 className="py-4 px-6 bg-purple-100 text-purple-700 rounded-xl font-semibold hover:bg-purple-200 transition-colors text-center"
               >
                 Word Library
               </Link>
-              
+
               <Link
                 href="/vocabulary/load"
                 className="py-4 px-6 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors text-center flex items-center justify-center gap-2"
@@ -152,13 +156,21 @@ export default function DashboardClient({
                 <Upload className="w-5 h-5" />
                 Load Vocabulary
               </Link>
-              
+
               <Link
                 href="/extract"
                 className="py-4 px-6 bg-indigo-100 text-indigo-700 rounded-xl font-semibold hover:bg-indigo-200 transition-colors text-center flex items-center justify-center gap-2"
               >
                 <Globe className="w-5 h-5" />
                 Extract from Web
+              </Link>
+
+              <Link
+                href="/vocabulary/extracted"
+                className="py-4 px-6 bg-amber-100 text-amber-700 rounded-xl font-semibold hover:bg-amber-200 transition-colors text-center flex items-center justify-center gap-2"
+              >
+                <Archive className="w-5 h-5" />
+                My Extractions
               </Link>
             </div>
           </div>
@@ -169,10 +181,7 @@ export default function DashboardClient({
               <h3 className="text-lg font-semibold mb-4">Recently Learned</h3>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                 {recentWords.slice(0, 5).map((history) => (
-                  <div
-                    key={history.id}
-                    className="p-3 bg-gray-50 rounded-lg text-center"
-                  >
+                  <div key={history.id} className="p-3 bg-gray-50 rounded-lg text-center">
                     <p className="font-medium text-sm">{history.word.l2}</p>
                     <p className="text-xs text-gray-500 mt-1">{history.word.l1}</p>
                   </div>

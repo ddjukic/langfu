@@ -1,7 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowLeft, Globe, Download, BookOpen, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
+import {
+  ArrowLeft,
+  Globe,
+  Download,
+  BookOpen,
+  Loader2,
+  AlertCircle,
+  CheckCircle,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -48,7 +56,7 @@ export default function ExtractClient() {
       const response = await fetch('/api/extract', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url, wordCount })
+        body: JSON.stringify({ url, wordCount }),
       });
 
       const data = await response.json();
@@ -59,6 +67,21 @@ export default function ExtractClient() {
 
       setExtraction(data.extraction);
       setShowWords(true);
+
+      // Save extracted vocabulary set for tracking
+      try {
+        await fetch('/api/vocabulary/save-extracted', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            extractionId: data.extraction.id,
+            title: data.extraction.title,
+            words: data.extraction.words,
+          }),
+        });
+      } catch (saveError) {
+        console.error('Failed to save vocabulary set:', saveError);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -100,9 +123,7 @@ export default function ExtractClient() {
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Web Page URL
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Web Page URL</label>
               <input
                 type="url"
                 value={url}
@@ -115,7 +136,8 @@ export default function ExtractClient() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Number of Words to Extract: <span className="font-bold text-purple-600">{wordCount}</span>
+                Number of Words to Extract:{' '}
+                <span className="font-bold text-purple-600">{wordCount}</span>
               </label>
               <div className="flex items-center gap-4">
                 <input
@@ -195,9 +217,9 @@ export default function ExtractClient() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Source</p>
-                  <a 
-                    href={extraction.url} 
-                    target="_blank" 
+                  <a
+                    href={extraction.url}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-purple-600 hover:underline text-sm truncate block"
                   >

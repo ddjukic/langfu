@@ -1,0 +1,2 @@
+cd langfu-app
+pnpm lint-staged

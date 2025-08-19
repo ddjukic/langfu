@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import LearningSession from './learning-session';
 
 interface PageProps {
-  searchParams: Promise<{ level?: string; topic?: string }>;
+  searchParams: Promise<{ level?: string; topic?: string; mode?: string }>;
 }
 
 export default async function LearnSessionPage({ searchParams }: PageProps) {
@@ -15,7 +15,20 @@ export default async function LearnSessionPage({ searchParams }: PageProps) {
     redirect('/login');
   }
 
-  const { level, topic } = params;
+  const { level, topic, mode } = params;
+
+  // Handle extracted vocabulary mode - words will be loaded from client-side localStorage
+  if (mode === 'extracted') {
+    return (
+      <LearningSession
+        user={user}
+        words={[]} // Will be populated from localStorage on client side
+        level="CUSTOM"
+        topic="Extracted Vocabulary"
+        mode="extracted"
+      />
+    );
+  }
 
   if (!level || !topic) {
     redirect('/learn/new');
@@ -37,12 +50,5 @@ export default async function LearnSessionPage({ searchParams }: PageProps) {
     redirect('/learn/new');
   }
 
-  return (
-    <LearningSession
-      user={user}
-      words={words}
-      level={level}
-      topic={topic}
-    />
-  );
+  return <LearningSession user={user} words={words} level={level} topic={topic} />;
 }

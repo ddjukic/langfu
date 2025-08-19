@@ -6,19 +6,20 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 interface LearnNewClientProps {
-  user: any;
   levels: string[];
   topicsByLevel: Record<string, string[]>;
 }
 
-export default function LearnNewClient({ user, levels, topicsByLevel }: LearnNewClientProps) {
+export default function LearnNewClient({ levels, topicsByLevel }: LearnNewClientProps) {
   const router = useRouter();
   const [selectedLevel, setSelectedLevel] = useState('');
   const [selectedTopic, setSelectedTopic] = useState('');
 
   const handleStartLearning = () => {
     if (selectedLevel && selectedTopic) {
-      router.push(`/learn/session?level=${selectedLevel}&topic=${encodeURIComponent(selectedTopic)}`);
+      router.push(
+        `/learn/session?level=${selectedLevel}&topic=${encodeURIComponent(selectedTopic)}`
+      );
     }
   };
 
@@ -38,7 +39,7 @@ export default function LearnNewClient({ user, levels, topicsByLevel }: LearnNew
           <div className="bg-white rounded-2xl shadow-2xl p-8">
             <h2 className="text-2xl font-bold mb-6">Select Your Level</h2>
             <div className="grid grid-cols-2 gap-4">
-              {levels.map(level => (
+              {levels.map((level) => (
                 <button
                   key={level}
                   onClick={() => setSelectedLevel(level)}
@@ -57,12 +58,12 @@ export default function LearnNewClient({ user, levels, topicsByLevel }: LearnNew
             >
               ← Back
             </button>
-            
+
             <h2 className="text-2xl font-bold mb-2">Level {selectedLevel}</h2>
             <p className="text-gray-600 mb-6">Choose a topic</p>
-            
+
             <div className="space-y-3">
-              {topicsByLevel[selectedLevel]?.map(topic => (
+              {topicsByLevel[selectedLevel]?.map((topic) => (
                 <button
                   key={topic}
                   onClick={() => setSelectedTopic(topic)}
@@ -81,12 +82,12 @@ export default function LearnNewClient({ user, levels, topicsByLevel }: LearnNew
             >
               ← Back
             </button>
-            
+
             <h2 className="text-2xl font-bold mb-2">Ready to Learn!</h2>
             <p className="text-gray-600 mb-6">
               Level {selectedLevel} - {selectedTopic}
             </p>
-            
+
             <button
               onClick={handleStartLearning}
               className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-bold text-lg hover:from-purple-600 hover:to-pink-600 transition-all"
