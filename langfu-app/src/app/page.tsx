@@ -1,10 +1,11 @@
 import { redirect } from 'next/navigation';
-import { getCurrentUser } from '@/lib/auth';
+import { getAuthCookie } from '@/lib/auth';
 
 export default async function HomePage() {
-  const user = await getCurrentUser();
+  // Simply check for auth cookie presence to avoid DB call
+  const token = await getAuthCookie();
 
-  if (user) {
+  if (token) {
     redirect('/dashboard');
   } else {
     redirect('/login');
