@@ -4,8 +4,13 @@ import { prisma } from '@/lib/prisma';
 import { Language } from '@prisma/client';
 import OpenAI from 'openai';
 import FirecrawlApp from '@mendable/firecrawl-js';
-import fs from 'fs/promises';
-import path from 'path';
+
+// Log immediately to see if route is reached
+console.log('Extract route loaded, env check:', {
+  hasOpenAI: !!process.env.OPENAI_API_KEY,
+  hasFirecrawl: !!process.env.FIRECRAWL_API_KEY,
+  nodeEnv: process.env.NODE_ENV
+});
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -14,29 +19,6 @@ const openai = new OpenAI({
 const firecrawl = new FirecrawlApp({
   apiKey: process.env.FIRECRAWL_API_KEY || 'YOUR_API_KEY_HERE'
 });
-
-// Helper function to save content to test folder
-async function saveExtractedContent(url: string, content: any) {
-  const testDir = path.join(process.cwd(), 'test', 'extracted');
-  await fs.mkdir(testDir, { recursive: true });
-  
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const domain = new URL(url).hostname.replace(/[^a-z0-9]/gi, '_');
-  const filename = `${domain}_${timestamp}.json`;
-  
-  await fs.writeFile(
-    path.join(testDir, filename),
-    JSON.stringify({
-      url,
-      extractedAt: new Date().toISOString(),
-      markdown: content.markdown,
-      extractedWords: content.words,
-      openAIResponse: content.openAIResponse
-    }, null, 2)
-  );
-  
-  return filename;
-}
 
 // Helper function to detect language from text
 function detectLanguage(text: string): Language | null {
@@ -54,6 +36,8 @@ function detectLanguage(text: string): Language | null {
 }
 
 export async function POST(request: NextRequest) {
+  console.log('Extract API called at:', new Date().toISOString());
+  
   try {
     // Log environment variable status
     console.log('API Environment Check:', {
@@ -65,12 +49,17 @@ export async function POST(request: NextRequest) {
     });
 
     const user = await getCurrentUser();
+    console.log('User authentication check:', { authenticated: !!user, userId: user?.id });
+    
     if (!user) {
       console.error('Extract API: No authenticated user');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { url, wordCount = 15 } = await request.json();
+    const body = await request.json();
+    console.log('Request body:', { url: body.url, wordCount: body.wordCount });
+    
+    const { url, wordCount = 15 } = body;
     
     if (!url) {
       return NextResponse.json({ error: 'URL is required' }, { status: 400 });
@@ -93,17 +82,24 @@ export async function POST(request: NextRequest) {
     
     // Validate wordCount
     const validatedWordCount = Math.min(30, Math.max(5, Math.round(wordCount / 5) * 5));
+    console.log('Validated word count:', validatedWordCount);
 
     // Use Firecrawl to scrape the webpage and get clean content
     let markdown = '';
     let title = 'Untitled';
     
     try {
-      console.log('Scraping URL with Firecrawl:', url);
+      console.log('Starting Firecrawl scrape for URL:', url);
       const scrapeResponse = await firecrawl.scrapeUrl(url, {
         formats: ['markdown'],
         onlyMainContent: true,
         waitFor: 2000 // Wait for dynamic content to load
+      });
+      
+      console.log('Firecrawl response received:', {
+        hasResponse: !!scrapeResponse,
+        hasMarkdown: !!(scrapeResponse && 'markdown' in scrapeResponse),
+        responseKeys: scrapeResponse ? Object.keys(scrapeResponse) : []
       });
       
       if (scrapeResponse && 'markdown' in scrapeResponse && scrapeResponse.markdown) {
@@ -118,11 +114,19 @@ export async function POST(request: NextRequest) {
       }
     } catch (firecrawlError) {
       console.error('Firecrawl error:', firecrawlError);
-      return NextResponse.json({ error: 'Failed to scrape webpage with Firecrawl' }, { status: 500 });
+      return NextResponse.json({ 
+        error: 'Failed to scrape webpage with Firecrawl',
+        details: firecrawlError instanceof Error ? firecrawlError.message : 'Unknown error'
+      }, { status: 500 });
     }
     
     // Detect language
     const detectedLanguage = detectLanguage(markdown);
+    console.log('Language detection:', { 
+      detected: detectedLanguage,
+      textSample: markdown.substring(0, 200)
+    });
+    
     if (!detectedLanguage) {
       return NextResponse.json({ 
         error: 'Could not detect German or Spanish language in the content' 
@@ -136,6 +140,7 @@ export async function POST(request: NextRequest) {
     try {
       // Prepare the markdown text (take first 3000 characters to avoid token limits)
       const textForAnalysis = markdown.substring(0, 3000);
+      console.log('Sending to OpenAI, text length:', textForAnalysis.length);
       
       const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
@@ -177,75 +182,70 @@ Return a JSON object with this exact structure:
       });
       
       openAIResponse = completion.choices[0]?.message?.content || '';
-      console.log('OpenAI Full Response:', JSON.stringify(completion, null, 2));
-      console.log('OpenAI Response Content:', openAIResponse);
+      console.log('OpenAI response received, length:', openAIResponse.length);
       
       // Parse the structured output response
       try {
-        // Remove markdown code blocks if present
-        let cleanResponse = openAIResponse;
-        if (cleanResponse.includes('```json')) {
-          cleanResponse = cleanResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '');
-        } else if (cleanResponse.includes('```')) {
-          cleanResponse = cleanResponse.replace(/```\n?/g, '');
-        }
+        // Clean up the response if needed
+        const jsonMatch = openAIResponse.match(/\{[\s\S]*\}/);
+        const jsonString = jsonMatch ? jsonMatch[0] : openAIResponse;
+        const parsed = JSON.parse(jsonString);
         
-        const parsedResponse = JSON.parse(cleanResponse || '{"words":[]}');
-        const parsedWords = parsedResponse.words || [];
-        extractedWords = parsedWords.map((w: any, index: number) => ({
-          l2: w.word || '',
-          l1: w.translation || '',
-          pos: w.pos || null,
-          gender: w.gender || null,
-          level: w.level || 'B1',
-          frequency: validatedWordCount - index,
-          difficulty: Math.ceil((index + 1) / 10),
-          context: w.example || markdown.substring(
-            Math.max(0, markdown.indexOf(w.word) - 50),
-            Math.min(markdown.length, markdown.indexOf(w.word) + 100)
-          )
-        }));
+        if (parsed.words && Array.isArray(parsed.words)) {
+          extractedWords = parsed.words.map((word: any, index: number) => ({
+            l2: word.word || word.l2 || '',
+            l1: word.translation || word.l1 || '',
+            frequency: validatedWordCount - index,
+            level: word.level || 'B1',
+            context: word.example || '',
+            pos: word.pos || 'noun',
+            gender: word.gender || null
+          }));
+          console.log('Successfully parsed words:', extractedWords.length);
+        }
       } catch (parseError) {
         console.error('Failed to parse OpenAI response:', parseError);
-        // Fallback to basic extraction if OpenAI response can't be parsed
+        console.log('Raw OpenAI response:', openAIResponse);
+        // Fall back to basic extraction
         extractedWords = extractBasicWords(markdown, detectedLanguage, validatedWordCount);
       }
     } catch (openAIError) {
       console.error('OpenAI API error:', openAIError);
-      // Fallback to basic extraction if OpenAI fails
+      // Fall back to basic extraction
       extractedWords = extractBasicWords(markdown, detectedLanguage, validatedWordCount);
     }
     
-    // Save content to test folder
-    const savedFile = await saveExtractedContent(url, {
-      markdown,
-      words: extractedWords,
-      openAIResponse
+    // Estimate content level based on extracted words
+    const levels = extractedWords.map(w => w.level || 'B1');
+    const levelCounts: Record<string, number> = {};
+    levels.forEach(level => {
+      levelCounts[level] = (levelCounts[level] || 0) + 1;
     });
+    const estimatedLevel = Object.entries(levelCounts)
+      .sort((a, b) => b[1] - a[1])[0]?.[0] || 'B1';
     
-    console.log(`Content saved to test/extracted/${savedFile}`);
+    console.log('Creating extraction record in database');
     
-    // Create web extraction record
+    // Save extraction to database
     const extraction = await prisma.webExtraction.create({
       data: {
         userId: user.id,
         url,
         title,
-        content: markdown.substring(0, 10000), // Store first 10k chars of markdown
         language: detectedLanguage,
         wordCount: extractedWords.length,
-        level: extractedWords[0]?.level || 'B1',
-        customTopic: 'Web Extract',
-        extractedWords: {
-          create: extractedWords
-        }
-      },
-      include: {
-        extractedWords: true
+        level: estimatedLevel,
+        extractedWords: extractedWords as any,
       }
     });
     
-    return NextResponse.json({ 
+    console.log('Extraction completed successfully:', {
+      id: extraction.id,
+      wordCount: extractedWords.length,
+      level: estimatedLevel
+    });
+    
+    return NextResponse.json({
       extraction: {
         id: extraction.id,
         title: extraction.title,
@@ -262,7 +262,7 @@ Return a JSON object with this exact structure:
     console.error('Extraction error details:', {
       message: error instanceof Error ? error.message : 'Unknown error',
       stack: error instanceof Error ? error.stack : undefined,
-      error: error
+      error: JSON.stringify(error, null, 2)
     });
     
     return NextResponse.json(
@@ -278,6 +278,8 @@ Return a JSON object with this exact structure:
 
 // Fallback function for basic word extraction
 function extractBasicWords(text: string, language: Language, wordCount: number = 15) {
+  console.log('Using fallback basic word extraction');
+  
   // Remove common stop words based on language
   const germanStopWords = new Set(['der', 'die', 'das', 'und', 'ist', 'ich', 'ein', 'eine', 'haben', 'werden', 'nicht', 'mit', 'auf', 'für', 'aber', 'nach', 'bei', 'über', 'unter', 'zwischen']);
   const spanishStopWords = new Set(['el', 'la', 'los', 'las', 'y', 'es', 'un', 'una', 'que', 'de', 'en', 'por', 'para', 'con', 'pero', 'como', 'más', 'muy', 'todo', 'esta']);
@@ -306,11 +308,6 @@ function extractBasicWords(text: string, language: Language, wordCount: number =
       l2: word,
       l1: `[Translation of ${word}]`,
       frequency: wordCount - index,
-      difficulty: Math.ceil((index + 1) / 10),
-      level: 'B1',
-      context: text.substring(
-        Math.max(0, text.indexOf(word) - 50),
-        Math.min(text.length, text.indexOf(word) + 100)
-      )
+      level: 'B1'
     }));
 }
