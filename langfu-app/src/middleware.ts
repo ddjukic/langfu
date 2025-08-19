@@ -1,35 +1,53 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { jwtVerify } from 'jose';
 
-export function middleware(request: NextRequest) {
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || 'langfu-development-secret-key-2024'
+);
+
+export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
-  // Public routes that don't require authentication
-  const publicPaths = ['/login', '/register', '/api/auth/login', '/api/auth/register'];
-  const isPublicPath = publicPaths.some((p) => path.startsWith(p));
-
-  // API routes should pass through
-  if (path.startsWith('/api/')) {
+  // Skip middleware for API routes, static files, and Next.js internals
+  if (
+    path.startsWith('/api/') ||
+    path.startsWith('/_next/') ||
+    path.includes('.') // Files with extensions (favicon.ico, etc.)
+  ) {
     return NextResponse.next();
   }
 
-  // Check for auth cookie
+  // Public routes that don't require authentication
+  const isPublicPath = path === '/login' || path === '/register';
+
+  // Get auth token
   const token = request.cookies.get(process.env.AUTH_COOKIE_NAME || 'langfu-auth');
 
-  // Root path handling - let the page component handle the redirect
-  if (path === '/') {
-    return NextResponse.next();
+  // Verify token validity
+  let isValidToken = false;
+  if (token) {
+    try {
+      await jwtVerify(token.value, JWT_SECRET);
+      isValidToken = true;
+    } catch (error) {
+      // Token is invalid
+      isValidToken = false;
+    }
   }
 
-  // Redirect logic for other paths
-  if (!token && !isPublicPath) {
+  // Routing logic
+  if (!isValidToken && !isPublicPath) {
+    // No valid token and trying to access protected route -> redirect to login
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  if (token && (path === '/login' || path === '/register')) {
+  if (isValidToken && isPublicPath) {
+    // Has valid token and on login/register page -> redirect to dashboard
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
+  // For all other cases, continue
   return NextResponse.next();
 }
 

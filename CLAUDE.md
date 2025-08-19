@@ -123,3 +123,4 @@ Key models in `prisma/schema.prisma`:
 - Cookie authentication persists for 30 days
 - Mobile-responsive design with touch optimization
 - always build project locally to ensure it runs before pushing
+- we use pnpm, not npm
