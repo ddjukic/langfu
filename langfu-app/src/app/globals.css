@@ -24,3 +24,34 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Fix placeholder text contrast - make it more visible */
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280 !important; /* Gray-500 for better contrast */
+  opacity: 1 !important;
+}
+
+/* Ensure consistent cursor behavior on ALL interactive elements */
+button,
+[role="button"],
+a,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+/* Disable pointer cursor on disabled elements */
+button:disabled,
+[role="button"]:disabled,
+input:disabled,
+.opacity-50 {
+  cursor: not-allowed !important;
+}
+
+/* Ensure all buttons have pointer cursor on hover (redundancy for safety) */
+button:not(:disabled):hover {
+  cursor: pointer !important;
+}

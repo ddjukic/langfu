@@ -55,8 +55,18 @@ function detectLanguage(text: string): Language | null {
 
 export async function POST(request: NextRequest) {
   try {
+    // Log environment variable status
+    console.log('API Environment Check:', {
+      hasOpenAI: !!process.env.OPENAI_API_KEY,
+      hasFirecrawl: !!process.env.FIRECRAWL_API_KEY,
+      nodeEnv: process.env.NODE_ENV,
+      openAIKeyStart: process.env.OPENAI_API_KEY?.substring(0, 10),
+      firecrawlKeyStart: process.env.FIRECRAWL_API_KEY?.substring(0, 10)
+    });
+
     const user = await getCurrentUser();
     if (!user) {
+      console.error('Extract API: No authenticated user');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -64,6 +74,21 @@ export async function POST(request: NextRequest) {
     
     if (!url) {
       return NextResponse.json({ error: 'URL is required' }, { status: 400 });
+    }
+
+    // Check for required API keys
+    if (!process.env.FIRECRAWL_API_KEY || process.env.FIRECRAWL_API_KEY === 'YOUR_API_KEY_HERE') {
+      console.error('Extract API: Missing or invalid FIRECRAWL_API_KEY');
+      return NextResponse.json({ 
+        error: 'Service configuration error: Firecrawl API key not configured' 
+      }, { status: 500 });
+    }
+
+    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'test-key') {
+      console.error('Extract API: Missing or invalid OPENAI_API_KEY');
+      return NextResponse.json({ 
+        error: 'Service configuration error: OpenAI API key not configured' 
+      }, { status: 500 });
     }
     
     // Validate wordCount
@@ -234,9 +259,18 @@ Return a JSON object with this exact structure:
     });
     
   } catch (error) {
-    console.error('Extraction error:', error);
+    console.error('Extraction error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      error: error
+    });
+    
     return NextResponse.json(
-      { error: 'Failed to extract vocabulary' },
+      { 
+        error: 'Failed to extract vocabulary',
+        details: error instanceof Error ? error.message : 'Unknown error occurred',
+        hint: 'Check server logs for more details'
+      },
       { status: 500 }
     );
   }
