@@ -131,15 +131,15 @@ select::placeholder {
   -webkit-text-fill-color: #6b7280 !important;
 }
 
-/* Fix low contrast headings */
+/* Fix low contrast headings - make them darker */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  color: inherit;
-  font-weight: 600;
+  color: #111827 !important; /* Gray-900 for maximum contrast */
+  font-weight: 600 !important;
 }
 
 /* Ensure white text on purple backgrounds has full opacity */
@@ -169,6 +169,19 @@ h6 {
 .text-sm.text-gray-400,
 .text-xs.text-gray-400 {
   color: #4b5563 !important; /* Gray-600 for better contrast */
+}
+
+/* Fix all paragraph text to be darker */
+p {
+  color: #374151 !important; /* Gray-700 for better contrast */
+}
+
+/* Fix spans with large text (numbers, stats) */
+span.text-3xl,
+span.text-2xl,
+span.text-xl {
+  color: #111827 !important; /* Gray-900 for maximum contrast */
+  font-weight: 700 !important;
 }
 
 /* Fix form labels */
@@ -214,4 +227,38 @@ select:disabled {
 .rounded-xl textarea {
   color: #111827 !important;
   font-weight: 500 !important;
+}
+
+/* Fix text in white containers */
+.bg-white h1,
+.bg-white h2,
+.bg-white h3,
+.bg-white h4,
+.bg-white h5,
+.bg-white h6,
+.bg-white p,
+.bg-white span,
+.bg-white div {
+  color: #111827 !important; /* Gray-900 for maximum contrast on white */
+}
+
+/* Specific fix for font-semibold and font-bold classes */
+.font-semibold {
+  color: #111827 !important;
+  font-weight: 600 !important;
+}
+
+.font-bold {
+  color: #111827 !important;
+  font-weight: 700 !important;
+}
+
+/* Fix text in stats cards */
+.rounded-xl .text-3xl,
+.rounded-xl .text-2xl,
+.rounded-xl .text-xl,
+.shadow-lg .text-3xl,
+.shadow-lg .text-2xl {
+  color: #111827 !important;
+  font-weight: 700 !important;
 }
