@@ -10,7 +10,12 @@ interface ExampleSentencesProps {
   onSkip: () => void;
 }
 
-export default function ExampleSentences({ words, language, onComplete, onSkip }: ExampleSentencesProps) {
+export default function ExampleSentences({
+  words,
+  language,
+  onComplete,
+  onSkip,
+}: ExampleSentencesProps) {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [examples, setExamples] = useState<string[]>([]);
   const [translations, setTranslations] = useState<string[]>([]);
@@ -113,7 +118,10 @@ export default function ExampleSentences({ words, language, onComplete, onSkip }
       if (index < array.length - 1) {
         acc.push(
           <span key={`part-${index}`}>{part}</span>,
-          <span key={`word-${index}`} className="bg-yellow-200 px-1 rounded font-semibold">
+          <span
+            key={`word-${index}`}
+            className="bg-purple-600 text-white px-1 rounded font-semibold"
+          >
             {word}
           </span>
         );
@@ -149,9 +157,7 @@ export default function ExampleSentences({ words, language, onComplete, onSkip }
         {/* Current Word */}
         <div className="bg-white rounded-2xl shadow-2xl p-8 mb-6">
           <div className="text-center mb-6">
-            <h3 className="text-4xl font-bold text-purple-600 mb-2">
-              {currentWord.l2}
-            </h3>
+            <h3 className="text-4xl font-bold text-purple-600 mb-2">{currentWord.l2}</h3>
             <p className="text-xl text-gray-600">{currentWord.l1}</p>
             {currentWord.pos && (
               <span className="inline-block mt-2 px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
@@ -178,9 +184,7 @@ export default function ExampleSentences({ words, language, onComplete, onSkip }
                     {index + 1}. {highlightWord(example)}
                   </p>
                   {showTranslation === index && translations[index] && (
-                    <p className="text-sm text-gray-600 mt-2 italic">
-                      {translations[index]}
-                    </p>
+                    <p className="text-sm text-gray-600 mt-2 italic">{translations[index]}</p>
                   )}
                 </div>
               ))}

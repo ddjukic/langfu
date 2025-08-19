@@ -80,17 +80,15 @@ export default function LearningSession({
     const matchedWords = words.slice(0, 15); // Max 15 words from 3 rounds
     setSessionWords(matchedWords);
 
-    // Update word history in database
-    for (const word of matchedWords) {
-      await fetch('/api/words/track', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          wordId: word.id,
-          correct: true,
-        }),
-      });
-    }
+    // Update word history in database with batch request
+    await fetch('/api/words/track-batch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        words: matchedWords,
+        correct: true,
+      }),
+    });
 
     // Move to example sentences
     setMode('examples');
