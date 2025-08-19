@@ -216,9 +216,9 @@ Return a JSON object with this exact structure:
     }
     
     // Estimate content level based on extracted words
-    const levels = extractedWords.map(w => w.level || 'B1');
+    const levels = extractedWords.map((w: any) => w.level || 'B1');
     const levelCounts: Record<string, number> = {};
-    levels.forEach(level => {
+    levels.forEach((level: string) => {
       levelCounts[level] = (levelCounts[level] || 0) + 1;
     });
     const estimatedLevel = Object.entries(levelCounts)
