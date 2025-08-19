@@ -94,24 +94,41 @@ button:not(:disabled):hover {
   opacity: 1 !important;
 }
 
-/* Fix text input fields for better visibility */
+/* Fix text input fields for better visibility - COMPREHENSIVE */
 input[type='text'],
 input[type='email'],
 input[type='password'],
 input[type='url'],
+input[type='search'],
+input[type='tel'],
+input[type='number'],
 textarea,
+select,
 .bg-white input,
-.bg-gray-50 input {
+.bg-gray-50 input,
+.bg-white textarea,
+.bg-gray-50 textarea {
   color: #111827 !important; /* Gray-900 for maximum contrast */
-  font-weight: 500;
+  font-weight: 500 !important;
+  -webkit-text-fill-color: #111827 !important; /* Override any webkit styles */
+}
+
+/* Ensure text is visible while typing */
+input:focus,
+textarea:focus {
+  color: #111827 !important; /* Gray-900 for maximum contrast */
+  font-weight: 500 !important;
+  -webkit-text-fill-color: #111827 !important;
 }
 
 /* Fix placeholder text in all inputs */
 input::placeholder,
-textarea::placeholder {
+textarea::placeholder,
+select::placeholder {
   color: #6b7280 !important; /* Gray-500 for better contrast */
   opacity: 1 !important;
-  font-weight: 400;
+  font-weight: 400 !important;
+  -webkit-text-fill-color: #6b7280 !important;
 }
 
 /* Fix low contrast headings */
@@ -158,4 +175,43 @@ h6 {
 label {
   color: #374151 !important; /* Gray-700 for better contrast */
   font-weight: 500;
+}
+
+/* =================================================================
+   SPECIFIC COMPONENT FIXES
+   ================================================================= */
+
+/* Fix sentence creation textarea specifically */
+textarea[placeholder*='Write a sentence'],
+textarea[placeholder*='sentence'] {
+  color: #111827 !important;
+  font-weight: 500 !important;
+  -webkit-text-fill-color: #111827 !important;
+}
+
+/* Fix all form inputs with borders */
+.border-gray-300 input,
+.border-gray-300 textarea,
+.border-2 input,
+.border-2 textarea {
+  color: #111827 !important;
+  font-weight: 500 !important;
+}
+
+/* Fix disabled inputs to still be readable */
+input:disabled,
+textarea:disabled,
+select:disabled {
+  color: #4b5563 !important; /* Gray-600 for disabled state */
+  -webkit-text-fill-color: #4b5563 !important;
+  opacity: 0.8 !important;
+}
+
+/* Ensure all text in form fields is dark */
+.rounded-lg input,
+.rounded-lg textarea,
+.rounded-xl input,
+.rounded-xl textarea {
+  color: #111827 !important;
+  font-weight: 500 !important;
 }
