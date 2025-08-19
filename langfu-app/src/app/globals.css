@@ -239,28 +239,41 @@ select:disabled {
   color: #1f2937 !important; /* Gray-800 - dark but not black */
 }
 
-/* Headings on colored/gradient backgrounds should be white */
-.bg-gradient-to-br h1,
-.bg-gradient-to-br h2,
-.bg-gradient-to-br h3,
-.bg-purple-500 h1,
-.bg-purple-500 h2,
-.bg-purple-500 h3,
-.bg-pink-500 h1,
-.bg-pink-500 h2,
-.bg-pink-500 h3,
-[class*='bg-white/'] h1,
-[class*='bg-white/'] h2,
-[class*='bg-white/'] h3,
-[class*='bg-white/'] h4,
-[class*='bg-white/'] h5,
-[class*='bg-white/'] h6 {
-  color: #ffffff !important; /* White for colored backgrounds */
+/* Text on colored buttons should be white */
+.bg-purple-500,
+.bg-purple-600,
+.bg-blue-500,
+.bg-blue-600,
+.bg-green-500,
+.bg-green-600,
+.bg-pink-500,
+.bg-pink-600,
+[class*='bg-purple-'],
+[class*='bg-blue-'],
+[class*='bg-green-'],
+[class*='bg-pink-'] {
+  color: #ffffff !important; /* White text on colored backgrounds */
+}
+
+/* Gradient backgrounds should have white text */
+[class*='bg-gradient-'] {
+  color: #ffffff !important;
+}
+
+/* Ensure text in white containers stays dark */
+.bg-white,
+.bg-white *:not([class*='bg-']) {
+  color: inherit; /* Use default dark text */
 }
 
 /* Paragraphs in white containers */
 .bg-white p {
   color: #4b5563 !important; /* Gray-600 - readable but not harsh */
+}
+
+/* Text on translucent white backgrounds should be white */
+[class*='bg-white/'] {
+  color: #ffffff !important; /* White text on translucent overlays */
 }
 
 /* Large numbers and stats in white containers */
@@ -271,7 +284,7 @@ select:disabled {
   font-weight: 700;
 }
 
-/* Specific fix for font-semibold and font-bold classes */
+/* Default font weights with appropriate colors */
 .font-semibold {
   color: #374151; /* Gray-700 */
   font-weight: 600;
@@ -280,4 +293,28 @@ select:disabled {
 .font-bold {
   color: #1f2937; /* Gray-800 */
   font-weight: 700;
+}
+
+/* Override: White text for buttons with colored backgrounds */
+button[class*='bg-purple-'],
+button[class*='bg-blue-'],
+button[class*='bg-green-'],
+button[class*='bg-pink-'],
+a[class*='bg-purple-'],
+a[class*='bg-blue-'],
+a[class*='bg-green-'],
+a[class*='bg-pink-'],
+div[class*='bg-purple-'] button,
+div[class*='bg-blue-'] button,
+div[class*='bg-green-'] button,
+div[class*='bg-pink-'] button {
+  color: #ffffff !important;
+}
+
+/* Ensure all text inside colored buttons is white */
+[class*='bg-purple-'] *,
+[class*='bg-blue-'] *,
+[class*='bg-green-'] *,
+[class*='bg-pink-'] * {
+  color: #ffffff !important;
 }
