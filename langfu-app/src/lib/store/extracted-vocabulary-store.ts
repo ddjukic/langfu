@@ -12,11 +12,11 @@ interface ExtractedWord {
 
 interface WebExtraction {
   id: string;
-  title: string | null;
+  title?: string | null;
   url: string;
   language: string;
   wordCount: number;
-  level: string | null;
+  level?: string | null;
   extractedAt: string;
   extractedWords: ExtractedWord[];
 }
