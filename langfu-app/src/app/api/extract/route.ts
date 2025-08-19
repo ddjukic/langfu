@@ -232,10 +232,24 @@ Return a JSON object with this exact structure:
         userId: user.id,
         url,
         title,
+        content: markdown.substring(0, 10000), // Store first 10k chars
         language: detectedLanguage,
         wordCount: extractedWords.length,
         level: estimatedLevel,
-        extractedWords: extractedWords as any,
+        extractedWords: {
+          create: extractedWords.map((word: any) => ({
+            l2: word.l2 || word.word || '',
+            l1: word.l1 || word.translation || '',
+            pos: word.pos,
+            gender: word.gender,
+            frequency: word.frequency || 1,
+            context: word.context || word.example,
+            level: word.level
+          }))
+        }
+      },
+      include: {
+        extractedWords: true
       }
     });
     
@@ -248,13 +262,20 @@ Return a JSON object with this exact structure:
     return NextResponse.json({
       extraction: {
         id: extraction.id,
-        title: extraction.title,
+        title: extraction.title || 'Untitled',
         url: extraction.url,
         language: extraction.language,
         wordCount: extraction.wordCount,
-        level: extraction.level,
+        level: extraction.level || 'B1',
         extractedAt: extraction.extractedAt,
-        words: extraction.extractedWords
+        words: extraction.extractedWords.map((word) => ({
+          id: word.id,
+          l2: word.l2,
+          l1: word.l1,
+          frequency: word.frequency,
+          level: word.level,
+          context: word.context
+        }))
       }
     });
     

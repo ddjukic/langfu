@@ -122,3 +122,4 @@ Key models in `prisma/schema.prisma`:
 - Spaced repetition intervals: 1 → 3 → 7 → 14 → 30 → 90 days
 - Cookie authentication persists for 30 days
 - Mobile-responsive design with touch optimization
+- always build project locally to ensure it runs before pushing
