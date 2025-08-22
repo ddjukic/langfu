@@ -31,7 +31,15 @@ define(['./workbox-c05e7c83'], function (e) {
     e.clientsClaim(),
     e.precacheAndRoute(
       [
-        { url: '/_next/app-build-manifest.json', revision: '98c3c96458210ef77a6bf4a986b28e32' },
+        { url: '/_next/app-build-manifest.json', revision: 'bdd9aeb103c9ff63f9b5ceb498d8844b' },
+        {
+          url: '/_next/static/L5L3u_kFMEPq-881bn7Ce/_buildManifest.js',
+          revision: 'f0c02da247ae11c17c11dd56e899692e',
+        },
+        {
+          url: '/_next/static/L5L3u_kFMEPq-881bn7Ce/_ssgManifest.js',
+          revision: 'b6652df95db52feb4daf4eca35380933',
+        },
         { url: '/_next/static/chunks/2147.4a041f51ca294da0.js', revision: '4a041f51ca294da0' },
         { url: '/_next/static/chunks/2456-f18bdca6ce379cff.js', revision: 'f18bdca6ce379cff' },
         { url: '/_next/static/chunks/3859-800b3a79ffb33dd0.js', revision: '800b3a79ffb33dd0' },
@@ -231,8 +239,8 @@ define(['./workbox-c05e7c83'], function (e) {
         { url: '/_next/static/chunks/badf541d.dd64c0e9e7357608.js', revision: 'dd64c0e9e7357608' },
         { url: '/_next/static/chunks/c132bf7d-36fa9475654bc129.js', revision: '36fa9475654bc129' },
         { url: '/_next/static/chunks/framework-79c42e3751e3c13a.js', revision: '79c42e3751e3c13a' },
+        { url: '/_next/static/chunks/main-154635cee0a5a5d4.js', revision: '154635cee0a5a5d4' },
         { url: '/_next/static/chunks/main-app-db340f451cf5ff7f.js', revision: 'db340f451cf5ff7f' },
-        { url: '/_next/static/chunks/main-d1d4d7a0dc6bb916.js', revision: 'd1d4d7a0dc6bb916' },
         {
           url: '/_next/static/chunks/pages/_app-8bda9ae4cd12fdf7.js',
           revision: '8bda9ae4cd12fdf7',
@@ -271,14 +279,6 @@ define(['./workbox-c05e7c83'], function (e) {
         {
           url: '/_next/static/media/ba015fad6dcf6784-s.woff2',
           revision: '8ea4f719af3312a055caf09f34c89a77',
-        },
-        {
-          url: '/_next/static/s4eb5C1HNnFphpN6zHBop/_buildManifest.js',
-          revision: 'f0c02da247ae11c17c11dd56e899692e',
-        },
-        {
-          url: '/_next/static/s4eb5C1HNnFphpN6zHBop/_ssgManifest.js',
-          revision: 'b6652df95db52feb4daf4eca35380933',
         },
         { url: '/apple-icon-120x120.png', revision: '173e4da5208ebfd51d513bd949e3c5d3' },
         { url: '/apple-icon-152x152.png', revision: 'd39ebf6ce35828e28b4d60873d4aad92' },
