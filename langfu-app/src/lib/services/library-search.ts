@@ -335,7 +335,7 @@ export class LibrarySearchService {
 
     // Detect level
     const levelMatch = query.match(/\b(A1|A2|B1|B2|C1|C2)\b/i);
-    if (levelMatch) {
+    if (levelMatch && levelMatch[1]) {
       options.level = levelMatch[1].toUpperCase();
     }
 
