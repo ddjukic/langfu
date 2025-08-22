@@ -109,7 +109,7 @@ export class LibrarySearchService {
       examples: options.includeExamples
         ? word.examples?.map((ex) => ({
             sentence: ex.sentence,
-            translation: ex.translation,
+            translation: ex.translation || '',
           }))
         : undefined,
     }));

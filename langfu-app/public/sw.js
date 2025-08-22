@@ -31,13 +31,13 @@ define(['./workbox-c05e7c83'], function (e) {
     e.clientsClaim(),
     e.precacheAndRoute(
       [
-        { url: '/_next/app-build-manifest.json', revision: 'e5130d24771240133fc601ed2c13fb17' },
+        { url: '/_next/app-build-manifest.json', revision: '354d19f4bfb10064981c687c297679bc' },
         {
-          url: '/_next/static/IrQMFiTOeaLUdpjM8TREX/_buildManifest.js',
+          url: '/_next/static/Dwc_m5nUSK-M09lvGehCc/_buildManifest.js',
           revision: 'f0c02da247ae11c17c11dd56e899692e',
         },
         {
-          url: '/_next/static/IrQMFiTOeaLUdpjM8TREX/_ssgManifest.js',
+          url: '/_next/static/Dwc_m5nUSK-M09lvGehCc/_ssgManifest.js',
           revision: 'b6652df95db52feb4daf4eca35380933',
         },
         { url: '/_next/static/chunks/2147.4a041f51ca294da0.js', revision: '4a041f51ca294da0' },
@@ -180,12 +180,12 @@ define(['./workbox-c05e7c83'], function (e) {
           revision: '4b3d197386002a6b',
         },
         {
-          url: '/_next/static/chunks/app/learn/new/page-5742f93ebcaf2669.js',
-          revision: '5742f93ebcaf2669',
+          url: '/_next/static/chunks/app/learn/new/page-bbe85b659e4a7396.js',
+          revision: 'bbe85b659e4a7396',
         },
         {
-          url: '/_next/static/chunks/app/learn/session/page-1f91105621f1c2b0.js',
-          revision: '1f91105621f1c2b0',
+          url: '/_next/static/chunks/app/learn/session/page-09964777d88de2fa.js',
+          revision: '09964777d88de2fa',
         },
         {
           url: '/_next/static/chunks/app/learn/swipe/page-878a38d7589a9a69.js',
@@ -213,8 +213,8 @@ define(['./workbox-c05e7c83'], function (e) {
         },
         { url: '/_next/static/chunks/app/page-44840494b46c149a.js', revision: '44840494b46c149a' },
         {
-          url: '/_next/static/chunks/app/progress/page-ce2cdef6d18fb375.js',
-          revision: 'ce2cdef6d18fb375',
+          url: '/_next/static/chunks/app/progress/page-179d9ec88a4a12e2.js',
+          revision: '179d9ec88a4a12e2',
         },
         {
           url: '/_next/static/chunks/app/settings/page-fd67bbd0e69abbfa.js',
@@ -300,13 +300,13 @@ define(['./workbox-c05e7c83'], function (e) {
         { url: '/icon-72x72.png', revision: '7a45b0a541131179a5a970cff288c7c6' },
         { url: '/icon-96x96.png', revision: 'b168d00e605370ffa8eba001fa0dddc0' },
         { url: '/icon.svg', revision: '92f4ecb50b2c73834bd150adbd8e42a2' },
-        { url: '/manifest.json', revision: '2c127c7e7f44cbf5764400b24870add0' },
+        { url: '/manifest.json', revision: '9c43e46ae9407a5cd0fe2d2e5ba635da' },
         { url: '/next.svg', revision: '8e061864f388b47f33a1c3780831193e' },
         { url: '/offline.html', revision: 'e6bc7749631c344a8e965361d3898577' },
         { url: '/screenshot-desktop-1.png', revision: '6321c8c312fc358d1dae3eb8ceb06fd3' },
         { url: '/screenshot-mobile-1.png', revision: '5afa56988f9a4d263867777b83dc8957' },
         { url: '/screenshot-mobile-2.png', revision: '2ae76557107293621eb486b88d1fe0aa' },
-        { url: '/sw-custom.js', revision: '1b35af5838cf4b35cd27e03ee7729cd0' },
+        { url: '/sw-custom.js', revision: '6c6f7acc744e3d55d5a33ee975e51ae8' },
         { url: '/vercel.svg', revision: 'c0af2f507b369b085b35ef4bbe3bcf1e' },
         { url: '/window.svg', revision: 'a2760511c65806022ad20adf74370ff3' },
       ],
