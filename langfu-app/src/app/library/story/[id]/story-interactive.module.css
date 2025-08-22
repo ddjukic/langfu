@@ -1,0 +1,240 @@
+/* Keyword highlighting styles */
+.keyword {
+  position: relative;
+  display: inline-block;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  padding: 0 2px;
+  margin: 0 -2px;
+}
+
+.keyword:hover {
+  background-color: rgba(147, 51, 234, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Dark mode keyword hover */
+@media (prefers-color-scheme: dark) {
+  .keyword:hover {
+    background-color: rgba(196, 181, 253, 0.1);
+  }
+}
+
+/* Tooltip styles - Desktop hover-based */
+@media (hover: hover) and (pointer: fine) {
+  .keyword-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      opacity 0.2s ease-in-out,
+      visibility 0.2s,
+      transform 0.2s;
+    transform: translateY(4px);
+  }
+
+  .keyword:hover .keyword-tooltip,
+  .keyword:focus .keyword-tooltip {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile tap-based tooltips */
+@media (hover: none) and (pointer: coarse) {
+  .keyword {
+    position: relative;
+    /* Bigger tap targets on mobile */
+    padding: 4px 6px;
+    margin: -4px -6px;
+    border-radius: 6px;
+  }
+
+  .keyword-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      opacity 0.2s ease-in-out,
+      visibility 0.2s,
+      transform 0.2s;
+    transform: translateY(4px);
+  }
+
+  /* Show tooltip when tapped */
+  .keyword:focus .keyword-tooltip,
+  .keyword:active .keyword-tooltip,
+  .keyword-tooltip.visible-force {
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  /* Better mobile positioning */
+  .keyword-tooltip {
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    max-width: 85vw;
+    width: auto;
+    min-width: 250px;
+  }
+
+  .keyword:focus .keyword-tooltip,
+  .keyword-tooltip.visible-force {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Ensure tooltips appear above other content */
+.keyword-tooltip {
+  z-index: 9999;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.1),
+    0 6px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Dark mode tooltip shadow */
+@media (prefers-color-scheme: dark) {
+  .keyword-tooltip {
+    box-shadow:
+      0 10px 25px rgba(0, 0, 0, 0.5),
+      0 6px 10px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Story content styles */
+.story-content {
+  line-height: 1.75;
+  font-size: 1.125rem;
+}
+
+.story-content p {
+  margin-bottom: 1rem;
+}
+
+/* Smooth scrolling for vocabulary list */
+.vocabulary-list {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(147, 51, 234, 0.3) transparent;
+}
+
+.vocabulary-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.vocabulary-list::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.vocabulary-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(147, 51, 234, 0.3), rgba(236, 72, 153, 0.3));
+  border-radius: 4px;
+}
+
+.vocabulary-list::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(147, 51, 234, 0.5), rgba(236, 72, 153, 0.5));
+}
+
+/* Dark mode scrollbar */
+@media (prefers-color-scheme: dark) {
+  .vocabulary-list {
+    scrollbar-color: rgba(196, 181, 253, 0.3) transparent;
+  }
+
+  .vocabulary-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(196, 181, 253, 0.3), rgba(251, 207, 232, 0.3));
+  }
+
+  .vocabulary-list::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(196, 181, 253, 0.5), rgba(251, 207, 232, 0.5));
+  }
+}
+
+/* Improve focus states for accessibility */
+.keyword:focus {
+  outline: 2px solid rgba(147, 51, 234, 0.5);
+  outline-offset: 2px;
+}
+
+/* Animation for practice button */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.practice-button:hover {
+  animation: pulse 0.5s ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .story-content {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .keyword-tooltip {
+    font-size: 0.875rem;
+  }
+}
+
+/* Landscape mobile */
+@media (max-width: 812px) and (orientation: landscape) {
+  .keyword-tooltip {
+    max-width: 60vw;
+  }
+}
+
+/* Improve tooltip positioning for edge cases */
+.keyword:first-child .keyword-tooltip {
+  left: 0;
+  transform: translateX(0) translateY(4px);
+}
+
+.keyword:first-child:hover .keyword-tooltip,
+.keyword:first-child:focus .keyword-tooltip {
+  transform: translateX(0) translateY(0);
+}
+
+.keyword:last-child .keyword-tooltip {
+  left: auto;
+  right: 0;
+  transform: translateX(0) translateY(4px);
+}
+
+.keyword:last-child:hover .keyword-tooltip,
+.keyword:last-child:focus .keyword-tooltip {
+  transform: translateX(0) translateY(0);
+}
+
+/* Loading state for practice button */
+.practice-loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.practice-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spinner 0.6s linear infinite;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
