@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import MatchingGame from '@/components/matching-game';
 import ExampleSentences from '@/components/example-sentences';
@@ -27,16 +27,29 @@ export default function LearningSession({
   const [sessionScore, setSessionScore] = useState(0);
   const [words, setWords] = useState<any[]>(initialWords);
   const [_extractionTitle, setExtractionTitle] = useState<string>('');
+  const [extractedLanguage, setExtractedLanguage] = useState<string>('');
+  const hasLoadedExtracted = useRef(false);
 
   // Load extracted words from localStorage if in extracted mode
   useEffect(() => {
-    if (sessionType === 'extracted' && typeof window !== 'undefined') {
+    if (
+      sessionType === 'extracted' &&
+      typeof window !== 'undefined' &&
+      !hasLoadedExtracted.current
+    ) {
+      console.log('Learning Session - Loading extracted mode');
       const extractedWords = localStorage.getItem('extractedWords');
       const title = localStorage.getItem('extractionTitle');
+      const language = localStorage.getItem('extractionLanguage');
+
+      console.log('Extracted words from localStorage:', extractedWords ? 'Found' : 'Not found');
+      console.log('Title from localStorage:', title);
 
       if (extractedWords) {
         try {
           const parsed = JSON.parse(extractedWords);
+          console.log('Successfully parsed extracted words:', parsed.length, 'words');
+
           // Transform extracted words to match the expected format
           const transformedWords = parsed.map((word: any, index: number) => ({
             id: word.id || `extracted-${index}`,
@@ -49,22 +62,35 @@ export default function LearningSession({
             examples: word.context ? [{ sentence: word.context }] : [],
             isExtracted: true, // Mark as extracted for tracking
           }));
+
+          console.log('Setting transformed words:', transformedWords.length);
           setWords(transformedWords);
 
-          // Clear localStorage after loading
+          // Set title if available
+          if (title) {
+            setExtractionTitle(title);
+          }
+
+          // Set extracted language if available
+          if (language) {
+            setExtractedLanguage(language);
+          }
+
+          // Mark as loaded and clear localStorage after successfully loading and setting state
+          hasLoadedExtracted.current = true;
+          console.log('Clearing localStorage after successful load');
           localStorage.removeItem('extractedWords');
           localStorage.removeItem('extractionTitle');
+          localStorage.removeItem('extractionLanguage');
         } catch (error) {
           console.error('Failed to parse extracted words:', error);
+          console.log('Redirecting to /extract due to parse error');
           router.push('/extract');
         }
       } else {
         // No extracted words found, redirect back
+        console.log('No extracted words found in localStorage, redirecting to /extract');
         router.push('/extract');
-      }
-
-      if (title) {
-        setExtractionTitle(title);
       }
     }
   }, [sessionType, router]);
@@ -120,7 +146,7 @@ export default function LearningSession({
     return (
       <MatchingGame
         words={words}
-        language={user.currentLanguage}
+        language={extractedLanguage || user.currentLanguage}
         onComplete={handleMatchingComplete}
         onQuit={handleQuit}
       />
@@ -131,7 +157,7 @@ export default function LearningSession({
     return (
       <ExampleSentences
         words={sessionWords}
-        language={user.currentLanguage}
+        language={extractedLanguage || user.currentLanguage}
         onComplete={handleExamplesComplete}
         onSkip={handleExamplesComplete}
       />
@@ -142,7 +168,7 @@ export default function LearningSession({
     return (
       <SentenceCreation
         words={sessionWords}
-        language={user.currentLanguage}
+        language={extractedLanguage || user.currentLanguage}
         onComplete={handleCreationComplete}
         onSkip={handleCreationComplete}
       />

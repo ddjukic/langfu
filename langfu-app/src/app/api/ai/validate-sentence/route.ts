@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     try {
       const { text } = await generateText({
-        model: openai('gpt-3.5-turbo'),
+        model: openai('gpt-5-nano'),
         prompt,
       });
 
@@ -47,9 +47,6 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.error('Validate sentence error:', error);
-    return NextResponse.json(
-      { error: 'Failed to validate sentence' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to validate sentence' }, { status: 500 });
   }
 }

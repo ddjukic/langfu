@@ -2,11 +2,17 @@ import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import DashboardClient from './dashboard-client';
 
+// Force dynamic rendering since we're using cookies for authentication
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardPage() {
-  // Middleware ensures we have a valid user, so this should always succeed
+  console.log('[Dashboard] Loading dashboard page');
+
+  // Get current user
   const user = await getCurrentUser();
 
   if (!user) {
+    console.error('[Dashboard] No user found - this should not happen as middleware handles auth');
     // This should not happen as middleware handles auth
     // Return error message instead of redirect to avoid loops
     return (
@@ -21,6 +27,8 @@ export default async function DashboardPage() {
       </div>
     );
   }
+
+  console.log('[Dashboard] User loaded successfully:', user.email);
 
   // Get user's progress
   const progress = await prisma.progress.findFirst({

@@ -1,0 +1,561 @@
+{
+  "config": {
+    "configFile": "/home/dd/dejan_dev/langfu/langfu-app/playwright.config.ts",
+    "rootDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      ["html", null],
+      [
+        "junit",
+        {
+          "outputFile": "test-results/junit.xml"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/home/dd/dejan_dev/langfu/langfu-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/dd/dejan_dev/langfu/langfu-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/dd/dejan_dev/langfu/langfu-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/dd/dejan_dev/langfu/langfu-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/dd/dejan_dev/langfu/langfu-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/dd/dejan_dev/langfu/langfu-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Mobile Safari SE",
+        "name": "Mobile Safari SE",
+        "testDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/dd/dejan_dev/langfu/langfu-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Microsoft Edge",
+        "name": "Microsoft Edge",
+        "testDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/dd/dejan_dev/langfu/langfu-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Google Chrome",
+        "name": "Google Chrome",
+        "testDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/dd/dejan_dev/langfu/langfu-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "iPad (gen 7)",
+        "name": "iPad (gen 7)",
+        "testDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/dd/dejan_dev/langfu/langfu-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "iPad Pro 11",
+        "name": "iPad Pro 11",
+        "testDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/dd/dejan_dev/langfu/langfu-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Small Mobile (320px)",
+        "name": "Small Mobile (320px)",
+        "testDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/dd/dejan_dev/langfu/langfu-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Medium Mobile (375px)",
+        "name": "Medium Mobile (375px)",
+        "testDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/dd/dejan_dev/langfu/langfu-app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "Tablet (768px)",
+        "name": "Tablet (768px)",
+        "testDir": "/home/dd/dejan_dev/langfu/langfu-app/tests/e2e",
+        "testIgnore": [],
+        "testMatch": ["**/*.@(spec|test).?(c|m)[jt]s?(x)"],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.54.2",
+    "workers": 4,
+    "webServer": {
+      "command": "pnpm dev",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "story-functionality-comprehensive.spec.ts",
+      "file": "story-functionality-comprehensive.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Comprehensive Story Functionality Test",
+          "file": "story-functionality-comprehensive.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "1️⃣ Library page functionality and search",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 6674,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Testing library page functionality...\n"
+                        },
+                        {
+                          "text": "✅ Found 5 story cards in library\n"
+                        },
+                        {
+                          "text": "✅ Search for 'Uruguay' returned 5 results\n"
+                        },
+                        {
+                          "text": "✅ Found 0 language tabs\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-21T18:06:57.243Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cdcbcea4787cab7b9226-c7fa438d6e68045db3f9",
+              "file": "story-functionality-comprehensive.spec.ts",
+              "line": 22,
+              "column": 7
+            },
+            {
+              "title": "2️⃣ Spanish story: \"El Clásico del Río de la Plata\" complete testing",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 10169,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Testing Spanish story...\n"
+                        },
+                        {
+                          "text": "✅ Spanish story content loaded\n"
+                        },
+                        {
+                          "text": "✅ Found 19 vocabulary keywords\n"
+                        },
+                        {
+                          "text": "✅ Word \"estadio\": found=true, tooltip=true, translation=\"estadiostadium...\"\n"
+                        },
+                        {
+                          "text": "✅ Word \"jugadores\": found=true, tooltip=true, translation=\"jugadoresplayers...\"\n"
+                        },
+                        {
+                          "text": "✅ Word \"gol\": found=true, tooltip=true, translation=\"golgoal...\"\n"
+                        },
+                        {
+                          "text": "✅ Word \"arquero\": found=true, tooltip=true, translation=\"arquerogoalkeeper...\"\n"
+                        },
+                        {
+                          "text": "✅ Word \"hinchada\": found=true, tooltip=true, translation=\"hinchadafans...\"\n"
+                        },
+                        {
+                          "text": "✅ Vocabulary list present: false\n"
+                        },
+                        {
+                          "text": "✅ No placeholder text found: true\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-21T18:06:57.241Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cdcbcea4787cab7b9226-3c0559d8411ca4b6d99b",
+              "file": "story-functionality-comprehensive.spec.ts",
+              "line": 55,
+              "column": 7
+            },
+            {
+              "title": "3️⃣ German story: \"Das legendäre Finale\" complete testing",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 10207,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Testing German story...\n"
+                        },
+                        {
+                          "text": "✅ German story content loaded\n"
+                        },
+                        {
+                          "text": "✅ Found 24 vocabulary keywords\n"
+                        },
+                        {
+                          "text": "✅ Word \"Stadion\": found=true, tooltip=true, translation=\"Stadionstadium...\"\n"
+                        },
+                        {
+                          "text": "✅ Word \"Spieler\": found=true, tooltip=true, translation=\"Spielerplayers...\"\n"
+                        },
+                        {
+                          "text": "✅ Word \"Tor\": found=true, tooltip=true, translation=\"Torwartgoalkeeper...\"\n"
+                        },
+                        {
+                          "text": "✅ Word \"Torwart\": found=true, tooltip=true, translation=\"Torwartgoalkeeper...\"\n"
+                        },
+                        {
+                          "text": "✅ Word \"Fans\": found=true, tooltip=true, translation=\"Fansfans...\"\n"
+                        },
+                        {
+                          "text": "✅ Vocabulary list present: false\n"
+                        },
+                        {
+                          "text": "✅ No placeholder text found: true\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-21T18:06:57.265Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cdcbcea4787cab7b9226-11876ae1fa27bd300d3f",
+              "file": "story-functionality-comprehensive.spec.ts",
+              "line": 124,
+              "column": 7
+            },
+            {
+              "title": "4️⃣ Critical placeholder text validation across all pages",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 3980,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Testing for placeholder text across all pages...\n"
+                        },
+                        {
+                          "text": "✅ Library page placeholder check: PASS\n"
+                        },
+                        {
+                          "text": "✅ Library page \"needed]\" check: PASS\n"
+                        },
+                        {
+                          "text": "✅ Library page \"Load Translations\" check: PASS\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-21T18:06:57.265Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cdcbcea4787cab7b9226-d2ac6c6497e71b3ac63c",
+              "file": "story-functionality-comprehensive.spec.ts",
+              "line": 193,
+              "column": 7
+            },
+            {
+              "title": "5️⃣ Mobile/responsive functionality",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 5574,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Testing mobile/responsive functionality...\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-21T18:07:01.560Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cdcbcea4787cab7b9226-56449a44bac32a847f7c",
+              "file": "story-functionality-comprehensive.spec.ts",
+              "line": 210,
+              "column": 7
+            },
+            {
+              "title": "6️⃣ CRUD operations testing",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4068,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Testing CRUD operations...\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-08-21T18:07:04.253Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "cdcbcea4787cab7b9226-58b10f223148bb04f431",
+              "file": "story-functionality-comprehensive.spec.ts",
+              "line": 239,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-08-21T18:06:56.570Z",
+    "duration": 11794.537,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

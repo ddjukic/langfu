@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import LearningSession from './learning-session';
+export const dynamic = 'force-dynamic';
 
 interface PageProps {
   searchParams: Promise<{ level?: string; topic?: string; mode?: string }>;
@@ -52,6 +53,7 @@ export default async function LearnSessionPage({ searchParams }: PageProps) {
     },
   });
 
+  // If no words found, redirect back to topic selection
   if (words.length === 0) {
     redirect('/learn/new');
   }

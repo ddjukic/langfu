@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import LearnNewClient from './learn-new-client';
+export const dynamic = 'force-dynamic';
 
 export default async function LearnNewPage() {
   const user = await getCurrentUser();
@@ -22,7 +23,7 @@ export default async function LearnNewPage() {
     distinct: ['level', 'topic'],
   });
 
-  // Group by level
+  // Group existing words by level
   const levelTopics = words.reduce(
     (acc, word) => {
       if (!acc[word.level]) {
@@ -34,10 +35,10 @@ export default async function LearnNewPage() {
     {} as Record<string, Set<string>>
   );
 
-  // Convert sets to arrays
-  const levels = Object.keys(levelTopics).sort();
+  // Get all available levels and topics from existing words
+  const levels = [...new Set(words.map((word) => word.level))].sort();
   const topicsByLevel = Object.fromEntries(
-    Object.entries(levelTopics).map(([level, topics]) => [level, Array.from(topics).sort()])
+    levels.map((level) => [level, levelTopics[level] ? Array.from(levelTopics[level]).sort() : []])
   );
 
   return <LearnNewClient levels={levels} topicsByLevel={topicsByLevel} />;

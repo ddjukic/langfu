@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 import { prisma } from '@/lib/prisma';
+import { NextResponse } from 'next/server';
 
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || 'langfu-development-secret-key-2024'
@@ -44,8 +45,24 @@ export async function verifyToken(token: string): Promise<UserPayload | null> {
 }
 
 export async function setAuthCookie(token: string) {
-  const cookieStore = await cookies();
-  cookieStore.set(COOKIE_NAME, token, {
+  try {
+    const cookieStore = await cookies();
+    cookieStore.set(COOKIE_NAME, token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+      path: '/',
+    });
+    console.log('[Auth] Cookie set successfully');
+  } catch (error) {
+    console.error('[Auth] Failed to set cookie:', error);
+    throw error;
+  }
+}
+
+export function setAuthCookieOnResponse(response: NextResponse, token: string) {
+  response.cookies.set(COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
@@ -55,8 +72,19 @@ export async function setAuthCookie(token: string) {
 }
 
 export async function getAuthCookie(): Promise<string | undefined> {
-  const cookieStore = await cookies();
-  return cookieStore.get(COOKIE_NAME)?.value;
+  try {
+    const cookieStore = await cookies();
+    const cookie = cookieStore.get(COOKIE_NAME);
+    if (cookie?.value) {
+      console.log('[Auth] Cookie retrieved successfully');
+    } else {
+      console.log('[Auth] No auth cookie found');
+    }
+    return cookie?.value;
+  } catch (error) {
+    console.error('[Auth] Failed to get cookie:', error);
+    return undefined;
+  }
 }
 
 export async function removeAuthCookie() {
@@ -64,39 +92,81 @@ export async function removeAuthCookie() {
   cookieStore.delete(COOKIE_NAME);
 }
 
-export async function getCurrentUser() {
-  const token = await getAuthCookie();
-  
-  if (!token) {
-    return null;
-  }
-
-  const payload = await verifyToken(token);
-  
-  if (!payload) {
-    return null;
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { id: payload.id },
-    select: {
-      id: true,
-      email: true,
-      name: true,
-      currentLanguage: true,
-      dailyGoal: true,
-    },
+export function removeAuthCookieOnResponse(response: NextResponse) {
+  response.cookies.set(COOKIE_NAME, '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 0,
+    path: '/',
   });
+}
 
-  return user;
+export async function getCurrentUser() {
+  try {
+    const token = await getAuthCookie();
+
+    if (!token) {
+      console.log('[Auth] No token found in getCurrentUser');
+      return null;
+    }
+
+    const payload = await verifyToken(token);
+
+    if (!payload) {
+      console.log('[Auth] Token verification failed in getCurrentUser');
+      return null;
+    }
+
+    let user = await prisma.user.findUnique({
+      where: { id: payload.id },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        currentLanguage: true,
+        dailyGoal: true,
+      },
+    });
+
+    if (user) {
+      console.log('[Auth] User found:', user.email);
+    } else {
+      console.log('[Auth] User not found in database');
+      // Attempt recovery by email (database reset with stale token scenario)
+      if (payload.email) {
+        const recovered = await prisma.user.findUnique({
+          where: { email: payload.email },
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            currentLanguage: true,
+            dailyGoal: true,
+          },
+        });
+        if (recovered) {
+          console.log('[Auth] Recovered user by email, rotating token');
+          const newToken = await createToken({ id: recovered.id, email: recovered.email });
+          await setAuthCookie(newToken);
+          user = recovered;
+        }
+      }
+    }
+
+    return user;
+  } catch (error) {
+    console.error('[Auth] Error in getCurrentUser:', error);
+    return null;
+  }
 }
 
 export async function requireAuth() {
   const user = await getCurrentUser();
-  
+
   if (!user) {
     throw new Error('Unauthorized');
   }
-  
+
   return user;
 }

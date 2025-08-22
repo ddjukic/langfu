@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="text-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0e7ff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Rounded square background -->
+  <rect x="0" y="0" width="512" height="512" rx="96" fill="url(#bg-gradient)" />
+  
+  <!-- Language symbols in background -->
+  <text x="80" y="120" font-family="system-ui, -apple-system, sans-serif" font-size="48" fill="rgba(255,255,255,0.15)" font-weight="600">DE</text>
+  <text x="350" y="120" font-family="system-ui, -apple-system, sans-serif" font-size="48" fill="rgba(255,255,255,0.15)" font-weight="600">ES</text>
+  
+  <!-- Main icon - book/cards representing flashcards -->
+  <g transform="translate(256, 256)">
+    <!-- Back card -->
+    <rect x="-90" y="-100" width="140" height="180" rx="12" fill="rgba(255,255,255,0.2)" transform="rotate(-8)" />
+    <!-- Middle card -->
+    <rect x="-80" y="-100" width="140" height="180" rx="12" fill="rgba(255,255,255,0.3)" transform="rotate(8)" />
+    <!-- Front card -->
+    <rect x="-100" y="-110" width="200" height="220" rx="16" fill="white" />
+    
+    <!-- Language text on card -->
+    <text x="0" y="-30" font-family="system-ui, -apple-system, sans-serif" font-size="72" fill="#3b82f6" text-anchor="middle" font-weight="700">L</text>
+    <text x="0" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="48" fill="#8b5cf6" text-anchor="middle" font-weight="600">Fu</text>
+  </g>
+  
+  <!-- Small language indicators at bottom -->
+  <circle cx="200" cy="420" r="24" fill="rgba(255,255,255,0.9)" />
+  <text x="200" y="430" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#3b82f6" text-anchor="middle" font-weight="600">D</text>
+  
+  <circle cx="312" cy="420" r="24" fill="rgba(255,255,255,0.9)" />
+  <text x="312" y="430" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#ef4444" text-anchor="middle" font-weight="600">E</text>
+</svg>

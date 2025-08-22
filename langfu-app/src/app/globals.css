@@ -1,10 +1,214 @@
 @import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* =================================================================
+   PWA ANIMATIONS
+   ================================================================= */
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out;
+}
+
+/* =================================================================
+   CSS VARIABLES FOR LIGHT AND DARK THEMES
+   ================================================================= */
+:root {
+  /* Light mode colors */
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+
+  /* Primary backgrounds */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+
+  /* Card and surface colors */
+  --surface: #ffffff;
+  --surface-hover: #f9fafb;
+  --surface-active: #f3f4f6;
+
+  /* Text colors with WCAG AA compliance */
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-tertiary: #6b7280;
+  --text-muted: #9ca3af;
+  --text-inverse: #ffffff;
+
+  /* Border colors */
+  --border: #e5e7eb;
+  --border-strong: #d1d5db;
+  --border-subtle: #f3f4f6;
+
+  /* Accent colors */
+  --accent-purple: #a855f7;
+  --accent-purple-light: #c084fc;
+  --accent-purple-dark: #9333ea;
+  --accent-blue: #3b82f6;
+  --accent-blue-light: #60a5fa;
+  --accent-blue-dark: #2563eb;
+  --accent-pink: #ec4899;
+  --accent-pink-light: #f472b6;
+  --accent-pink-dark: #db2777;
+  --accent-green: #10b981;
+  --accent-green-light: #34d399;
+  --accent-green-dark: #059669;
+  --accent-yellow: #f59e0b;
+  --accent-yellow-light: #fbbf24;
+  --accent-yellow-dark: #d97706;
+  --accent-red: #ef4444;
+  --accent-red-light: #f87171;
+  --accent-red-dark: #dc2626;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Glass morphism effects */
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.2);
+
+  /* Gradient backgrounds */
+  --gradient-primary: linear-gradient(to bottom right, #a855f7, #ec4899);
+  --gradient-secondary: linear-gradient(to bottom right, #3b82f6, #8b5cf6);
+  --gradient-success: linear-gradient(to bottom right, #10b981, #34d399);
+  --gradient-warning: linear-gradient(to bottom right, #f59e0b, #fbbf24);
+  --gradient-danger: linear-gradient(to bottom right, #ef4444, #f87171);
+}
+
+/* Dark mode colors */
+[data-theme='dark'] {
+  /* Primary backgrounds */
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-tertiary: #1a1a1a;
+
+  /* Card and surface colors */
+  --surface: #1a1a1a;
+  --surface-hover: #252525;
+  --surface-active: #2a2a2a;
+
+  /* Text colors with WCAG AA compliance */
+  --text-primary: #fafafa;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+  --text-muted: #6b7280;
+  --text-inverse: #0a0a0a;
+
+  /* Border colors */
+  --border: #2a2a2a;
+  --border-strong: #404040;
+  --border-subtle: #1a1a1a;
+
+  /* Accent colors (adjusted for dark mode) */
+  --accent-purple: #c084fc;
+  --accent-purple-light: #d8b4fe;
+  --accent-purple-dark: #a855f7;
+  --accent-blue: #60a5fa;
+  --accent-blue-light: #93c5fd;
+  --accent-blue-dark: #3b82f6;
+  --accent-pink: #f472b6;
+  --accent-pink-light: #f9a8d4;
+  --accent-pink-dark: #ec4899;
+  --accent-green: #34d399;
+  --accent-green-light: #6ee7b7;
+  --accent-green-dark: #10b981;
+  --accent-yellow: #fbbf24;
+  --accent-yellow-light: #fcd34d;
+  --accent-yellow-dark: #f59e0b;
+  --accent-red: #f87171;
+  --accent-red-light: #fca5a5;
+  --accent-red-dark: #ef4444;
+
+  /* Shadows (stronger in dark mode) */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.6), 0 8px 10px -6px rgb(0 0 0 / 0.5);
+
+  /* Glass morphism effects */
+  --glass-bg: rgba(26, 26, 26, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
+
+  /* Gradient backgrounds (adjusted for dark mode) */
+  --gradient-primary: linear-gradient(to bottom right, #a855f7, #ec4899);
+  --gradient-secondary: linear-gradient(to bottom right, #6366f1, #a855f7);
+  --gradient-success: linear-gradient(to bottom right, #10b981, #34d399);
+  --gradient-warning: linear-gradient(to bottom right, #f59e0b, #fbbf24);
+  --gradient-danger: linear-gradient(to bottom right, #ef4444, #f87171);
+}
+
+/* System preference based dark mode */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    /* Copy all dark mode variables here for system preference */
+    --background: #0a0a0a;
+    --foreground: #fafafa;
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #111111;
+    --bg-tertiary: #1a1a1a;
+    --surface: #1a1a1a;
+    --surface-hover: #252525;
+    --surface-active: #2a2a2a;
+    --text-primary: #fafafa;
+    --text-secondary: #d1d5db;
+    --text-tertiary: #9ca3af;
+    --text-muted: #6b7280;
+    --text-inverse: #0a0a0a;
+    --border: #2a2a2a;
+    --border-strong: #404040;
+    --border-subtle: #1a1a1a;
+    --accent-purple: #c084fc;
+    --accent-purple-light: #d8b4fe;
+    --accent-purple-dark: #a855f7;
+    --accent-blue: #60a5fa;
+    --accent-blue-light: #93c5fd;
+    --accent-blue-dark: #3b82f6;
+    --accent-pink: #f472b6;
+    --accent-pink-light: #f9a8d4;
+    --accent-pink-dark: #ec4899;
+    --accent-green: #34d399;
+    --accent-green-light: #6ee7b7;
+    --accent-green-dark: #10b981;
+    --accent-yellow: #fbbf24;
+    --accent-yellow-light: #fcd34d;
+    --accent-yellow-dark: #f59e0b;
+    --accent-red: #f87171;
+    --accent-red-light: #fca5a5;
+    --accent-red-dark: #ef4444;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.6), 0 8px 10px -6px rgb(0 0 0 / 0.5);
+    --glass-bg: rgba(26, 26, 26, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --gradient-primary: linear-gradient(to bottom right, #a855f7, #ec4899);
+    --gradient-secondary: linear-gradient(to bottom right, #6366f1, #a855f7);
+    --gradient-success: linear-gradient(to bottom right, #10b981, #34d399);
+    --gradient-warning: linear-gradient(to bottom right, #f59e0b, #fbbf24);
+    --gradient-danger: linear-gradient(to bottom right, #ef4444, #f87171);
+  }
+}
+
+/* =================================================================
+   TAILWIND THEME INTEGRATION
+   ================================================================= */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -12,309 +216,340 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* =================================================================
+   BASE STYLES WITH SMOOTH TRANSITIONS
+   ================================================================= */
+* {
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+}
+
+/* Disable transitions for reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Fix placeholder text contrast - make it more visible */
-input::placeholder,
-textarea::placeholder {
-  color: #6b7280 !important; /* Gray-500 for better contrast */
-  opacity: 1 !important;
-}
-
-/* Ensure consistent cursor behavior on ALL interactive elements */
-button,
-[role='button'],
-a,
-input[type='button'],
-input[type='submit'],
-input[type='reset'],
-.cursor-pointer {
-  cursor: pointer !important;
-}
-
-/* Disable pointer cursor on disabled elements */
-button:disabled,
-[role='button']:disabled,
-input:disabled,
-.opacity-50 {
-  cursor: not-allowed !important;
-}
-
-/* Ensure all buttons have pointer cursor on hover (redundancy for safety) */
-button:not(:disabled):hover {
-  cursor: pointer !important;
+  color: var(--text-primary);
+  font-family:
+    var(--font-sans),
+    system-ui,
+    -apple-system,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* =================================================================
-   GLOBAL TEXT CONTRAST FIXES
+   MOBILE-FIRST RESPONSIVE BREAKPOINTS
    ================================================================= */
+/* Mobile: 320px - 640px (default) */
+/* Tablet: 640px - 1024px */
+/* Desktop: 1024px - 1920px+ */
 
-/* Fix low contrast text on colored backgrounds */
-.text-gray-500,
-.text-gray-400,
-.text-gray-300 {
-  color: #374151 !important; /* Gray-700 for better contrast */
+/* Ensure mobile touch targets are at least 44x44px */
+button,
+a,
+[role='button'],
+input[type='checkbox'],
+input[type='radio'] {
+  min-height: 44px;
+  min-width: 44px;
 }
 
-/* Fix low contrast on white backgrounds */
-.bg-white .text-gray-500,
-.bg-white .text-gray-400,
-.bg-white .text-gray-300 {
-  color: #4b5563 !important; /* Gray-600 for better contrast */
+/* Mobile-optimized tap highlights */
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Fix text in buttons and interactive elements */
-.bg-gray-50 p,
-.bg-gray-100 p,
-.bg-gray-200 p {
-  color: #1f2937 !important; /* Gray-800 for maximum contrast */
-}
-
-/* Fix text in cards and panels */
-.bg-white p.text-gray-600 {
-  color: #374151 !important; /* Gray-700 for better contrast */
-}
-
-/* Fix text in purple/pink gradient backgrounds */
-.bg-gradient-to-br .text-white\/80,
-.bg-gradient-to-br .text-white\/70,
-.bg-gradient-to-br .text-white\/60 {
-  color: #ffffff !important; /* Full white for better contrast */
-  opacity: 1 !important;
-}
-
-/* Fix text input fields for better visibility - COMPREHENSIVE */
-input[type='text'],
-input[type='email'],
-input[type='password'],
-input[type='url'],
-input[type='search'],
-input[type='tel'],
-input[type='number'],
+/* =================================================================
+   FORM ELEMENTS WITH DARK MODE SUPPORT
+   ================================================================= */
+input,
 textarea,
-select,
-.bg-white input,
-.bg-gray-50 input,
-.bg-white textarea,
-.bg-gray-50 textarea {
-  color: #111827 !important; /* Gray-900 for maximum contrast */
-  font-weight: 500 !important;
-  -webkit-text-fill-color: #111827 !important; /* Override any webkit styles */
+select {
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  transition: all 200ms ease;
 }
 
-/* Ensure text is visible while typing */
 input:focus,
-textarea:focus {
-  color: #111827 !important; /* Gray-900 for maximum contrast */
-  font-weight: 500 !important;
-  -webkit-text-fill-color: #111827 !important;
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--accent-purple);
+  outline-offset: 2px;
+  border-color: var(--accent-purple);
 }
 
-/* Fix placeholder text in all inputs */
 input::placeholder,
-textarea::placeholder,
-select::placeholder {
-  color: #6b7280 !important; /* Gray-500 for better contrast */
-  opacity: 1 !important;
-  font-weight: 400 !important;
-  -webkit-text-fill-color: #6b7280 !important;
+textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
 }
 
-/* Headings with conditional formatting based on background */
+/* Dark mode specific form styles */
+[data-theme='dark'] input,
+[data-theme='dark'] textarea,
+[data-theme='dark'] select {
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+/* =================================================================
+   BUTTON STYLES WITH DARK MODE SUPPORT
+   ================================================================= */
+button {
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Primary buttons */
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-md);
+  transition: all 200ms ease;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Secondary buttons */
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  transition: all 200ms ease;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--surface-hover);
+}
+
+/* =================================================================
+   CARD COMPONENTS WITH DARK MODE
+   ================================================================= */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  transition: all 200ms ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Glass morphism cards */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+/* =================================================================
+   TYPOGRAPHY WITH DARK MODE SUPPORT
+   ================================================================= */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  color: #1f2937; /* Gray-800 - softer than pure black */
-  font-weight: 600;
-}
-
-/* Ensure white text on purple backgrounds has full opacity */
-.bg-purple-100 .text-purple-700,
-.bg-purple-50 .text-purple-600 {
-  color: #6b21a8 !important; /* Purple-800 for better contrast */
-}
-
-/* Fix Recently Learned section text */
-.text-gray-600 {
-  color: #374151 !important; /* Gray-700 for better contrast */
-}
-
-/* Fix stat numbers that appear faded */
-.text-2xl,
-.text-3xl,
-.text-4xl,
-.text-5xl,
-.text-6xl {
-  opacity: 1 !important;
+  color: var(--text-primary);
   font-weight: 700;
+  line-height: 1.2;
 }
 
-/* Fix subtle text that's too light */
-.text-sm.text-gray-500,
-.text-xs.text-gray-500,
-.text-sm.text-gray-400,
-.text-xs.text-gray-400 {
-  color: #4b5563 !important; /* Gray-600 for better contrast */
-}
-
-/* Fix all paragraph text to be darker but not too dark */
 p {
-  color: #4b5563; /* Gray-600 - readable but not harsh */
+  color: var(--text-secondary);
+  line-height: 1.6;
 }
 
-/* Fix spans with large text (numbers, stats) */
-span.text-3xl,
-span.text-2xl,
-span.text-xl {
-  color: #1f2937; /* Gray-800 - softer than black */
-  font-weight: 700;
+.text-muted {
+  color: var(--text-muted);
 }
 
-/* Fix form labels */
-label {
-  color: #374151 !important; /* Gray-700 for better contrast */
-  font-weight: 500;
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
 }
 
 /* =================================================================
-   SPECIFIC COMPONENT FIXES
+   SCROLLBAR STYLING FOR DARK MODE
    ================================================================= */
-
-/* Fix sentence creation textarea specifically */
-textarea[placeholder*='Write a sentence'],
-textarea[placeholder*='sentence'] {
-  color: #111827 !important;
-  font-weight: 500 !important;
-  -webkit-text-fill-color: #111827 !important;
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-/* Fix all form inputs with borders */
-.border-gray-300 input,
-.border-gray-300 textarea,
-.border-2 input,
-.border-2 textarea {
-  color: #111827 !important;
-  font-weight: 500 !important;
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
 }
 
-/* Fix disabled inputs to still be readable */
-input:disabled,
-textarea:disabled,
-select:disabled {
-  color: #4b5563 !important; /* Gray-600 for disabled state */
-  -webkit-text-fill-color: #4b5563 !important;
-  opacity: 0.8 !important;
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
 }
 
-/* Ensure all text in form fields is dark */
-.rounded-lg input,
-.rounded-lg textarea,
-.rounded-xl input,
-.rounded-xl textarea {
-  color: #111827 !important;
-  font-weight: 500 !important;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }
 
-/* Headings on white backgrounds should be dark */
-.bg-white h1,
-.bg-white h2,
-.bg-white h3,
-.bg-white h4,
-.bg-white h5,
-.bg-white h6 {
-  color: #1f2937 !important; /* Gray-800 - dark but not black */
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) var(--bg-secondary);
 }
 
-/* Text on colored buttons should be white */
-.bg-purple-500,
-.bg-purple-600,
-.bg-blue-500,
-.bg-blue-600,
-.bg-green-500,
-.bg-green-600,
-.bg-pink-500,
-.bg-pink-600,
-[class*='bg-purple-'],
-[class*='bg-blue-'],
-[class*='bg-green-'],
-[class*='bg-pink-'] {
-  color: #ffffff !important; /* White text on colored backgrounds */
+/* =================================================================
+   UTILITY CLASSES FOR DARK MODE
+   ================================================================= */
+.bg-surface {
+  background: var(--surface);
 }
 
-/* Gradient backgrounds should have white text */
-[class*='bg-gradient-'] {
-  color: #ffffff !important;
+.bg-primary {
+  background: var(--bg-primary);
 }
 
-/* Ensure text in white containers stays dark */
-.bg-white,
-.bg-white *:not([class*='bg-']) {
-  color: inherit; /* Use default dark text */
+.bg-secondary {
+  background: var(--bg-secondary);
 }
 
-/* Paragraphs in white containers */
-.bg-white p {
-  color: #4b5563 !important; /* Gray-600 - readable but not harsh */
+.border-default {
+  border-color: var(--border);
 }
 
-/* Text on translucent white backgrounds should be white */
-[class*='bg-white/'] {
-  color: #ffffff !important; /* White text on translucent overlays */
+.shadow-default {
+  box-shadow: var(--shadow);
 }
 
-/* Large numbers and stats in white containers */
-.bg-white .text-3xl,
-.bg-white .text-2xl,
-.bg-white .text-xl {
-  color: #1f2937 !important; /* Gray-800 */
-  font-weight: 700;
+.gradient-primary {
+  background: var(--gradient-primary);
 }
 
-/* Default font weights with appropriate colors */
-.font-semibold {
-  color: #374151; /* Gray-700 */
-  font-weight: 600;
+.gradient-secondary {
+  background: var(--gradient-secondary);
 }
 
-.font-bold {
-  color: #1f2937; /* Gray-800 */
-  font-weight: 700;
+/* =================================================================
+   MOBILE-SPECIFIC OPTIMIZATIONS
+   ================================================================= */
+@media (max-width: 640px) {
+  /* Larger touch targets on mobile */
+  button,
+  a,
+  [role='button'] {
+    padding: 0.875rem 1rem;
+  }
+
+  /* Adjust font sizes for mobile readability */
+  body {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  h1 {
+    font-size: 1.875rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  /* Optimize card padding on mobile */
+  .card {
+    padding: 1rem;
+  }
 }
 
-/* Override: White text for buttons with colored backgrounds */
-button[class*='bg-purple-'],
-button[class*='bg-blue-'],
-button[class*='bg-green-'],
-button[class*='bg-pink-'],
-a[class*='bg-purple-'],
-a[class*='bg-blue-'],
-a[class*='bg-green-'],
-a[class*='bg-pink-'],
-div[class*='bg-purple-'] button,
-div[class*='bg-blue-'] button,
-div[class*='bg-green-'] button,
-div[class*='bg-pink-'] button {
-  color: #ffffff !important;
+/* =================================================================
+   TABLET-SPECIFIC OPTIMIZATIONS
+   ================================================================= */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .container {
+    padding: 0 2rem;
+  }
 }
 
-/* Ensure all text inside colored buttons is white */
-[class*='bg-purple-'] *,
-[class*='bg-blue-'] *,
-[class*='bg-green-'] *,
-[class*='bg-pink-'] * {
-  color: #ffffff !important;
+/* =================================================================
+   ACCESSIBILITY ENHANCEMENTS
+   ================================================================= */
+/* Focus visible for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--accent-purple);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --text-primary: #000000;
+    --text-secondary: #1a1a1a;
+    --bg-primary: #ffffff;
+    --border: #000000;
+  }
+
+  [data-theme='dark'] {
+    --text-primary: #ffffff;
+    --text-secondary: #e5e5e5;
+    --bg-primary: #000000;
+    --border: #ffffff;
+  }
+}
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

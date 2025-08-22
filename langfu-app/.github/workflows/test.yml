@@ -1,0 +1,369 @@
+name: Test Suite
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  DATABASE_URL: postgresql://test:test@localhost:5432/test_db
+  JWT_SECRET: test-jwt-secret-for-ci
+  NEXTAUTH_SECRET: test-nextauth-secret-for-ci
+  NEXTAUTH_URL: http://localhost:3000
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  NODE_ENV: test
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Setup PostgreSQL
+        uses: ikalnytskyi/action-setup-postgres@v5
+        with:
+          username: test
+          password: test
+          database: test_db
+          port: 5432
+      
+      - name: Setup Prisma
+        run: |
+          pnpm prisma generate
+          pnpm prisma db push
+      
+      - name: Run unit tests
+        run: pnpm test:coverage
+      
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
+
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Setup Prisma
+        run: |
+          pnpm prisma generate
+          pnpm prisma db push
+          pnpm prisma db seed
+      
+      - name: Install Playwright Browsers
+        run: pnpm playwright:install
+      
+      - name: Install Playwright Dependencies
+        run: pnpm exec playwright install-deps
+      
+      - name: Build application
+        run: pnpm build
+      
+      - name: Run E2E tests
+        run: pnpm test:e2e
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+      
+      - name: Upload test videos
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-videos
+          path: test-results/
+          retention-days: 7
+
+  mobile-tests:
+    name: Mobile Responsiveness Tests
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Setup Prisma
+        run: |
+          pnpm prisma generate
+          pnpm prisma db push
+      
+      - name: Install Playwright
+        run: |
+          pnpm playwright:install
+          pnpm exec playwright install-deps
+      
+      - name: Build application
+        run: pnpm build
+      
+      - name: Run mobile tests
+        run: pnpm test:e2e:mobile
+      
+      - name: Upload mobile test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-test-results
+          path: test-results/
+          retention-days: 7
+
+  accessibility-tests:
+    name: Accessibility Tests
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Setup Prisma
+        run: |
+          pnpm prisma generate
+          pnpm prisma db push
+      
+      - name: Install Playwright
+        run: |
+          pnpm playwright:install
+          pnpm exec playwright install-deps
+      
+      - name: Build application
+        run: pnpm build
+      
+      - name: Run accessibility tests
+        run: pnpm test:a11y
+      
+      - name: Upload accessibility results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a11y-results
+          path: test-results/
+          retention-days: 30
+
+  lighthouse-ci:
+    name: Lighthouse Performance Tests
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Setup Prisma
+        run: |
+          pnpm prisma generate
+          pnpm prisma db push
+      
+      - name: Build application
+        run: pnpm build
+      
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          urls: |
+            http://localhost:3000
+            http://localhost:3000/dashboard
+            http://localhost:3000/learn/new
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          configPath: './lighthouserc.json'
+      
+      - name: Format Lighthouse Results
+        if: always()
+        run: |
+          echo "## Lighthouse Results" >> $GITHUB_STEP_SUMMARY
+          echo "Performance, Accessibility, Best Practices, and SEO scores" >> $GITHUB_STEP_SUMMARY
+
+  lint-and-type-check:
+    name: Lint and Type Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Run ESLint
+        run: pnpm lint
+      
+      - name: Run TypeScript type check
+        run: pnpm tsc --noEmit
+      
+      - name: Check Prettier formatting
+        run: pnpm prettier --check "src/**/*.{ts,tsx,js,jsx,json,css,md}"

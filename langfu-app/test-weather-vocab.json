@@ -1,0 +1,84 @@
+{
+  "name": "Weather Basics",
+  "description": "Essential weather vocabulary for beginners",
+  "language": "GERMAN",
+  "level": "A1",
+  "isPublic": true,
+  "words": [
+    {
+      "l2": "das Wetter",
+      "l1": "weather",
+      "pos": "noun",
+      "examples": [
+        {
+          "sentence": "Das Wetter ist heute schön.",
+          "translation": "The weather is nice today."
+        },
+        {
+          "sentence": "Wie ist das Wetter morgen?",
+          "translation": "How is the weather tomorrow?"
+        }
+      ]
+    },
+    {
+      "l2": "der Regen",
+      "l1": "rain",
+      "pos": "noun",
+      "examples": [
+        {
+          "sentence": "Der Regen ist stark heute.",
+          "translation": "The rain is heavy today."
+        },
+        {
+          "sentence": "Ich mag den Regen nicht.",
+          "translation": "I don't like the rain."
+        }
+      ]
+    },
+    {
+      "l2": "die Sonne",
+      "l1": "sun",
+      "pos": "noun",
+      "examples": [
+        {
+          "sentence": "Die Sonne scheint hell.",
+          "translation": "The sun is shining brightly."
+        },
+        {
+          "sentence": "Ich liebe die Sonne im Sommer.",
+          "translation": "I love the sun in summer."
+        }
+      ]
+    },
+    {
+      "l2": "der Wind",
+      "l1": "wind",
+      "pos": "noun",
+      "examples": [
+        {
+          "sentence": "Der Wind ist heute stark.",
+          "translation": "The wind is strong today."
+        },
+        {
+          "sentence": "Der Wind kommt aus dem Norden.",
+          "translation": "The wind comes from the north."
+        }
+      ]
+    },
+    {
+      "l2": "kalt",
+      "l1": "cold",
+      "pos": "adjective",
+      "examples": [
+        {
+          "sentence": "Es ist sehr kalt draußen.",
+          "translation": "It is very cold outside."
+        },
+        {
+          "sentence": "Das Wasser ist zu kalt zum Schwimmen.",
+          "translation": "The water is too cold for swimming."
+        }
+      ]
+    }
+  ]
+}

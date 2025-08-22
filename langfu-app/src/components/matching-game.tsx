@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, Zap, ArrowLeft } from 'lucide-react';
 
 interface Word {
   id: string;
@@ -29,13 +29,21 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
   const [totalAttempts, setTotalAttempts] = useState(0);
   const [correctMatches, setCorrectMatches] = useState(0);
 
-  useEffect(() => {
-    startRound();
-  }, [words]);
-
   const startRound = () => {
-    // Select 5 random words
-    const shuffled = [...words].sort(() => Math.random() - 0.5);
+    // Deduplicate words before selecting to avoid duplicate pairs
+    const deduplicateWords = (words: Word[]) => {
+      const seen = new Set();
+      return words.filter((word) => {
+        const key = `${word.l2.toLowerCase()}-${word.l1.toLowerCase()}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    };
+
+    // Deduplicate and then select 5 random words
+    const deduplicated = deduplicateWords(words);
+    const shuffled = [...deduplicated].sort(() => Math.random() - 0.5);
     const selected = shuffled.slice(0, Math.min(5, shuffled.length));
     setCurrentWords(selected);
 
@@ -70,6 +78,10 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
     setSelectedCard(null);
     setWrongAttempts([]);
   };
+
+  useEffect(() => {
+    startRound();
+  }, [words]);
 
   const handleCardClick = (card: any) => {
     // If card is already matched, ignore
@@ -133,31 +145,34 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 p-4">
-      {/* Header */}
-      <div className="max-w-4xl mx-auto mb-6">
-        <div className="flex items-center justify-between bg-white/20 backdrop-blur rounded-full px-6 py-3">
-          <button onClick={onQuit} className="text-white hover:text-gray-200">
-            <X className="w-6 h-6" />
-          </button>
-          <div className="flex items-center gap-6 text-white">
-            <span className="font-semibold">Round {round}/3</span>
-            <span className="font-semibold">Score: {score}</span>
-          </div>
-          <div className="w-6 h-6" /> {/* Spacer for alignment */}
-        </div>
-      </div>
-
-      {/* Game instruction */}
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">Tap the matching pairs</h2>
-        <p className="text-white/80">
-          Match {language === 'GERMAN' ? 'German' : 'Spanish'} words with their English translations
-        </p>
-      </div>
-
-      {/* Cards grid */}
+    <div className="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500 dark:from-purple-900 dark:to-pink-900 p-4 transition-colors duration-200">
       <div className="max-w-4xl mx-auto">
+        <div className="bg-white/20 dark:bg-black/20 backdrop-blur rounded-2xl p-4 mb-6 flex items-center justify-between">
+          <button onClick={onQuit} className="text-white hover:text-white/80">
+            <ArrowLeft className="w-6 h-6" />
+          </button>
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-white">Matching Game</h1>
+            <p className="text-white/80 text-sm">
+              Round {round}/3 • Score: {score}
+            </p>
+          </div>
+          <div className="flex items-center gap-2 text-white">
+            <Zap className="w-5 h-5" />
+            <span className="font-semibold">{score}</span>
+          </div>
+        </div>
+
+        {/* Game instruction */}
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-bold text-white mb-2">Tap the matching pairs</h2>
+          <p className="text-white/80">
+            Match {language === 'GERMAN' ? 'German' : 'Spanish'} words with their English
+            translations
+          </p>
+        </div>
+
+        {/* Cards grid */}
         {cards.length === 0 ? (
           <div className="text-white text-center">
             <p>Loading cards...</p>
@@ -166,7 +181,7 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
           <div className="grid grid-cols-2 gap-x-8">
             {/* Left column - Foreign words */}
             <div className="space-y-3">
-              <div className="text-center text-white font-semibold mb-3 bg-white/20 rounded-lg py-2">
+              <div className="text-center text-white font-semibold mb-3 bg-white/20 dark:bg-black/20 rounded-lg py-2 transition-colors duration-200">
                 {language === 'GERMAN' ? 'German' : 'Spanish'}
               </div>
               {cards.slice(0, currentWords.length).map((card) => {
@@ -181,9 +196,9 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
                     className={`
                       w-full relative py-6 px-4 rounded-2xl font-medium text-lg transition-all transform shadow-lg
                       ${isMatched ? 'opacity-0 pointer-events-none scale-95' : ''}
-                      ${isSelected ? 'bg-purple-200 border-4 border-purple-600 scale-105 text-purple-900' : 'bg-white text-gray-800 hover:scale-105'}
-                      ${isWrong ? 'animate-pulse bg-red-100 border-2 border-red-400' : ''}
-                      ${!isMatched && !isSelected && !isWrong ? 'hover:bg-gray-50 hover:shadow-xl' : ''}
+                      ${isSelected ? 'bg-purple-200 dark:bg-purple-700 border-4 border-purple-600 dark:border-purple-400 scale-105 text-purple-900 dark:text-white' : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:scale-105'}
+                      ${isWrong ? 'animate-pulse bg-red-100 dark:bg-red-900/30 border-2 border-red-400 dark:border-red-600' : ''}
+                      ${!isMatched && !isSelected && !isWrong ? 'hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-xl dark:hover:shadow-2xl' : ''}
                     `}
                     style={{
                       transition: isMatched ? 'all 0.5s ease-out' : 'all 0.2s ease',
@@ -195,7 +210,7 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
                     }}
                   >
                     <span className="block">{card.text}</span>
-                    <span className="absolute top-2 right-2 text-xs text-gray-400 font-normal">
+                    <span className="absolute top-2 right-2 text-xs text-gray-400 dark:text-gray-500 font-normal">
                       {getLanguageLabel()}
                     </span>
                   </button>
@@ -205,7 +220,7 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
 
             {/* Right column - English translations */}
             <div className="space-y-3">
-              <div className="text-center text-white font-semibold mb-3 bg-white/20 rounded-lg py-2">
+              <div className="text-center text-white font-semibold mb-3 bg-white/20 dark:bg-black/20 rounded-lg py-2 transition-colors duration-200">
                 English
               </div>
               {cards.slice(currentWords.length).map((card) => {
@@ -220,9 +235,9 @@ export default function MatchingGame({ words, language, onComplete, onQuit }: Ma
                     className={`
                       w-full relative py-6 px-4 rounded-2xl font-medium text-lg transition-all transform shadow-lg
                       ${isMatched ? 'opacity-0 pointer-events-none scale-95' : ''}
-                      ${isSelected ? 'bg-purple-200 border-4 border-purple-600 scale-105 text-purple-900' : 'bg-white text-gray-800 hover:scale-105'}
-                      ${isWrong ? 'animate-pulse bg-red-100 border-2 border-red-400' : ''}
-                      ${!isMatched && !isSelected && !isWrong ? 'hover:bg-gray-50 hover:shadow-xl' : ''}
+                      ${isSelected ? 'bg-purple-200 dark:bg-purple-700 border-4 border-purple-600 dark:border-purple-400 scale-105 text-purple-900 dark:text-white' : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 hover:scale-105'}
+                      ${isWrong ? 'animate-pulse bg-red-100 dark:bg-red-900/30 border-2 border-red-400 dark:border-red-600' : ''}
+                      ${!isMatched && !isSelected && !isWrong ? 'hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-xl dark:hover:shadow-2xl' : ''}
                     `}
                     style={{
                       transition: isMatched ? 'all 0.5s ease-out' : 'all 0.2s ease',

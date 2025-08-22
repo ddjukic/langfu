@@ -628,11 +628,9 @@ app.post('/test/create-vocab', async (req, res) => {
     // Validate CEFR level
     const validLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
     if (!validLevels.includes(level.toUpperCase())) {
-      return res
-        .status(400)
-        .json({
-          error: `Invalid CEFR level "${level}". Must be one of: ${validLevels.join(', ')}`,
-        });
+      return res.status(400).json({
+        error: `Invalid CEFR level "${level}". Must be one of: ${validLevels.join(', ')}`,
+      });
     }
 
     // Validate words have examples
@@ -704,7 +702,7 @@ app.post('/test/create-vocab', async (req, res) => {
     const totalExamples = words.reduce((sum: number, word: any) => sum + word.examples.length, 0);
     const packageType = resolvedUserId ? 'user-specific' : 'public';
 
-    res.json({
+    return res.json({
       success: true,
       message: `Created ${packageType} vocabulary package "${name}"`,
       data: {
@@ -720,7 +718,7 @@ app.post('/test/create-vocab', async (req, res) => {
     });
   } catch (error: any) {
     console.error('Error creating vocabulary package:', error);
-    res.status(500).json({ error: error.message || 'Failed to create vocabulary package' });
+    return res.status(500).json({ error: error.message || 'Failed to create vocabulary package' });
   }
 });
 

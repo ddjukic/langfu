@@ -3,26 +3,27 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id              String           @id @default(cuid())
-  email           String           @unique
+  id              String          @id @default(cuid())
+  email           String          @unique
   password        String
   name            String?
-  currentLanguage Language         @default(GERMAN)
-  dailyGoal       Int              @default(20)
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-  
+  currentLanguage Language        @default(GERMAN)
+  dailyGoal       Int             @default(20)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  lessons         Lesson[]
   progress        Progress[]
-  wordHistory     WordHistory[]
-  userSentences   UserSentence[]
   sessions        Session[]
+  stories         Story[]
+  userSentences   UserSentence[]
   webExtractions  WebExtraction[]
+  wordHistory     WordHistory[]
 }
 
 model Session {
@@ -31,81 +32,76 @@ model Session {
   token     String   @unique
   expiresAt DateTime
   createdAt DateTime @default(now())
-  
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   @@index([token])
   @@index([userId])
 }
 
 model Progress {
-  id             String   @id @default(cuid())
-  userId         String
-  language       Language
-  wordsLearned   Int      @default(0)
-  currentLevel   String   @default("A1")
-  currentStreak  Int      @default(0)
-  longestStreak  Int      @default(0)
-  lastPractice   DateTime?
-  totalScore     Int      @default(0)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id            String    @id @default(cuid())
+  userId        String
+  language      Language
+  wordsLearned  Int       @default(0)
+  currentLevel  String    @default("A1")
+  currentStreak Int       @default(0)
+  longestStreak Int       @default(0)
+  lastPractice  DateTime?
+  totalScore    Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([userId, language])
   @@index([userId])
 }
 
 model Word {
-  id              String          @id @default(cuid())
-  language        Language
-  level           String          // A1, A2, B1, B2, C1, C2
-  topic           String
-  l2              String          // Target language word
-  l1              String          // Native language translation
-  pos             String?         // Part of speech
-  gender          String?         // Gender (for German nouns)
-  difficulty      Int             @default(1)
-  frequency       Int             @default(0)
-  createdAt       DateTime        @default(now())
-  
-  examples        Example[]
-  wordHistory     WordHistory[]
-  userSentences   UserSentence[]
-  
+  id            String         @id @default(cuid())
+  language      Language
+  level         String
+  topic         String
+  l2            String
+  l1            String
+  pos           String?
+  gender        String?
+  difficulty    Int            @default(1)
+  frequency     Int            @default(0)
+  createdAt     DateTime       @default(now())
+  examples      Example[]
+  userSentences UserSentence[]
+  wordHistory   WordHistory[]
+
   @@index([language, level, topic])
   @@index([l2])
 }
 
 model Example {
-  id         String   @id @default(cuid())
-  wordId     String
-  sentence   String
+  id          String   @id @default(cuid())
+  wordId      String
+  sentence    String
   translation String?
-  createdAt  DateTime @default(now())
-  
-  word       Word     @relation(fields: [wordId], references: [id], onDelete: Cascade)
-  
+  createdAt   DateTime @default(now())
+  word        Word     @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
   @@index([wordId])
 }
 
 model WordHistory {
-  id            String    @id @default(cuid())
-  userId        String
-  wordId        String
-  firstSeen     DateTime  @default(now())
-  reviewCount   Int       @default(0)
-  correctCount  Int       @default(0)
-  lastReview    DateTime?
-  nextReview    DateTime?
-  masteryLevel  Int       @default(0) // 0-5 scale
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  word          Word      @relation(fields: [wordId], references: [id], onDelete: Cascade)
-  
+  id           String    @id @default(cuid())
+  userId       String
+  wordId       String
+  firstSeen    DateTime  @default(now())
+  reviewCount  Int       @default(0)
+  correctCount Int       @default(0)
+  lastReview   DateTime?
+  nextReview   DateTime?
+  masteryLevel Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  word         Word      @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
   @@unique([userId, wordId])
   @@index([userId])
   @@index([wordId])
@@ -113,17 +109,16 @@ model WordHistory {
 }
 
 model UserSentence {
-  id         String   @id @default(cuid())
-  userId     String
-  wordId     String
-  sentence   String
-  isCorrect  Boolean  @default(false)
-  feedback   String?
-  createdAt  DateTime @default(now())
-  
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  word       Word     @relation(fields: [wordId], references: [id], onDelete: Cascade)
-  
+  id        String   @id @default(cuid())
+  userId    String
+  wordId    String
+  sentence  String
+  isCorrect Boolean  @default(false)
+  feedback  String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  word      Word     @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
   @@index([userId])
   @@index([wordId])
 }
@@ -134,10 +129,10 @@ model VocabularySet {
   description String?
   language    Language
   isPublic    Boolean  @default(false)
-  data        Json     // Stores the vocabulary in JSON format
+  data        Json
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  
+
   @@index([language])
 }
 
@@ -146,36 +141,70 @@ model WebExtraction {
   userId         String
   url            String
   title          String?
-  content        String          // Original HTML content
+  content        String
   language       Language
   wordCount      Int             @default(0)
   extractedAt    DateTime        @default(now())
   customTopic    String?
-  level          String?         // Estimated CEFR level
-  
-  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  level          String?
   extractedWords ExtractedWord[]
-  
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@index([userId])
   @@index([language])
 }
 
 model ExtractedWord {
-  id            String         @id @default(cuid())
-  extractionId  String
-  l2            String         // Foreign word
-  l1            String         // English translation
-  pos           String?        // Part of speech
-  gender        String?        // Gender (for German)
-  frequency     Int            @default(1) // Frequency in the source
-  context       String?        // Example sentence from source
-  difficulty    Int            @default(1)
-  level         String?        // CEFR level
-  
-  extraction    WebExtraction  @relation(fields: [extractionId], references: [id], onDelete: Cascade)
-  
+  id           String        @id @default(cuid())
+  extractionId String
+  l2           String
+  l1           String
+  pos          String?
+  gender       String?
+  frequency    Int           @default(1)
+  context      String?
+  difficulty   Int           @default(1)
+  level        String?
+  extraction   WebExtraction @relation(fields: [extractionId], references: [id], onDelete: Cascade)
+
   @@index([extractionId])
   @@index([l2])
+}
+
+model Story {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  topic     String?
+  keywords  Json
+  words     Json?
+  prompt    String?
+  summary   String?
+  content   String
+  language  Language
+  level     String?
+  wordCount Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([language])
+}
+
+model Lesson {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  description String?
+  content     Json
+  language    Language
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([language])
 }
 
 enum Language {

@@ -1,0 +1,64 @@
+<testsuites id="" name="" tests="6" failures="0" skipped="0" errors="0" time="11.794537">
+<testsuite name="story-functionality-comprehensive.spec.ts" timestamp="2025-08-21T18:06:56.718Z" hostname="chromium" tests="6" failures="0" skipped="0" time="40.672" errors="0">
+<testcase name="Comprehensive Story Functionality Test › 1️⃣ Library page functionality and search" classname="story-functionality-comprehensive.spec.ts" time="6.674">
+<system-out>
+<![CDATA[Testing library page functionality...
+✅ Found 5 story cards in library
+✅ Search for 'Uruguay' returned 5 results
+✅ Found 0 language tabs
+]]>
+</system-out>
+</testcase>
+<testcase name="Comprehensive Story Functionality Test › 2️⃣ Spanish story: &quot;El Clásico del Río de la Plata&quot; complete testing" classname="story-functionality-comprehensive.spec.ts" time="10.169">
+<system-out>
+<![CDATA[Testing Spanish story...
+✅ Spanish story content loaded
+✅ Found 19 vocabulary keywords
+✅ Word "estadio": found=true, tooltip=true, translation="estadiostadium..."
+✅ Word "jugadores": found=true, tooltip=true, translation="jugadoresplayers..."
+✅ Word "gol": found=true, tooltip=true, translation="golgoal..."
+✅ Word "arquero": found=true, tooltip=true, translation="arquerogoalkeeper..."
+✅ Word "hinchada": found=true, tooltip=true, translation="hinchadafans..."
+✅ Vocabulary list present: false
+✅ No placeholder text found: true
+]]>
+</system-out>
+</testcase>
+<testcase name="Comprehensive Story Functionality Test › 3️⃣ German story: &quot;Das legendäre Finale&quot; complete testing" classname="story-functionality-comprehensive.spec.ts" time="10.207">
+<system-out>
+<![CDATA[Testing German story...
+✅ German story content loaded
+✅ Found 24 vocabulary keywords
+✅ Word "Stadion": found=true, tooltip=true, translation="Stadionstadium..."
+✅ Word "Spieler": found=true, tooltip=true, translation="Spielerplayers..."
+✅ Word "Tor": found=true, tooltip=true, translation="Torwartgoalkeeper..."
+✅ Word "Torwart": found=true, tooltip=true, translation="Torwartgoalkeeper..."
+✅ Word "Fans": found=true, tooltip=true, translation="Fansfans..."
+✅ Vocabulary list present: false
+✅ No placeholder text found: true
+]]>
+</system-out>
+</testcase>
+<testcase name="Comprehensive Story Functionality Test › 4️⃣ Critical placeholder text validation across all pages" classname="story-functionality-comprehensive.spec.ts" time="3.98">
+<system-out>
+<![CDATA[Testing for placeholder text across all pages...
+✅ Library page placeholder check: PASS
+✅ Library page "needed]" check: PASS
+✅ Library page "Load Translations" check: PASS
+]]>
+</system-out>
+</testcase>
+<testcase name="Comprehensive Story Functionality Test › 5️⃣ Mobile/responsive functionality" classname="story-functionality-comprehensive.spec.ts" time="5.574">
+<system-out>
+<![CDATA[Testing mobile/responsive functionality...
+]]>
+</system-out>
+</testcase>
+<testcase name="Comprehensive Story Functionality Test › 6️⃣ CRUD operations testing" classname="story-functionality-comprehensive.spec.ts" time="4.068">
+<system-out>
+<![CDATA[Testing CRUD operations...
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>

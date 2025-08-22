@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { hashPassword, createToken, setAuthCookie } from '@/lib/auth';
+import { hashPassword, createToken, setAuthCookieOnResponse } from '@/lib/auth';
 import { Language } from '@prisma/client';
 
 export async function POST(request: NextRequest) {
@@ -8,10 +8,7 @@ export async function POST(request: NextRequest) {
     const { email, password, name } = await request.json();
 
     if (!email || !password) {
-      return NextResponse.json(
-        { error: 'Email and password are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
     }
 
     // Check if user exists
@@ -20,10 +17,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingUser) {
-      return NextResponse.json(
-        { error: 'User already exists' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'User already exists' }, { status: 400 });
     }
 
     // Create user
@@ -51,9 +45,7 @@ export async function POST(request: NextRequest) {
       email: user.email,
     });
 
-    await setAuthCookie(token);
-
-    return NextResponse.json({
+    const response = NextResponse.json({
       user: {
         id: user.id,
         email: user.email,
@@ -61,11 +53,10 @@ export async function POST(request: NextRequest) {
         currentLanguage: user.currentLanguage,
       },
     });
+    setAuthCookieOnResponse(response, token);
+    return response;
   } catch (error) {
     console.error('Registration error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -18,36 +18,43 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  console.log(`[Middleware] Processing path: ${path}`);
+
   // Public routes that don't require authentication
   const isPublicPath = path === '/login' || path === '/register';
 
   // Get auth token
-  const token = request.cookies.get(process.env.AUTH_COOKIE_NAME || 'langfu-auth');
+  const cookieName = process.env.AUTH_COOKIE_NAME || 'langfu-auth';
+  const token = request.cookies.get(cookieName);
+
+  console.log(`[Middleware] Cookie name: ${cookieName}, Token exists: ${!!token}`);
 
   // Verify token validity
   let isValidToken = false;
   if (token) {
     try {
-      await jwtVerify(token.value, JWT_SECRET);
+      const result = await jwtVerify(token.value, JWT_SECRET);
       isValidToken = true;
+      console.log('[Middleware] Token verified successfully');
     } catch (error) {
       // Token is invalid
       isValidToken = false;
+      console.error('[Middleware] Token verification failed:', error);
     }
+  } else {
+    console.log('[Middleware] No token found');
   }
 
   // Routing logic
   if (!isValidToken && !isPublicPath) {
     // No valid token and trying to access protected route -> redirect to login
+    console.log('[Middleware] Redirecting to login (no valid token)');
     return NextResponse.redirect(new URL('/login', request.url));
   }
-
-  if (isValidToken && isPublicPath) {
-    // Has valid token and on login/register page -> redirect to dashboard
-    return NextResponse.redirect(new URL('/dashboard', request.url));
-  }
+  // If token exists, still allow access to login/register so stale tokens can be replaced
 
   // For all other cases, continue
+  console.log('[Middleware] Allowing request to continue');
   return NextResponse.next();
 }
 
