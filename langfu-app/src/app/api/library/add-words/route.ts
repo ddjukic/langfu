@@ -27,15 +27,15 @@ export async function POST(request: NextRequest) {
     const createdWords = [] as any[];
 
     for (const w of words) {
-      const word = await prisma.word
-        .upsert({
-          where: {
-            // Uniqueness heuristic: language + l2 + topic
-            // There is no compound unique, so emulate with findFirst then create if needed
-            id: undefined as unknown as string,
-          },
-          update: {},
-          create: {
+      // First try to find existing word
+      let word = await prisma.word.findFirst({
+        where: { language, l2: w.l2, topic },
+      });
+
+      // If not found, create new word
+      if (!word) {
+        word = await prisma.word.create({
+          data: {
             language,
             level,
             topic,
@@ -43,15 +43,8 @@ export async function POST(request: NextRequest) {
             l1: w.l1,
             pos: w.pos,
           },
-        })
-        .catch(async () => {
-          // Fallback: try to find existing and update basic fields
-          const existing = await prisma.word.findFirst({ where: { language, l2: w.l2, topic } });
-          if (existing) return existing;
-          return prisma.word.create({
-            data: { language, level, topic, l2: w.l2, l1: w.l1, pos: w.pos },
-          });
         });
+      }
 
       // Add examples
       if (w.examples && w.examples.length > 0) {

@@ -31,15 +31,7 @@ define(['./workbox-c05e7c83'], function (e) {
     e.clientsClaim(),
     e.precacheAndRoute(
       [
-        { url: '/_next/app-build-manifest.json', revision: '10e3c82c0daa5420ec63d4088dfdce0c' },
-        {
-          url: '/_next/static/bOPBCv6Z-dNoWNqdQ7V6O/_buildManifest.js',
-          revision: 'f0c02da247ae11c17c11dd56e899692e',
-        },
-        {
-          url: '/_next/static/bOPBCv6Z-dNoWNqdQ7V6O/_ssgManifest.js',
-          revision: 'b6652df95db52feb4daf4eca35380933',
-        },
+        { url: '/_next/app-build-manifest.json', revision: 'eca187870a5ecae0073dfdb1c5967b31' },
         { url: '/_next/static/chunks/2147.4a041f51ca294da0.js', revision: '4a041f51ca294da0' },
         { url: '/_next/static/chunks/2456-f18bdca6ce379cff.js', revision: 'f18bdca6ce379cff' },
         { url: '/_next/static/chunks/3859-800b3a79ffb33dd0.js', revision: '800b3a79ffb33dd0' },
@@ -256,6 +248,14 @@ define(['./workbox-c05e7c83'], function (e) {
         { url: '/_next/static/chunks/webpack-65509d840ce3fdd9.js', revision: '65509d840ce3fdd9' },
         { url: '/_next/static/css/393168436ca9e75d.css', revision: '393168436ca9e75d' },
         { url: '/_next/static/css/bd42b275431baa4f.css', revision: 'bd42b275431baa4f' },
+        {
+          url: '/_next/static/fSLnJpTI930f7taKdHd8c/_buildManifest.js',
+          revision: 'f0c02da247ae11c17c11dd56e899692e',
+        },
+        {
+          url: '/_next/static/fSLnJpTI930f7taKdHd8c/_ssgManifest.js',
+          revision: 'b6652df95db52feb4daf4eca35380933',
+        },
         {
           url: '/_next/static/media/569ce4b8f30dc480-s.p.woff2',
           revision: 'ef6cefb32024deac234e82f932a95cbd',
