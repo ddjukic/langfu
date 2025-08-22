@@ -31,13 +31,13 @@ define(['./workbox-c05e7c83'], function (e) {
     e.clientsClaim(),
     e.precacheAndRoute(
       [
-        { url: '/_next/app-build-manifest.json', revision: '0671311d297262e32d99764db41f95ad' },
+        { url: '/_next/app-build-manifest.json', revision: '10e3c82c0daa5420ec63d4088dfdce0c' },
         {
-          url: '/_next/static/Ep2SlqwHtSS_I4ssY3FNY/_buildManifest.js',
+          url: '/_next/static/bOPBCv6Z-dNoWNqdQ7V6O/_buildManifest.js',
           revision: 'f0c02da247ae11c17c11dd56e899692e',
         },
         {
-          url: '/_next/static/Ep2SlqwHtSS_I4ssY3FNY/_ssgManifest.js',
+          url: '/_next/static/bOPBCv6Z-dNoWNqdQ7V6O/_ssgManifest.js',
           revision: 'b6652df95db52feb4daf4eca35380933',
         },
         { url: '/_next/static/chunks/2147.4a041f51ca294da0.js', revision: '4a041f51ca294da0' },

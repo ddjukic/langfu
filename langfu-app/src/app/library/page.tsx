@@ -13,11 +13,16 @@ export default async function LibraryPage() {
     redirect('/login');
   }
 
-  const histories = await prisma.wordHistory.findMany({
-    where: { userId: user.id },
-    include: { word: true },
-    orderBy: { createdAt: 'desc' },
-    take: 200,
+  // Get all words with optional history for this user
+  const words = await prisma.word.findMany({
+    include: {
+      wordHistory: {
+        where: { userId: user.id },
+        orderBy: { updatedAt: 'desc' },
+        take: 1,
+      },
+    },
+    orderBy: [{ topic: 'asc' }, { level: 'asc' }, { l2: 'asc' }],
   });
 
   const stories = await prisma.story.findMany({
@@ -37,19 +42,23 @@ export default async function LibraryPage() {
   });
 
   // Transform data for client component
-  const historiesData = histories.map((h) => ({
-    id: h.id,
-    word: {
-      id: h.word.id,
-      l1: h.word.l1,
-      l2: h.word.l2,
-      level: h.word.level,
-      topic: h.word.topic,
-      language: h.word.language,
-    },
-    mastery: h.masteryLevel,
-    createdAt: h.createdAt.toISOString(),
-  }));
+  // Create a unique ID for each word entry (using word ID since it's unique)
+  const historiesData = words.map((word) => {
+    const history = word.wordHistory[0];
+    return {
+      id: word.id, // Use word ID as the unique identifier
+      word: {
+        id: word.id,
+        l1: word.l1,
+        l2: word.l2,
+        level: word.level,
+        topic: word.topic,
+        language: word.language,
+      },
+      mastery: history?.masteryLevel || 0, // Default to 0 if no history
+      createdAt: history?.createdAt.toISOString() || new Date().toISOString(),
+    };
+  });
 
   const storiesData = stories.map((s) => ({
     ...s,
