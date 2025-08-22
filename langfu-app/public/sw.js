@@ -31,7 +31,7 @@ define(['./workbox-c05e7c83'], function (e) {
     e.clientsClaim(),
     e.precacheAndRoute(
       [
-        { url: '/_next/app-build-manifest.json', revision: 'eca187870a5ecae0073dfdb1c5967b31' },
+        { url: '/_next/app-build-manifest.json', revision: '98c3c96458210ef77a6bf4a986b28e32' },
         { url: '/_next/static/chunks/2147.4a041f51ca294da0.js', revision: '4a041f51ca294da0' },
         { url: '/_next/static/chunks/2456-f18bdca6ce379cff.js', revision: 'f18bdca6ce379cff' },
         { url: '/_next/static/chunks/3859-800b3a79ffb33dd0.js', revision: '800b3a79ffb33dd0' },
@@ -249,14 +249,6 @@ define(['./workbox-c05e7c83'], function (e) {
         { url: '/_next/static/css/393168436ca9e75d.css', revision: '393168436ca9e75d' },
         { url: '/_next/static/css/bd42b275431baa4f.css', revision: 'bd42b275431baa4f' },
         {
-          url: '/_next/static/fSLnJpTI930f7taKdHd8c/_buildManifest.js',
-          revision: 'f0c02da247ae11c17c11dd56e899692e',
-        },
-        {
-          url: '/_next/static/fSLnJpTI930f7taKdHd8c/_ssgManifest.js',
-          revision: 'b6652df95db52feb4daf4eca35380933',
-        },
-        {
           url: '/_next/static/media/569ce4b8f30dc480-s.p.woff2',
           revision: 'ef6cefb32024deac234e82f932a95cbd',
         },
@@ -279,6 +271,14 @@ define(['./workbox-c05e7c83'], function (e) {
         {
           url: '/_next/static/media/ba015fad6dcf6784-s.woff2',
           revision: '8ea4f719af3312a055caf09f34c89a77',
+        },
+        {
+          url: '/_next/static/s4eb5C1HNnFphpN6zHBop/_buildManifest.js',
+          revision: 'f0c02da247ae11c17c11dd56e899692e',
+        },
+        {
+          url: '/_next/static/s4eb5C1HNnFphpN6zHBop/_ssgManifest.js',
+          revision: 'b6652df95db52feb4daf4eca35380933',
         },
         { url: '/apple-icon-120x120.png', revision: '173e4da5208ebfd51d513bd949e3c5d3' },
         { url: '/apple-icon-152x152.png', revision: 'd39ebf6ce35828e28b4d60873d4aad92' },

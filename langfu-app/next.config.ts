@@ -93,6 +93,24 @@ const nextConfig: NextConfig = {
     // Temporarily disable ESLint during builds while we fix all the warnings
     ignoreDuringBuilds: true,
   },
+  webpack: (config, { isServer }) => {
+    // Fix for webpack runtime error in production
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+    return config;
+  },
+  // Experimental features that might help with the runtime error
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+  },
 };
 
 export default withPWA(nextConfig);

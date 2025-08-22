@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "🔨 Running pre-push hook..."
+echo "📋 Building project to ensure no broken code is pushed..."
+
+# Run the build command
+echo "⚙️ Running: pnpm build"
+if ! pnpm build; then
+    echo ""
+    echo "❌ BUILD FAILED!"
+    echo ""
+    echo "🚫 Push blocked due to build failure."
+    echo "💡 Please fix the build errors and try again."
+    echo ""
+    echo "To debug:"
+    echo "  1. Run 'pnpm build' locally to see detailed errors"
+    echo "  2. Fix any TypeScript, linting, or build issues"
+    echo "  3. Commit your fixes"
+    echo "  4. Try pushing again"
+    echo ""
+    exit 1
+fi
+
+echo "✅ Build successful!"
+echo "🚀 Proceeding with push..."
