@@ -39,32 +39,93 @@ function getServer() {
     'create_story',
     {
       title: 'Create Story',
-      description: "Create and save a story to the user's library",
+      description:
+        "Create and save a story to the user's library with properly structured keywords",
       inputSchema: {
-        userId: z.string().optional(),
-        userEmail: z.string().optional(),
-        title: z.string(),
-        topic: z.string().optional(),
-        keywords: z.array(z.string()).default([]),
-        prompt: z.string().optional(),
-        words: z.any().optional(),
-        content: z.string(),
-        language: z.enum(['GERMAN', 'SPANISH']),
-        level: z.string().optional(),
+        userId: z.string().optional().describe('User ID for story ownership'),
+        userEmail: z.string().optional().describe('User email as alternative to userId'),
+        title: z.string().describe('Story title'),
+        topic: z.string().optional().describe('Story topic/theme'),
+        keywords: z
+          .array(
+            z.object({
+              l2: z.string().describe('Word in target language'),
+              l1: z.string().describe('Translation in English'),
+              pos: z.string().optional().describe('Part of speech'),
+              examples: z
+                .array(
+                  z.object({
+                    sentence: z.string().describe('Example sentence'),
+                    translation: z.string().describe('Translation of example'),
+                  })
+                )
+                .min(2)
+                .describe('At least 2 example sentences required'),
+            })
+          )
+          .min(5)
+          .describe('At least 5 keywords with translations and examples required'),
+        prompt: z.string().optional().describe('Original prompt used to generate story'),
+        content: z.string().describe('Full story content'),
+        language: z.enum(['GERMAN', 'SPANISH']).describe('Story language'),
+        level: z.string().describe('CEFR level (A1-C2)'),
       },
     },
-    async ({
-      userId,
-      userEmail,
-      title,
-      topic,
-      keywords,
-      prompt,
-      words,
-      content,
-      language,
-      level,
-    }) => {
+    async ({ userId, userEmail, title, topic, keywords, prompt, content, language, level }) => {
+      // Validate CEFR level
+      const validLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+      const normalizedLevel = level.toUpperCase();
+      if (!validLevels.includes(normalizedLevel)) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Error: Invalid CEFR level "${level}". Must be one of: ${validLevels.join(', ')}`,
+            },
+          ],
+          isError: true,
+        } as const;
+      }
+
+      // Validate keywords structure
+      for (const keyword of keywords) {
+        if (!keyword.l1 || keyword.l1.trim() === '') {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: `Error: Keyword "${keyword.l2}" is missing its English translation.`,
+              },
+            ],
+            isError: true,
+          } as const;
+        }
+        if (!keyword.examples || keyword.examples.length < 2) {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: `Error: Keyword "${keyword.l2}" needs at least 2 example sentences (has ${keyword.examples?.length || 0})`,
+              },
+            ],
+            isError: true,
+          } as const;
+        }
+        for (const example of keyword.examples) {
+          if (!example.translation || example.translation.trim() === '') {
+            return {
+              content: [
+                {
+                  type: 'text',
+                  text: `Error: Example sentence "${example.sentence}" for keyword "${keyword.l2}" is missing its translation.`,
+                },
+              ],
+              isError: true,
+            } as const;
+          }
+        }
+      }
+
       const resolvedUserId = await resolveUserId({ userId, userEmail });
       if (!resolvedUserId)
         return {
@@ -73,54 +134,22 @@ function getServer() {
           ],
           isError: true,
         } as const;
+
       const wordCount = content.trim().split(/\s+/).length;
       const summary = content.replace(/\s+/g, ' ').trim().split(' ').slice(0, 10).join(' ');
 
-      // Process keywords into proper KeywordItem objects with translations
-      let processedKeywords = [];
-      const keywordList = words || keywords || [];
-
-      if (keywordList.length > 0) {
-        // If we have plain strings (keywords), convert to objects
-        const keywordStrings =
-          Array.isArray(keywordList) && typeof keywordList[0] === 'string'
-            ? keywordList
-            : keywordList.map((item: any) => item.l2 || item);
-
-        // Look up translations from existing Words table
-        const wordTranslations = await prisma.word.findMany({
-          where: {
-            language: language as any,
-            l2: { in: keywordStrings },
-          },
-          select: { l2: true, l1: true, pos: true },
-        });
-
-        // Create map for quick lookup
-        const translationMap = new Map(wordTranslations.map((w) => [w.l2.toLowerCase(), w]));
-
-        // Transform to KeywordItem objects with translations
-        processedKeywords = keywordStrings.map((keyword: string) => {
-          const existing = translationMap.get(keyword.toLowerCase());
-          return {
-            l2: keyword,
-            l1: existing?.l1 || `[Translation for ${keyword} needed]`,
-            pos: existing?.pos || undefined,
-          };
-        });
-      }
-
+      // Keywords are already properly structured with translations and examples
       const story = await prisma.story.create({
         data: {
           userId: resolvedUserId,
           title,
           topic,
-          keywords: processedKeywords, // Store the full objects, not just strings
+          keywords, // Store the full objects with translations and examples
           prompt: prompt ?? null,
-          words: processedKeywords, // Keep same data for backwards compatibility
+          words: keywords, // Keep same data for backwards compatibility
           content,
           language: language as any,
-          level,
+          level: normalizedLevel,
           wordCount,
           summary,
         },
